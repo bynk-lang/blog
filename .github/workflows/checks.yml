@@ -1,0 +1,54 @@
+# The blog's checks: the site builds (with Astro's link and content checks),
+# and every ```bynk block in a post is still in the showcase project it names.
+# Called by ci.yml on every push and pull request, and by snippets-canary.yml
+# when the showcase may have moved on.
+name: Checks
+
+on:
+  workflow_call:
+    inputs:
+      showcase-ref:
+        description: The bynk-lang/showcase ref to check snippets against.
+        type: string
+        default: main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build the site
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # Astro 7 floors Node at 22.12; the docs site builds on 24.
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v6
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+
+  snippets:
+    name: Snippets match the showcase
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Check out bynk-lang/showcase
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: bynk-lang/showcase
+          ref: ${{ inputs.showcase-ref }}
+          path: .showcase
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v6
+        with:
+          node-version: "24"
+      # The script has no dependencies, so no `npm ci`.
+      - run: node scripts/check-snippets.mjs .showcase

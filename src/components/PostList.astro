@@ -1,0 +1,36 @@
+---
+// A compact list of posts, filtered by learning-path level or by series.
+import { posts, href } from "../lib/ladder";
+
+interface Props {
+  level?: string;
+  series?: string;
+  empty?: string;
+}
+
+const { level, series, empty = "Nothing here yet." } = Astro.props;
+
+// Excerpts are short Markdown strings; the only Markdown they use is `code`.
+const escape = (text: string) =>
+  text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const inlineCode = (text: string) => escape(text).replace(/`([^`]+)`/g, "<code>$1</code>");
+const all = await posts();
+const matching = all.filter(
+  (post) => (!level || post.data.level === level) && (!series || post.data.series === series),
+);
+---
+
+{
+  matching.length === 0 ? (
+    <p class="post-list-empty">{empty}</p>
+  ) : (
+    <ul class="post-list">
+      {matching.map((post) => (
+        <li>
+          <a href={href(post)}>{post.data.title}</a>
+          {post.data.excerpt && <p set:html={inlineCode(post.data.excerpt)} />}
+        </li>
+      ))}
+    </ul>
+  )
+}

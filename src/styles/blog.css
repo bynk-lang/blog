@@ -1,0 +1,32 @@
+/* Blog-only styles, layered on brand.css (which is shared with bynk-lang.org). */
+
+.post-list {
+  list-style: none;
+  padding-inline-start: 0;
+}
+.post-list li {
+  margin-block: 0.75rem;
+}
+.post-list li > a {
+  font-family: var(--sl-font-heading);
+  font-weight: 600;
+  font-size: var(--sl-text-lg);
+}
+.post-list li > p {
+  margin-top: 0.25rem;
+  color: var(--sl-color-gray-2);
+}
+.post-list-empty {
+  color: var(--sl-color-gray-3);
+  font-style: italic;
+}
+
+.ladder-rung {
+  padding: 1rem 1.25rem;
+  border-inline-start: 0.25rem solid var(--sl-color-accent);
+  border-radius: 0 0.5rem 0.5rem 0;
+  background: var(--sl-color-accent-low);
+}
+.ladder-rung h3 {
+  margin-top: 0;
+}

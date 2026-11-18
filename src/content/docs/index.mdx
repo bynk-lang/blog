@@ -1,0 +1,35 @@
+---
+title: The Bynk Blog
+description: The thinking behind Bynk, one problem at a time, with a path from your first program to designing with effects.
+template: splash
+hero:
+  tagline: The thinking behind Bynk, one problem at a time.
+  actions:
+    - text: All posts
+      link: posts/
+      icon: right-arrow
+    - text: Read the Book
+      link: https://bynk-lang.org/book/
+      variant: minimal
+---
+
+import PostList from "../../components/PostList.astro";
+import { LEVELS, SERIES } from "../../lib/ladder";
+
+## {SERIES["the-problem-with"].title}
+
+{SERIES["the-problem-with"].blurb}
+
+<PostList series="the-problem-with" />
+
+## Where to start
+
+Every post is written for one stage of learning Bynk. Start wherever you are.
+
+{LEVELS.map((level) => (
+  <section class="ladder-rung">
+    <h3>{level.title}</h3>
+    <p>{level.blurb}</p>
+    <PostList level={level.id} empty="Posts for this stage are on the way." />
+  </section>
+))}
