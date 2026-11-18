@@ -35,7 +35,11 @@ second. For each finding, say which reader it affects.
 ### 1. Technical accuracy and consistency
 
 - Does every code example follow the rules the post itself states? If the
-  post says numeric types never mix, no example may mix them.
+  post says numeric types never mix, no example may mix them. A counter-example
+  is the exception: a ` ```bynk nocheck ` block that the prose clearly presents
+  as wrong, such as code that must not compile, is meant to break the rules.
+  Check instead that the prose says why it's wrong, and that the reason is
+  right.
 - Is each claim about another language accurate? Look especially for sweeping
   statements an expert in that language would reject.
 - Are there overclaims ("never", "always", "in other languages") that need
@@ -97,8 +101,8 @@ second. For each finding, say which reader it affects.
   words of rewording would fix it, give the rewording as a suggestion.
 - **Severity:**
   - **Blocking:** a technical error or inconsistency, a claim about another
-    language that's wrong, or a code example that breaks the post's own
-    rules.
+    language that's wrong, or a code example meant to be valid that breaks
+    the post's own rules.
   - **Should fix:** an overclaim, a line that might read as smug or
     dismissive, unexplained jargon a newcomer will trip on, a missing bridge
     that leaves an experienced reader unconvinced, or frontmatter out of step
@@ -122,9 +126,10 @@ Keep the summary short: a verdict, then only what's still outstanding.
   behaviour and accessibility of the pages, and that anything a reader sees
   stays in British English.
 - **The proxy** (`proxy/`), the Worker that serves the blog at
-  `bynk-lang.org/blog/`: it passes each response through unchanged, and only
-  turns a redirect to the Pages project back into a `/blog/` URL. Flag a change
-  to what it returns, and check `proxy/test` covers it.
+  `bynk-lang.org/blog/`: it sends `/blog` to `/blog/`, passes each response
+  through unchanged, and only turns a redirect to the Pages project back into
+  a `/blog/` URL (see `proxy/README.md`). Flag a change to what it returns,
+  and check `proxy/test` covers it.
 - **The workflows:** actions stay pinned by commit SHA, and secrets stay out
   of code and logs.
 - **The docs** (`docs/`): check the writing guide and the series plan stay in
