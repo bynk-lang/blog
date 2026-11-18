@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
-      - name: The build and the snippet check passed
+      - name: The build, the snippet check and the proxy checks passed
         env:
           RESULT: ${{ needs.checks.result }}
         run: |

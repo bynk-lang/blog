@@ -1,5 +1,6 @@
 # The blog's checks: the site builds (with Astro's link and content checks),
-# and every ```bynk block in a post is still in the showcase project it names.
+# every ```bynk block in a post is still in the showcase project it names,
+# and the /blog proxy Worker type-checks, passes its tests and bundles.
 # Called by ci.yml on every push and pull request, and by snippets-canary.yml
 # when the showcase may have moved on.
 name: Checks
@@ -52,3 +53,26 @@ jobs:
           node-version: "24"
       # The script has no dependencies, so no `npm ci`.
       - run: node scripts/check-snippets.mjs .showcase
+
+  proxy:
+    name: Proxy Worker
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: proxy
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # Node 22.18+ runs the TypeScript tests directly (type stripping).
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v6
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: proxy/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      # Bundles the Worker and checks wrangler.toml without deploying.
+      - run: npx wrangler deploy --dry-run --outdir dist

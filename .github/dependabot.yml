@@ -1,5 +1,5 @@
-# Keeps the pinned GitHub Actions and the site's npm dependencies current, as
-# one grouped pull request each a week.
+# Keeps the pinned GitHub Actions, the site's npm dependencies and the proxy
+# Worker's current, as one grouped pull request each a week.
 version: 2
 updates:
   - package-ecosystem: github-actions
@@ -15,4 +15,11 @@ updates:
       interval: weekly
     groups:
       site:
+        patterns: ["*"]
+  - package-ecosystem: npm
+    directory: /proxy
+    schedule:
+      interval: weekly
+    groups:
+      proxy:
         patterns: ["*"]
