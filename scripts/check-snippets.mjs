@@ -15,7 +15,7 @@
 // A post whose code comes from another bynk-lang repository instead, such as
 // the starter template, names it in a `repo` field (`repo: starter`), and every
 // ```bynk block must appear in that repository's .bynk source. The checkout is
-// passed as `--repo starter=<dir>`.
+// passed as `--repo starter=<dir>`, or found beside this one (../starter).
 //
 // A block that is deliberately not from either (pseudo-code, or a
 // counter-example that must not compile) opts out with `nocheck` in its fence:
@@ -150,7 +150,15 @@ async function projectSources(project) {
 const repoSourceCache = new Map();
 async function repoSources(name) {
   if (!repoSourceCache.has(name)) {
-    const dir = repoDirs.get(name);
+    // Without --repo, look for a sibling checkout (../starter), as for the
+    // showcase.
+    const sibling = join(root, "..", name);
+    const dir =
+      repoDirs.get(name) ??
+      (await stat(join(sibling, "bynk.toml")).then(
+        () => sibling,
+        () => undefined,
+      ));
     const files = dir ? await walk(dir, (n) => n.endsWith(".bynk")).catch(() => null) : null;
     const sources = files
       ? await Promise.all(files.map(async (f) => normalise((await readFile(f, "utf8")).split(/\r?\n/))))
@@ -182,7 +190,7 @@ for (const post of await walk(postsDir, (name) => /\.mdx?$/.test(name))) {
     where = `bynk-lang/${repo}`;
     sources = await repoSources(repo);
     if (!sources) {
-      fail(post, 1, `no checkout of bynk-lang/${repo}: pass --repo ${repo}=<dir>`);
+      fail(post, 1, `no checkout of bynk-lang/${repo}: clone it to ../${repo}, or pass --repo ${repo}=<dir>`);
       continue;
     }
   } else if (showcase) {

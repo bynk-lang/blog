@@ -44,15 +44,17 @@ In the terminal:
 bynk test .
 ```
 
-Ten tests pass, in three groups. The first tests the rules about what an entry
+The tests pass, in three groups. The first tests the rules about what an entry
 may contain. The second tests the guestbook's storage directly. The third,
 marked `system`, sends raw JSON through the HTTP service, including requests
 that should be refused.
 
-That third group matters more than it looks. In most frameworks, the code that
+That third group matters more than it looks. In many frameworks, the code that
 checks a request body is separate from the types your handler uses, so it's
-possible to test one and not the other. In Bynk the types *are* the check, and
-a system test proves it from the outside.
+possible to test one and not the other. Schema libraries such as Zod or
+Pydantic close that gap by deriving the type from a schema. In Bynk the type
+*is* the check, with no separate library, and a system test proves it from the
+outside.
 
 ## 3. Read the rules
 
@@ -71,7 +73,8 @@ type Entry = {
 ```
 
 `Name` and `Message` are **refined types**: a type with a rule attached. A
-`Message` is a `String`, but only one between 1 and 280 characters long. You
+`Message` is a `String`, but only one between 1 and 280 characters long
+(counted the way JavaScript's `.length` counts, so some emoji count as two). You
 can't get a `Message` that breaks the rule. A value written in your code is
 checked when it compiles, and one that arrives while the program runs is
 checked on the way in.
@@ -102,9 +105,11 @@ agent Guestbook {
 
 An **agent** is a piece of state together with the handlers that change it.
 Each guestbook name gets its own agent, so `Guestbook("cafe")` and
-`Guestbook("library")` never share entries. On Cloudflare, each one is a
-Durable Object, but you don't write any of that code: the compiler generates
-it.
+`Guestbook("library")` never share entries. The name is a `BookName`, declared
+at the top of `app.bynk`: one more refined type, any non-empty string. On
+Cloudflare, each agent is a Durable Object (Cloudflare's way of giving one key
+its own state and a single instance that handles it), but you don't write any
+of that code: the compiler generates it.
 
 `store entries: Log[Entry]` is the stored state: a `Log`, an append-only list
 that stamps each entry with the time it was added. Bynk has five kinds of
@@ -173,7 +178,8 @@ curl localhost:8787/books/cafe/entries
 ```
 
 Then try an empty message. The service refuses it with a `400` before your
-handler runs, and the response says which field broke which rule:
+handler runs. In the response, `path` names the field, and the violation names
+the type whose rule it broke:
 
 ```text
 {"kind":"RefinementViolation","path":"$.message","violation":{"field":"Message","message":"must be non-empty","value":""}}
@@ -197,21 +203,43 @@ type Entry = {
 }
 ```
 
-Run `bynk check .`, and the compiler lists every place that builds an `Entry`
-without a rating:
+Run `bynk check .`. The compiler reports two kinds of problem. The first is
+every place that builds an `Entry` without a rating, all of them in the tests:
 
 ```text
 [bynk.resolve.missing_field] Error: missing required field `rating` for record `Entry`
 ```
 
-They're all in the tests. Add a rating to each, and add `"rating": 5` to the
-raw JSON in the system tests, which the compiler can't see inside. Then copy the
-"empty message" system test into one that sends a rating of 6, and check it's
-refused.
+The second is about data you've already stored:
+
+```text
+[bynk.agent.non_additive_state_change] Error: agent `Guestbook`'s stored state
+  changed in a way deployed data cannot be read through — field(s) retyped:
+  entries (entries.rating added without a default)
+```
+
+When you ran `bynk dev` in step 6, Bynk recorded the shape of everything the
+guestbook stores in a file called `bynk.schema.lock`. A deployed guestbook
+would hold entries with no rating, and a required `rating` would make them
+unreadable, so the compiler stops you before that can happen. The error's note
+lists the safe ways forward: give the field a default, stage the change through
+a new field, or write a migration that carries the old entries forward.
+
+Nothing has been deployed yet, so there are no real entries to protect. The
+note says that in this case you can drop the guestbook's entry from
+`bynk.schema.lock`; with only one agent, it's simplest to delete the whole file,
+and the next build records the new shape as a fresh starting point. Locally,
+`bynk dev` starts each run with empty storage, so there are no old entries to
+carry over either.
+
+Now fix the tests. Add a rating to each `Entry` the compiler pointed at, and add
+`"rating": 5` to the raw JSON in the system tests, which the compiler can't see
+inside. Then copy the "empty message" system test into one that sends a rating
+of 6, and check it's refused.
 
 Notice what you *didn't* change: the service and the agent. Both work in terms
 of `Entry`, so the new field is checked on the way in and stored with the rest
-without another line of code.
+without another line of service or agent code.
 
 ## 8. Deploy it
 
@@ -221,10 +249,10 @@ that can edit Workers) and `CLOUDFLARE_ACCOUNT_ID`. Until then, it skips the
 deploy with a warning, and each pull request shows a dry run of what would be
 deployed. To deploy from your codespace instead, run `bynk deploy`.
 
-Once you've deployed, commit the `bynk.schema.lock` file the build writes. It
-records the shape of the data your agents store. From then on, the compiler
-refuses a change that stored entries couldn't be read through, such as removing
-a field from `Entry`, and explains how to make that change safely.
+Once you've deployed, commit `bynk.schema.lock`. From then on, it describes
+data that really exists, so deleting an entry from it is no longer the answer:
+when the compiler refuses a change to stored data, as it did in step 7, take
+one of the safe routes its note describes.
 
 ## What you've seen
 
