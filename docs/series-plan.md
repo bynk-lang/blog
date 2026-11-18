@@ -15,7 +15,7 @@ design history before the post is written.
 | # | Title | Problem | Showcase | Level | Trade-offs |
 |---|---|---|---|---|---|
 | 1 | The Problem With Money | Floats drift, and rounding happens everywhere without anyone deciding it | `money` | building | More to write; no `/`; strings on the wire; no currency in the type yet. **Written.** |
-| 2 | The Problem With Null | A value might be missing, or an operation might fail, and nothing in the type says so | `results-and-optionals` | first-steps | No exceptions, so every failure is handled or passed on explicitly |
+| 2 | The Problem With Null | A value might be missing, or an operation might fail, and nothing in the type says so | `results-and-optionals` | first-steps | No exceptions, so every failure is handled or passed on explicitly; error types must line up (`mapErr`, `embeds`); no `unwrap`. **Drafted.** |
 | 3 | The Problem With Validation | Checks are scattered, repeated or forgotten, so invalid values travel deep into the code | `refined-types`, `decode-json` | first-steps | Arithmetic on a refined value gives the base type, so results go back through `.of` |
 | 4 | The Problem With Webhooks | Verifying a signature by hand is easy to get subtly wrong, or to forget on one route | `verify-webhooks` | building | *To find* (for example, which signature schemes are supported) |
 | 5 | The Problem With At-Least-Once | Retries and redeliveries mean the same request can arrive twice | `idempotency` | building | A `remember` alone is check-then-act; you need `claim` first for a guarantee |
