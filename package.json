@@ -1,0 +1,19 @@
+{
+  "name": "bynk-blog",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "description": "The Bynk blog: Astro + Starlight with starlight-blog, styled to match bynk-lang.org.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check:snippets": "node scripts/check-snippets.mjs"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.43.1",
+    "astro": "^7.4.12",
+    "sharp": "^0.35.5",
+    "starlight-blog": "^0.30.2"
+  }
+}

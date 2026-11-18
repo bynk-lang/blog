@@ -1,0 +1,21 @@
+# This repository's settings for the bynk-lang GitHub App
+# (bynk-lang/github-hooks: docs/settings.md). Every feature is off unless it's
+# turned on here, and the App reads this file from the default branch.
+
+# Issue triage: Claude suggests labels for each new issue, and a maintainer
+# approves or declines them in Mine.
+triage:
+  enabled: true
+  labels: [bug, enhancement, documentation, question]
+
+# Stale pull request nudges.
+nudges:
+  enabled: true
+  after_days: 3
+
+# Pull request reviews: when a member's pull request becomes ready for review,
+# Claude reviews it against the guidelines below.
+review:
+  enabled: true
+  guidelines: .github/review-guidelines.md
+  authors: members

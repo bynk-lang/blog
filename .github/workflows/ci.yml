@@ -1,0 +1,32 @@
+# Build the site and check its Bynk snippets on every push and pull request.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  merge_group:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Check
+    uses: ./.github/workflows/checks.yml
+
+  # One required status check for the ruleset, so the ruleset doesn't name
+  # each job in checks.yml.
+  ci-green:
+    name: CI green
+    needs: [checks]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: The build and the snippet check passed
+        env:
+          RESULT: ${{ needs.checks.result }}
+        run: |
+          echo "Checks: $RESULT"
+          [ "$RESULT" = success ]

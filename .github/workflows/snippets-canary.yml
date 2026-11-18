@@ -1,0 +1,60 @@
+# Snippet canary: re-check every post's Bynk snippets against the current
+# showcase, and keep a `snippets` issue open while any have drifted.
+#
+# A post quotes code from a showcase project, and the showcase moves on: the
+# org canary bumps its Bynk version and projects get reworked. CI only runs
+# when the blog changes, so this runs on a schedule as well, and on a
+# `bynk-canary` dispatch once the blog is enrolled with the org dispatcher
+# (bynk-lang/.github, canary/README.md).
+name: Snippet canary
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  repository_dispatch:
+    types: [bynk-canary]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Checks
+    uses: ./.github/workflows/checks.yml
+
+  report:
+    name: Report
+    needs: checks
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: write
+    steps:
+      - name: Open, update or close the `snippets` issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RESULT: ${{ needs.checks.result }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -eu
+          gh label create snippets --color d93f0b \
+            --description "A post's Bynk code no longer matches the showcase" 2>/dev/null || true
+          open=$(gh issue list --label snippets --state open --json number --jq '.[0].number // empty')
+          if [ "$RESULT" = success ]; then
+            if [ -n "$open" ]; then
+              gh issue close "$open" --reason completed \
+                --comment "The snippets match the showcase again: $RUN_URL"
+            fi
+            exit 0
+          fi
+          body="The snippet canary failed: $RUN_URL
+
+          Either the site no longer builds, or a post quotes Bynk code that has changed in bynk-lang/showcase. The run's annotations name each post and line. Update the post to match the project, or mark the block \`nocheck\`."
+          if [ -n "$open" ]; then
+            gh issue comment "$open" --body "Still failing: $RUN_URL"
+          else
+            gh issue create --label snippets --title "Posts have drifted from the showcase" --body "$body"
+          fi

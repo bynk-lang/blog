@@ -1,0 +1,79 @@
+# Build the blog and upload it to its Cloudflare Pages project, after CI
+# passes on a push to main. Modelled on bynk-lang/bynk's deploy-site.yml.
+#
+# Where the blog is served is set by two repository variables, read at build
+# time by astro.config.mjs:
+#   BLOG_SITE  the origin (default https://bynk-lang.org)
+#   BLOG_BASE  the path the blog lives under (default /blog)
+# With the defaults, every URL sits under /blog/, ready to be routed from the
+# bynk-lang.org zone. For a subdomain, set BLOG_SITE=https://blog.bynk-lang.org
+# and BLOG_BASE=/.
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build + deploy to Cloudflare Pages
+    # `workflow_run` runs with this repository's secrets and checks out the
+    # triggering run's commit, so only a green CI run for a push to this
+    # repository's own main may deploy. A pull request (from a fork's `main`
+    # too) never matches. See the note in bynk-lang/bynk's deploy-site.yml.
+    if: >-
+      github.event_name == 'workflow_dispatch'
+      || (github.event.workflow_run.conclusion == 'success'
+      && github.event.workflow_run.event == 'push'
+      && github.event.workflow_run.head_repository.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      # The token is only ever attached to the wrangler step. This step exposes
+      # a boolean, so the build still runs (and stays green) before the
+      # Cloudflare secrets are added.
+      - name: Check for Cloudflare secrets
+        id: gate
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -n "$CLOUDFLARE_API_TOKEN" ] && [ -n "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.workflow_run.head_sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v6
+        with:
+          node-version: "24"
+      - run: npm ci
+      - name: Build the site
+        env:
+          BLOG_SITE: ${{ vars.BLOG_SITE }}
+          BLOG_BASE: ${{ vars.BLOG_BASE }}
+        # An unset variable arrives as an empty string, which astro.config.mjs
+        # treats as "use the default".
+        run: npm run build
+      - name: Deploy to Cloudflare Pages
+        if: steps.gate.outputs.present == 'true'
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx --yes wrangler@4.112.0 pages deploy dist --project-name=bynk-blog --branch=main
+      - name: Note when deploy was skipped
+        if: steps.gate.outputs.present == 'false'
+        run: echo "::notice::Cloudflare secrets not set — built dist/ but skipped the upload. See README.md."
