@@ -56,6 +56,13 @@ site. To serve the blog from a subdomain instead, set the `BLOG_SITE` and
 `BLOG_BASE` repository variables (for example `https://blog.bynk-lang.org`
 and `/`).
 
+## Licence
+
+The posts (`src/content/docs/`) and the guides (`docs/`) are licensed under
+[CC BY 4.0](LICENSE-CC-BY-4.0.md). The site's code is licensed under
+[MIT](LICENSE-MIT). Code quoted from the showcase keeps its own licence (MIT
+or Apache-2.0).
+
 ## Bynk highlighting
 
 [`src/grammars/bynk.tmLanguage.json`](src/grammars/bynk.tmLanguage.json) is a
