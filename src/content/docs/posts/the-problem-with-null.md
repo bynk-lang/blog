@@ -4,7 +4,7 @@ description: "A value can be missing, and an operation can fail, and in most lan
 date: 2026-12-02
 authors: matthew
 tags: [types, option, result, errors]
-excerpt: "A value can be missing, and an operation can fail, and in most languages nothing in a function's type tells you which. Why Bynk has no `null` and no exceptions."
+excerpt: "Something missing and something gone wrong are different, and your types should say which. Why Bynk uses `Option` and `Result` instead of `null` and exceptions."
 draft: true
 series: the-problem-with
 level: first-steps
@@ -16,7 +16,7 @@ Picture a café till. The barista types in an order line: a product code and a
 quantity. The till looks up the product, works out the price and checks the
 customer's loyalty card for a discount.
 
-Three things can go wrong with that, and they aren't the same kind of thing.
+Three things might not go to plan, and they aren't the same kind of thing.
 The customer might not have a loyalty card, which is perfectly normal. The
 barista might type a product the café doesn't sell. Or they might type "lots"
 where a number should be. The first is just something *missing*. The other two
@@ -28,16 +28,19 @@ post is about why that matters, and what Bynk does instead.
 ## The problem
 
 In most languages, a function that says it returns a product can hand you
-nothing at all. In JavaScript that's `null` or `undefined`; in Java, Python and
-C# it's `null` or `None`. The function's type says *product*, but the honest
+nothing at all: `null` or `undefined` in JavaScript, `null` in Java and C#,
+`None` in Python. The function's type says *product*, but the honest
 answer is *product, or possibly nothing*, and nothing in the code tells you
 which functions mean the second.
 
 Failures have the same problem. A function that can fail usually *throws an
 exception*: it stops and hands an error to whoever is willing to catch it,
-however far up the program that is. Nothing in the function's type says it can
-throw, or what it throws, so you find out by reading its code, its
-documentation or, most often, a stack trace in production.
+however far up the program that is. In most languages nothing in the
+function's type says it can throw, or what it throws, so you find out by
+reading its code, its documentation or, most often, a stack trace in
+production. Java tried putting exceptions in the signature with *checked
+exceptions* (`throws IOException`), but they were awkward enough that most
+later languages, Kotlin and C# among them, left the idea out.
 
 Tony Hoare, who added null references to ALGOL W in 1965, later called them his
 "billion-dollar mistake". The cost isn't the idea of a missing value. It's that
@@ -54,9 +57,10 @@ everywhere "just in case".
 **Make missing values visible in the type.** This is a real improvement, and
 it's widespread. TypeScript's `strictNullChecks` makes a possibly-missing value
 `Product | undefined`, Kotlin writes it `Product?`, and Swift calls it an
-optional. The compiler then insists you check before you use it. But these
-languages still use exceptions for failure, so half the problem remains: a
-function's type still doesn't say what can go wrong.
+optional. The compiler then insists you check before you use it. But
+TypeScript and Kotlin still use exceptions that don't appear in a function's
+type, so half the problem remains. Swift goes further: a function that can
+throw must say `throws`, and since Swift 6 it can say what it throws.
 
 **Return errors as values.** Rust's `Option` and `Result`, Haskell's `Maybe` and
 `Either`, and libraries such as neverthrow for TypeScript all return a failure
@@ -71,8 +75,9 @@ Bynk has **no `null` and no exceptions**. Missing values and failures are both
 ordinary values, with types that say so.
 
 **A value that might be missing is an `Option`.** An `Option[Product]` is
-either `Some(product)` or `None`. Looking a product up on the menu returns one,
-because a lookup can come up empty:
+either `Some(product)` or `None`. (Bynk writes type parameters in square
+brackets, where TypeScript writes `Option<Product>`.) Looking a product up on
+the menu returns one, because a lookup can come up empty:
 
 ```bynk
 fn findProduct(sku: String) -> Option[Product] {
@@ -96,7 +101,7 @@ fn careless(sku: String) -> Int {
 ```
 
 The compiler isn't being fussy. It's pointing at the exact line where, in
-another language, a missing product would have crashed the till.
+many languages, a missing product would have crashed the till.
 
 Absence is often fine, and `Option` comes with small methods for handling it
 without ceremony. Here is how the till works out a discount, where the customer
@@ -136,9 +141,11 @@ fn priceLine(sku: String, quantity: String) -> Result[Priced, OrderError] {
 
 Two small pieces of syntax do the work here. `okOr` turns a missing product into
 an error, because *here* absence is a mistake: the barista typed something the
-café doesn't sell. And `?` means "if this is an error, stop and return it to my
-caller; otherwise, give me the value". So the happy path reads straight down
-the page, and each failure leaves at the step where it happens.
+café doesn't sell. `parseQuantity`, in the showcase, turns the typed quantity
+into a number between 1 and 20, or fails with `NotANumber` or `OutOfRange`.
+And `?` means "if this is an error, stop and return it to my caller; otherwise,
+give me the value". So the happy path reads straight down the page, and each
+failure returns early at the step where it happens.
 
 **Missing and failing are different, and the types keep them apart.** The
 loyalty card is an `Option`, because having no card is normal. The product
@@ -147,7 +154,8 @@ error and converts it with `okOr`. That decision is written in the code, where
 it can be reviewed, rather than living in whoever remembered to add a check.
 
 **Handling an error means covering every case.** The till explains a refused
-line with a `match`, which picks a branch for each variant:
+line with a `match`, which picks a branch for each variant. (`\(…)` puts a
+value into a string.)
 
 ```bynk
 fn explain(error: OrderError) -> String {
@@ -160,15 +168,23 @@ fn explain(error: OrderError) -> String {
 ```
 
 Leave a variant out and the program doesn't compile. The compiler names the
-missing case (`variant OutOfRange(_, _) of OrderError is not covered`). The
-same thing happens when someone adds a new kind of error later: every `match`
-that doesn't handle it stops compiling, so the new error can't slip through
-unexplained.
+case you missed, and suggests the fix:
+
+```text
+[bynk.types.non_exhaustive_match] Error:
+  non-exhaustive `match` — variant `OutOfRange(_, _)` of `OrderError` is not covered
+
+  Note 1: add a match arm for this variant, or use a wildcard `_` arm
+```
+
+The same thing happens when someone adds a new kind of error later: every
+`match` that doesn't handle it stops compiling, so the new error can't slip
+through unexplained.
 
 **For the truly impossible, there's a deliberate fault.** Some cases can't
 happen, because the program has already ruled them out elsewhere. For those,
-`unreachable("why this can't happen")` stops the handler with that message if
-you were wrong, and `todo(...)` marks code that isn't written yet. There is
+`unreachable("why this can't happen")` stops the program at that point, with
+your message, if you were wrong, and `todo(...)` marks code that isn't written yet. There is
 deliberately no general-purpose `panic`: a failure a caller could handle
 belongs in a `Result`.
 
@@ -180,22 +196,22 @@ This approach has costs, and they're worth knowing before you start.
   something further up catches it. `?` makes passing one on a single
   character, but you'll still write more error-handling code than in a language
   with exceptions, because the code you'd have skipped is now required.
-- **Error types have to line up.** `?` won't quietly turn one error type into
-  another. When a step fails with a `ValidationError` but your function returns
-  an `OrderError`, the compiler stops you, and you convert it yourself with
-  `mapErr` or declare the conversion once on the error type with an `embeds`
-  clause.
+- **Error types have to line up.** `?` won't quietly turn one kind of error
+  into another. When a step fails with one error type and your function returns
+  a different one, the compiler stops you, and you say how to convert it, either
+  where it happens or once on the error type.
 - **There's no `unwrap`.** Many languages with `Option` let you say "I'm sure
   it's there" and crash if you're wrong. Bynk doesn't: `Option` has no
   `unwrap` method at all. You give a default with `getOrElse`, handle the
   missing case, or, if it truly can't happen, say so with `unreachable` and a
   reason.
 - **There's a small vocabulary to learn.** `map`, `andThen`, `getOrElse`,
-  `okOr`, `ok` and `?` take a little getting used to, especially if you come
-  from JavaScript. Bynk keeps one name per operation (it's always `andThen`,
-  never `flatMap`) to make the list shorter.
+  `okOr` and `?` take a little getting used to, especially if you come from
+  JavaScript. Bynk keeps one name per operation to make the list shorter. If
+  you know JavaScript's `Array.prototype.flatMap`, `andThen` is the same idea
+  for `Option` and `Result`.
 - **A fault is still a stop.** `unreachable` is a promise, not a proof. If the
-  promise is wrong, the handler stops at runtime, as an exception would have.
+  promise is wrong, the program stops at runtime, as an exception would have.
   The difference is that you had to write it down, with a reason, in the one
   place it applies.
 
