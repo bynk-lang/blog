@@ -45,16 +45,23 @@ dispatcher, and keeps a `snippets` issue open while a post has drifted.
 
 ## Deploying
 
-[`deploy.yml`](.github/workflows/deploy.yml) builds the site after CI passes
-on `main` and uploads `dist/` to the `bynk-blog` Cloudflare Pages project. It
-needs the `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets. Until
-they exist, it builds and skips the upload.
+Two pieces, each with its own workflow, both gated on the
+`CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets. Until the secrets
+exist, each builds and skips the upload.
 
-Every URL sits under `/blog/`, so the bynk-lang.org zone can route
-`bynk-lang.org/blog/*` to the Pages project without clashing with the main
-site. To serve the blog from a subdomain instead, set the `BLOG_SITE` and
-`BLOG_BASE` repository variables (for example `https://blog.bynk-lang.org`
-and `/`).
+- **The site.** [`deploy.yml`](.github/workflows/deploy.yml) builds the site
+  after CI passes on `main` and uploads `dist/` to the `bynk-blog` Cloudflare
+  Pages project.
+- **The proxy.** [`proxy/`](proxy/) is a small Worker on the routes
+  `bynk-lang.org/blog` and `bynk-lang.org/blog/*`. It strips `/blog` and
+  fetches each page from the Pages project, so the blog appears at
+  bynk-lang.org/blog/ while the main site stays its own project.
+  [`deploy-proxy.yml`](.github/workflows/deploy-proxy.yml) deploys it when it
+  changes. See [proxy/README.md](proxy/README.md) for setting it up.
+
+Every URL sits under `/blog/`. To serve the blog from a subdomain instead, set
+the `BLOG_SITE` and `BLOG_BASE` repository variables (for example
+`https://blog.bynk-lang.org` and `/`) and drop the proxy.
 
 ## Licence
 

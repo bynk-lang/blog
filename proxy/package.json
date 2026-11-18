@@ -1,0 +1,17 @@
+{
+  "name": "bynk-blog-proxy",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Serves bynk-lang.org/blog/ from the blog's Cloudflare Pages project.",
+  "scripts": {
+    "test": "node --test test/index.test.ts",
+    "typecheck": "tsc",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "typescript": "^5.9.0",
+    "wrangler": "4.112.0"
+  }
+}

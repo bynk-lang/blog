@@ -1,0 +1,17 @@
+# The Worker that serves bynk-lang.org/blog/ from the blog's Pages project.
+# Deployed by .github/workflows/deploy-proxy.yml.
+name = "bynk-blog-proxy"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+workers_dev = false
+
+# Two routes, not `bynk-lang.org/blog*`: that pattern would also match
+# /blogroll and the like, which belong to the main site. A route takes
+# precedence over the main site's Pages custom domain on the same hostname.
+routes = [
+  { pattern = "bynk-lang.org/blog", zone_name = "bynk-lang.org" },
+  { pattern = "bynk-lang.org/blog/*", zone_name = "bynk-lang.org" },
+]
+
+[vars]
+UPSTREAM = "https://bynk-blog.pages.dev"
