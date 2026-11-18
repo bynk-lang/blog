@@ -12,11 +12,16 @@
 // When the showcase changes, a post that quoted the old code fails here, which
 // is the signal to update the post.
 //
-// A block that is deliberately not from the showcase (pseudo-code, or a
+// A post whose code comes from another bynk-lang repository instead, such as
+// the starter template, names it in a `repo` field (`repo: starter`), and every
+// ```bynk block must appear in that repository's .bynk source. The checkout is
+// passed as `--repo starter=<dir>`.
+//
+// A block that is deliberately not from either (pseudo-code, or a
 // counter-example that must not compile) opts out with `nocheck` in its fence:
 // ```bynk nocheck
 //
-// Usage: node scripts/check-snippets.mjs [showcase-dir]
+// Usage: node scripts/check-snippets.mjs [showcase-dir] [--repo name=dir ...]
 //   showcase-dir defaults to $SHOWCASE_DIR, then ../showcase.
 
 import { readdir, readFile, stat } from "node:fs/promises";
@@ -24,7 +29,22 @@ import { join, relative, resolve } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
 const postsDir = join(root, "src/content/docs/posts");
-const showcaseDir = resolve(process.argv[2] ?? process.env.SHOWCASE_DIR ?? join(root, "../showcase"));
+const args = process.argv.slice(2);
+const repoDirs = new Map();
+const positional = [];
+for (let i = 0; i < args.length; i++) {
+  if (args[i] === "--repo") {
+    const [name, dir] = (args[++i] ?? "").split("=");
+    if (!name || !dir) {
+      console.error("--repo takes name=dir, such as --repo starter=../starter");
+      process.exit(2);
+    }
+    repoDirs.set(name, resolve(dir));
+  } else {
+    positional.push(args[i]);
+  }
+}
+const showcaseDir = resolve(positional[0] ?? process.env.SHOWCASE_DIR ?? join(root, "../showcase"));
 const inActions = Boolean(process.env.GITHUB_ACTIONS);
 
 let failures = 0;
@@ -127,6 +147,19 @@ async function projectSources(project) {
   return sourceCache.get(project);
 }
 
+const repoSourceCache = new Map();
+async function repoSources(name) {
+  if (!repoSourceCache.has(name)) {
+    const dir = repoDirs.get(name);
+    const files = dir ? await walk(dir, (n) => n.endsWith(".bynk")).catch(() => null) : null;
+    const sources = files
+      ? await Promise.all(files.map(async (f) => normalise((await readFile(f, "utf8")).split(/\r?\n/))))
+      : null;
+    repoSourceCache.set(name, sources);
+  }
+  return repoSourceCache.get(name);
+}
+
 const showcaseExists = await stat(join(showcaseDir, "bynk.toml")).then(
   () => true,
   () => false,
@@ -139,17 +172,28 @@ if (!showcaseExists) {
 
 for (const post of await walk(postsDir, (name) => /\.mdx?$/.test(name))) {
   const text = await readFile(post, "utf8");
-  const { showcase } = frontmatter(text);
+  const { showcase, repo } = frontmatter(text);
   const blocks = bynkBlocks(text).filter((block) => !block.skip);
   if (blocks.length === 0) continue;
 
-  if (!showcase) {
-    fail(post, 1, "this post has ```bynk blocks but no `showcase` field to check them against (mark a block `nocheck` if it isn't from the showcase)");
-    continue;
-  }
-  const sources = await projectSources(showcase);
-  if (!sources) {
-    fail(post, 1, `showcase project \`${showcase}\` doesn't exist in bynk-lang/showcase`);
+  let sources;
+  let where;
+  if (repo) {
+    where = `bynk-lang/${repo}`;
+    sources = await repoSources(repo);
+    if (!sources) {
+      fail(post, 1, `no checkout of bynk-lang/${repo}: pass --repo ${repo}=<dir>`);
+      continue;
+    }
+  } else if (showcase) {
+    where = `showcase/${showcase}`;
+    sources = await projectSources(showcase);
+    if (!sources) {
+      fail(post, 1, `showcase project \`${showcase}\` doesn't exist in bynk-lang/showcase`);
+      continue;
+    }
+  } else {
+    fail(post, 1, "this post has ```bynk blocks but no `showcase` or `repo` field to check them against (mark a block `nocheck` if it isn't from either)");
     continue;
   }
 
@@ -157,7 +201,7 @@ for (const post of await walk(postsDir, (name) => /\.mdx?$/.test(name))) {
     checked += 1;
     const needle = normalise(block.body);
     if (!sources.some((source) => containsRun(source, needle))) {
-      fail(post, block.line, `this \`\`\`bynk block isn't in showcase/${showcase}: update it to match the project's source, or mark it \`nocheck\``);
+      fail(post, block.line, `this \`\`\`bynk block isn't in ${where}: update it to match the source, or mark it \`nocheck\``);
     }
   }
 }
@@ -166,4 +210,4 @@ if (failures > 0) {
   console.error(`\n${failures} snippet problem(s) found (${checked} block(s) checked).`);
   process.exit(1);
 }
-console.log(`All ${checked} Bynk block(s) match their showcase projects.`);
+console.log(`All ${checked} Bynk block(s) match their sources.`);

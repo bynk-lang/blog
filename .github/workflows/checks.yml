@@ -34,7 +34,7 @@ jobs:
       - run: npm run build
 
   snippets:
-    name: Snippets match the showcase
+    name: Snippets match their sources
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -48,11 +48,17 @@ jobs:
           ref: ${{ inputs.showcase-ref }}
           path: .showcase
           persist-credentials: false
+      - name: Check out bynk-lang/starter
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: bynk-lang/starter
+          path: .starter
+          persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v6
         with:
           node-version: "24"
       # The script has no dependencies, so no `npm ci`.
-      - run: node scripts/check-snippets.mjs .showcase
+      - run: node scripts/check-snippets.mjs .showcase --repo starter=.starter
 
   proxy:
     name: Proxy Worker
