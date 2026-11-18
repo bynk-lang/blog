@@ -27,6 +27,9 @@ export const collections = {
           // from. scripts/check-snippets.mjs holds every ```bynk block in the
           // post to that project's source, which CI and the canary keep green.
           showcase: z.string().optional(),
+          // Another bynk-lang repository the post's Bynk code is quoted from
+          // instead, such as `starter`. Checked the same way.
+          repo: z.string().optional(),
           // The Bynk release the post was written against.
           bynkVersion: z.string().optional(),
         }),
