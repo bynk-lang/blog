@@ -10,8 +10,8 @@
     "deploy": "wrangler deploy"
   },
   "devDependencies": {
-    "@types/node": "^22.20.5",
-    "typescript": "^5.9.0",
-    "wrangler": "4.112.0"
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2",
+    "wrangler": "4.162.0"
   }
 }
