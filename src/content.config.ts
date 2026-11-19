@@ -14,6 +14,18 @@ export const levels = ["first-steps", "building", "designing", "contributing"] a
 // src/lib/ladder.ts, and give each series a plan in docs/series/.
 export const series = ["the-problem-with", "a-closer-look", "inside-the-showcase", "whats-new"] as const;
 
+// When this build runs. A post dated after it is treated as a draft (see the
+// `docs` schema below), and the daily deploy (.github/workflows/deploy.yml)
+// publishes it on its date.
+//
+// The draft flag is decided when a post is parsed, and Astro caches parsed
+// entries (node_modules/.astro/data-store.json) and skips files that haven't
+// changed, so a cached build would keep a post hidden after its date. That's
+// why `npm run build` and `npm run dev` pass `--force`, which clears the cache:
+// the site takes seconds to build. Don't cache that store in CI. A dev server
+// decides once, when it starts, so restart it to see a post whose date has come.
+const buildTime = new Date();
+
 export const collections = {
   // The site's language is en-GB (for British date formats). starlight-blog
   // ships its UI strings under `en` only, so src/content/i18n/en-GB.json
@@ -21,24 +33,32 @@ export const collections = {
   i18n: defineCollection({ loader: i18nLoader(), schema: i18nSchema() }),
   docs: defineCollection({
     loader: docsLoader(),
-    schema: docsSchema({
-      extend: (context) =>
-        blogSchema(context).extend({
-          // The series a post belongs to (see `series` above).
-          series: z.enum(series).optional(),
-          // Who the post is written for (see `levels` above).
-          level: z.enum(levels).optional(),
-          // The bynk-lang/showcase project the post's Bynk code is quoted
-          // from, or a list of them. scripts/check-snippets.mjs holds every
-          // ```bynk block in the post to those projects' source, which CI and
-          // the canary keep green.
-          showcase: z.union([z.string(), z.array(z.string()).nonempty()]).optional(),
-          // Another bynk-lang repository the post's Bynk code is quoted from
-          // instead, such as `starter`. Checked the same way.
-          repo: z.string().optional(),
-          // The Bynk release the post was written against.
-          bynkVersion: z.string().optional(),
-        }),
-    }),
+    // A post with a date after the build is scheduled, not published: it's
+    // marked as a draft, so Starlight and starlight-blog leave it out of a
+    // production build (its page, the post lists, tags and the RSS feed), and
+    // `npm run dev` shows it with a draft badge. Every blog post has a date;
+    // other pages don't, and are left alone.
+    schema: (context) =>
+      docsSchema({
+        extend: (context) =>
+          blogSchema(context).extend({
+            // The series a post belongs to (see `series` above).
+            series: z.enum(series).optional(),
+            // Who the post is written for (see `levels` above).
+            level: z.enum(levels).optional(),
+            // The bynk-lang/showcase project the post's Bynk code is quoted
+            // from, or a list of them. scripts/check-snippets.mjs holds every
+            // ```bynk block in the post to those projects' source, which CI and
+            // the canary keep green.
+            showcase: z.union([z.string(), z.array(z.string()).nonempty()]).optional(),
+            // Another bynk-lang repository the post's Bynk code is quoted from
+            // instead, such as `starter`. Checked the same way.
+            repo: z.string().optional(),
+            // The Bynk release the post was written against.
+            bynkVersion: z.string().optional(),
+          }),
+      })(context).transform((data) =>
+        data.date && data.date > buildTime ? { ...data, draft: true } : data,
+      ),
   }),
 };

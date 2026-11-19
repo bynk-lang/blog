@@ -23,6 +23,7 @@ lists the series and a learning path. Both are built from post frontmatter
 ```sh
 npm install
 npm run dev       # http://localhost:4321/blog/
+npm run check     # type-check the config, components and pages
 npm run build     # into dist/
 ```
 
@@ -51,8 +52,11 @@ Two pieces, each with its own workflow, both gated on the
 exist, each builds and skips the upload.
 
 - **The site.** [`deploy.yml`](.github/workflows/deploy.yml) builds the site
-  after CI passes on `main` and uploads `dist/` to the `bynk-blog` Cloudflare
-  Pages project.
+  after CI passes on `main`, and every morning at 05:17 UTC, and uploads
+  `dist/` to the `bynk-blog` Cloudflare Pages project. A post dated in the
+  future is left out of a build until its date, so the daily build is what
+  publishes a post merged ahead of time. GitHub pauses a scheduled workflow
+  after 60 days without activity in the repository.
 - **The proxy.** [`proxy/`](proxy/) is a small Worker on the routes
   `bynk-lang.org/blog` and `bynk-lang.org/blog/*`. It strips `/blog` and
   fetches each page from the Pages project, so the blog appears at
