@@ -155,7 +155,7 @@ The second door is for **everything else**: values that aren't known until
 the program runs. These go through the type's `.of` constructor, which checks
 the rule and returns a `Result`, either `Ok` with the checked value or `Err`
 with a `ValidationError` that says what was wrong. (`Result` is the subject of
-[the previous post](/blog/posts/the-problem-with-null/), which explains how
+[the previous post](../the-problem-with-null/), which explains how
 Bynk handles failure without exceptions.) Here's a function that adds one more
 of an item to a line:
 
