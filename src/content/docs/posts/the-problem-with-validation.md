@@ -4,7 +4,7 @@ description: "A check written in one place protects one path in. Why Bynk puts t
 date: 2026-12-16
 authors: matthew
 tags: [types, refined-types, validation, json]
-excerpt: "A check in one place protects one way in. Why Bynk puts the rule in the type, so a value is checked once, where it arrives, and trusted everywhere after."
+excerpt: "Checks get forgotten, repeated and drift apart. Bynk puts the rule in the type, so a value is checked once, where it arrives."
 draft: true
 series: the-problem-with
 level: first-steps
@@ -70,24 +70,26 @@ reason: one description gives you both the check and the type. Where they
 stop is what happens *after* parsing. In TypeScript, the type Zod infers for
 `z.number().int().min(1).max(99)` is plain `number`, so once a value is out
 of the parser, the rule has gone from its type, and any number can be passed
-where a quantity is expected. (Zod's `.brand()` can carry it along, if you
-opt in.) Pydantic checks a model when it's built, but by default not when a
+where a quantity is expected. (Zod's `.brand()`, and the brands in Valibot
+and io-ts, can carry it along, if you opt in.) Pydantic checks a model when it's built, but by default not when a
 field is changed afterwards, and a function that takes an `int` can't tell a
 checked one from any other.
 
 **Parse, don't validate.** Alexis King's 2019 essay of that name gives the
 idea its best-known form. Instead of checking a value and keeping the plain
 version, turn it into a new type that can only hold valid values, so the
-proof that it was checked travels with it. TypeScript's *branded types*,
-Rust's *newtype* pattern (a struct with a private field and a checked
+proof that it was checked travels with it. TypeScript's *branded types* (a
+`number` tagged with a marker, so a plain `number` won't fit), Rust's *newtype*
+pattern (a struct with a private field and a checked
 constructor) and Haskell's *smart constructors* all do this. It works well,
 but each rule needs its own wrapper type and constructor, written by hand.
 And in TypeScript, the protection is a convention: a cast (`as Quantity`)
 gets around it.
 
 Some languages go further and put the rule in the type itself. Ada has had
-range types (`range 1 .. 99`) since the 1980s, and research languages such as
-Liquid Haskell attach logical rules to types. Bynk takes this last route, in
+range types (`range 1 .. 99`) since the 1980s, and research tools such as
+Liquid Haskell (a checker that runs on Haskell code) attach logical rules to
+types. Bynk takes this last route, in
 a deliberately small form.
 
 ## Bynk's answer
@@ -170,8 +172,8 @@ value". The return type says `addOne` can fail, so its caller can't miss that
 either.
 
 There is no third door. Bynk deliberately gives refined types no unchecked
-way in, no equivalent of a TypeScript cast, so a `Quantity` always passed its
-rule.
+way in, no equivalent of a TypeScript cast, so every `Quantity` has passed
+its rule.
 
 **The edge of the program uses the second door for you.** Most values don't
 come from your code: they arrive in a request. When an HTTP handler declares
@@ -185,7 +187,8 @@ on POST("/quotes") (body: Line) -> Effect[HttpResult[Int]] by Visitor {
 ```
 
 (`Effect[...]` marks a handler that does work rather than just computing a
-value, and `by Visitor` says who may call it: here, anyone.) A request with a
+value, `by Visitor` says who may call it, here anyone, and `linePrice`, shown
+below, works out the line's price.) A request with a
 quantity of 0, or a stock code of `tea`, gets a `400 Bad Request` with a
 `RefinementViolation` body that names the field, and the handler is never
 called. The showcase tests this from the outside, sending raw JSON as a client
@@ -198,10 +201,21 @@ case "a quantity of zero is refused before the handler runs" {
 }
 ```
 
+A `case` is one test. `let r <- …` waits for the request to finish and names
+the result `r` (`<-` is how Bynk waits for work, where `=` just names a value).
+`Wire(...)` sends the text exactly as written, rather than a `Line`, so the
+test can send something no valid `Line` could produce. And
+`Rejected(RefinementViolation(_))` is the refusal described above: the request
+never reached the handler.
+
+On the wire, a `Quantity` is an ordinary JSON number and a `Sku` an ordinary
+string. The rule isn't in the JSON; it's applied wherever the JSON is read.
+
 The same applies to path segments, query strings and messages from other
 services. If you build your front end in TypeScript, `bynk client` (still
-experimental) generates a typed client that runs the same rules before it
-sends a request, so a form can report a bad quantity without a round trip.
+experimental) generates a typed client. There a `Quantity` is a plain
+`number`, but the client runs the same rules before it sends a request, so a
+form can report a bad quantity without a round trip.
 
 **JSON from anywhere else gets the same treatment.** Not every value arrives
 through a handler. A message from a queue, a file from storage or a response
