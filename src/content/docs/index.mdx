@@ -1,9 +1,9 @@
 ---
 title: The Bynk Blog
-description: The thinking behind Bynk, one problem at a time, with a path from your first program to designing with effects.
+description: The thinking behind Bynk, its features and its releases, with a path from your first program to designing with effects.
 template: splash
 hero:
-  tagline: The thinking behind Bynk, one problem at a time.
+  tagline: The thinking behind Bynk, one idea at a time.
   actions:
     - text: All posts
       link: posts/
@@ -14,13 +14,10 @@ hero:
 ---
 
 import PostList from "../../components/PostList.astro";
-import { LEVELS, SERIES } from "../../lib/ladder";
+import SeriesSections from "../../components/SeriesSections.astro";
+import { LEVELS } from "../../lib/ladder";
 
-## {SERIES["the-problem-with"].title}
-
-{SERIES["the-problem-with"].blurb}
-
-<PostList series="the-problem-with" />
+<SeriesSections />
 
 ## Where to start
 

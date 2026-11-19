@@ -1,7 +1,7 @@
 ---
 title: "The problem with money"
 description: "Floats drift, integer pence only move the problem, and someone has to decide who gets the penny. Why Bynk has a Decimal type, and why it has no `/`."
-date: 2026-11-18
+date: 2026-11-05
 authors: matthew
 tags: [types, decimal, refined-types]
 excerpt: "Floats drift, integer pence only move the problem, and someone has to decide who gets the penny. Why Bynk has a `Decimal` type, and why it has no `/`."

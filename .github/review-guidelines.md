@@ -13,9 +13,11 @@ block matches the showcase project (or projects) named in `showcase`
 checked, so read it as closely as the prose.
 
 [docs/writing-a-post.md](../docs/writing-a-post.md) is the house guide: the
-five-part shape, the frontmatter, the levels and the style. Read it, and read
-the series' other posts (the files in `src/content/docs/posts/` with the same
-`series`) before judging consistency.
+frontmatter, the levels and the style. Each series has its own shape, the
+headings every post in it follows, in [docs/series/](../docs/series/README.md):
+check a post against its series' shape. Read the series' other posts too (the
+files in `src/content/docs/posts/` with the same `series`) before judging
+consistency.
 
 ## The two readers
 
@@ -85,9 +87,9 @@ second. For each finding, say which reader it affects.
 - Do `description` and `excerpt` both match the post's thesis without
   repeating each other word for word?
 - Compare with the series' other posts: the frontmatter fields, the title's
-  capitalisation, the five headings (The problem / How it's usually handled /
-  Bynk's answer / The trade-offs / See it working), and the style of the
-  closing line.
+  capitalisation, the headings in the series' shape (see
+  [docs/series/](../docs/series/README.md)), and the style of the closing
+  line.
 - A post with `draft: true` isn't published. Removing it is the author's call,
   but say whether the post is ready for it.
 
