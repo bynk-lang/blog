@@ -38,7 +38,7 @@ some content.
 | 12 Nov 2026 | The problem with null | The problem with… | 7 days |
 | 15 Nov 2026 | The problem with validation | The problem with… | 3 days |
 | 18 Nov 2026 | A closer look: refined types | A closer look | 3 days |
-| 22 Nov 2026 | The problem with webhooks | The problem with… | 4 days |
+| 21 Nov 2026 | The problem with webhooks (draft) | The problem with… | 3 days |
 
 The next post is due three, five or seven days after the last one in the
 table above. Add each post to the table when it's published.

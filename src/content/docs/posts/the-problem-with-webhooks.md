@@ -1,7 +1,7 @@
 ---
 title: "The problem with webhooks"
 description: "A webhook proves where it came from with a signature over its body, and checking one by hand goes wrong in quiet ways: the wrong bytes, a leaky comparison, no replay guard, or a route that skips it. Why Bynk generates the check from one declaration."
-date: 2026-11-22
+date: 2026-11-21
 authors: matthew
 tags: [webhooks, security, actors, http]
 excerpt: "Checking a webhook's signature by hand is easy to get subtly wrong. Bynk declares the sender once and generates the check."
@@ -9,6 +9,7 @@ series: the-problem-with
 level: building
 showcase: verify-webhooks
 bynkVersion: 0.639.1
+draft: true
 ---
 
 A payment processor sends your service a notice whenever a customer pays: a
