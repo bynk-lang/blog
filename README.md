@@ -23,6 +23,7 @@ lists the series and a learning path. Both are built from post frontmatter
 ```sh
 npm install
 npm run dev       # http://localhost:4321/blog/
+npm run check     # type-check the config, components and pages
 npm run build     # into dist/
 ```
 

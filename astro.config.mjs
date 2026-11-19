@@ -7,7 +7,15 @@ import starlightBlog from "starlight-blog";
 // site/src/grammars/), itself copied from the VS Code extension
 // (bynk-lang/vscode-bynk, syntaxes/bynk.tmLanguage.json). Refresh it from the
 // extension when its grammar changes.
-import bynkGrammar from "./src/grammars/bynk.tmLanguage.json" with { type: "json" };
+import bynkGrammarJson from "./src/grammars/bynk.tmLanguage.json" with { type: "json" };
+
+// TypeScript infers a JSON file's type from its contents, and the inferred
+// type for a TextMate grammar (unions of rules with optional captures) doesn't
+// fit Shiki's grammar type under strict settings, though the grammar itself is
+// valid. Say what it is. (`shiki` comes with Starlight's Expressive Code.)
+const bynkGrammar = /** @type {import("shiki").LanguageRegistration} */ (
+  /** @type {unknown} */ (bynkGrammarJson)
+);
 
 // The blog is built to live under a path on the main site, bynk-lang.org/blog,
 // so every page, asset and the search index sit under `base`. Both values can

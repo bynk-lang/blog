@@ -1,4 +1,5 @@
-# The blog's checks: the site builds (with Astro's link and content checks),
+# The blog's checks: the site type-checks and builds (with Astro's link and
+# content checks),
 # every ```bynk block in a post is still in the source it names (a showcase
 # project, or another bynk-lang repository such as the starter),
 # and the /blog proxy Worker type-checks, passes its tests and bundles.
@@ -19,7 +20,7 @@ permissions:
 
 jobs:
   build:
-    name: Build the site
+    name: Type-check and build the site
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -32,6 +33,9 @@ jobs:
           node-version: "24"
           cache: npm
       - run: npm ci
+      # `astro check` type-checks the config, the components and the .astro
+      # files. The proxy has its own type check, below.
+      - run: npm run check
       - run: npm run build
 
   snippets:
