@@ -38,6 +38,7 @@ some content.
 | 12 Nov 2026 | The problem with null | The problem with… | 7 days |
 | 15 Nov 2026 | The problem with validation | The problem with… | 3 days |
 | 18 Nov 2026 | A closer look: refined types | A closer look | 3 days |
+| 21 Nov 2026 | The problem with webhooks (draft) | The problem with… | 3 days |
 
 The next post is due three, five or seven days after the last one in the
 table above. Add each post to the table when it's published.
@@ -46,10 +47,10 @@ A suggested order for the next few, to vary the series. Each plan has the
 detail.
 
 1. A closer look: the component view
-2. The problem with webhooks
-3. Inside the showcase: events
-4. The problem with at-least-once
-5. What's new in Bynk (covering the versions since 0.639.1)
+2. Inside the showcase: events
+3. The problem with at-least-once (it follows on from webhooks: the replay
+   window leaves deduplication to `Idempotency`)
+4. What's new in Bynk (covering the versions since 0.639.1)
 
 ## Adding a series
 
