@@ -2,8 +2,10 @@
 // Holds every ```bynk block in a post to real, checked Bynk.
 //
 // A post names the bynk-lang/showcase project its code comes from in its
-// `showcase` frontmatter field. Each ```bynk block in the post must then appear
-// in that project's .bynk source as a run of consecutive lines (see
+// `showcase` frontmatter field, or several as a list
+// (`showcase: [refined-types, decode-json]`). Each ```bynk block in the post
+// must then appear in one of those projects' .bynk source as a run of
+// consecutive lines (see
 // `normalise` for what the comparison sets aside). The
 // showcase's own CI runs `bynk fmt --check`, `bynk check` and `bynk test` on
 // every project, and the org canary re-runs them on each Bynk release, so a
@@ -71,14 +73,23 @@ async function walk(dir, predicate) {
 }
 
 // The frontmatter fields this script needs, read without a YAML dependency:
-// each is a single `key: value` line.
+// each is a single `key: value` line. A flow list (`[a, b]`) becomes an array.
+function unquote(value) {
+  return value.trim().replace(/^["']|["']$/g, "").trim();
+}
+
 function frontmatter(text) {
   const match = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   const fields = {};
   if (!match) return fields;
   for (const line of match[1].split(/\r?\n/)) {
     const field = line.match(/^(\w+):\s*(.*)$/);
-    if (field) fields[field[1]] = field[2].replace(/^["']|["']$/g, "").trim();
+    if (!field) continue;
+    const value = field[2].trim();
+    const list = value.match(/^\[(.*)\]$/);
+    fields[field[1]] = list
+      ? list[1].split(",").map(unquote).filter(Boolean)
+      : unquote(value);
   }
   return fields;
 }
@@ -193,13 +204,21 @@ for (const post of await walk(postsDir, (name) => /\.mdx?$/.test(name))) {
       fail(post, 1, `no checkout of bynk-lang/${repo}: clone it to ../${repo}, or pass --repo ${repo}=<dir>`);
       continue;
     }
-  } else if (showcase) {
-    where = `showcase/${showcase}`;
-    sources = await projectSources(showcase);
-    if (!sources) {
-      fail(post, 1, `showcase project \`${showcase}\` doesn't exist in bynk-lang/showcase`);
-      continue;
+  } else if (showcase && showcase.length > 0) {
+    const projects = Array.isArray(showcase) ? showcase : [showcase];
+    where = projects.map((project) => `showcase/${project}`).join(" or ");
+    sources = [];
+    let missing = false;
+    for (const project of projects) {
+      const found = await projectSources(project);
+      if (found) {
+        sources.push(...found);
+      } else {
+        missing = true;
+        fail(post, 1, `showcase project \`${project}\` doesn't exist in bynk-lang/showcase`);
+      }
     }
+    if (missing) continue;
   } else {
     fail(post, 1, "this post has ```bynk blocks but no `showcase` or `repo` field to check them against (mark a block `nocheck` if it isn't from either)");
     continue;

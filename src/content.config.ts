@@ -24,9 +24,10 @@ export const collections = {
           // Who the post is written for (see `levels` above).
           level: z.enum(levels).optional(),
           // The bynk-lang/showcase project the post's Bynk code is quoted
-          // from. scripts/check-snippets.mjs holds every ```bynk block in the
-          // post to that project's source, which CI and the canary keep green.
-          showcase: z.string().optional(),
+          // from, or a list of them. scripts/check-snippets.mjs holds every
+          // ```bynk block in the post to those projects' source, which CI and
+          // the canary keep green.
+          showcase: z.union([z.string(), z.array(z.string()).nonempty()]).optional(),
           // Another bynk-lang repository the post's Bynk code is quoted from
           // instead, such as `starter`. Checked the same way.
           repo: z.string().optional(),
