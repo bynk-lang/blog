@@ -2,7 +2,7 @@
 
 These are the maintainers' notes for reviewing a pull request here. Bynk is a
 programming language, and the blog explains its design decisions, often as
-part of a series such as *The Problem With…*. Most pull requests add or revise
+part of a series such as *The problem with…*. Most pull requests add or revise
 a post in `src/content/docs/posts/`. A post is judged as writing as well as
 content.
 
