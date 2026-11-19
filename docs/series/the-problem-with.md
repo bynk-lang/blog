@@ -67,7 +67,8 @@ design history before the post is written.
   starter template, now gives the blog a first rung, but the series itself
   has no gentler posts left in the plan.
 - **Little on designing with effects.** Posts 9–12 cover it, but contexts and
-  events have no post yet. `events` could carry one.
+  events have no post in this series. *Inside the showcase* (`events`) and
+  *A closer look* (the component view) plan to cover them.
 - **Nothing for contributors yet.** That level probably needs its own series
   about how the compiler works, rather than *The problem with…*. See
   [the other series](README.md) for what else is planned.
