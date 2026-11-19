@@ -29,7 +29,7 @@ export const LEVELS = [
 // The blog's series. A post joins one with its `series` frontmatter field.
 export const SERIES = {
   "the-problem-with": {
-    title: "The Problem With…",
+    title: "The problem with…",
     blurb:
       "Each post takes a problem that bites people in practice, looks at how it is usually handled, and explains how Bynk approaches it and what that costs.",
   },
