@@ -70,7 +70,8 @@ expected, such as a return value or an argument, is checked by the compiler.
 Any other value goes through the type's `.of` constructor, which checks the
 rule when the program runs and returns a `Result`. The validation post covers
 both, so here's the one thing to add: Bynk also has `is` for checking a value
-in an `if`. `if n is Quantity { … }` runs the rule, and inside the branch `n`
+in an `if`. With the validation post's `Quantity` (an `Int` from 1 to 99),
+`if n is Quantity { … }` runs the rule, and inside the branch `n`
 *is* a `Quantity`, so it can be passed straight on without `.of`. It works
 like a TypeScript type guard or a Kotlin smart cast, except that the compiler
 writes the guard from the rule. Reach for
@@ -79,9 +80,9 @@ which way the code goes.
 
 **Reading a refined value.** A `Quantity` is still an `Int` when you read it.
 You can compare it, do arithmetic with it, or call any `Int` method on it, and
-a `Name` has all the `String` methods. What comes back is the plain base type:
-`name.toUpper()` is a `String`, and `qty + 1` is an `Int`, because the result
-might break the rule.
+a `Name` (a non-empty `String`) has all the `String` methods. What comes back
+is the plain base type: `name.toUpper()` is a `String`, and for a quantity
+`qty`, `qty + 1` is an `Int`, because the result might break the rule.
 
 **Tests get valid values for free.** A test often needs a value of some type
 and doesn't care which. `Val[T]` builds one from the type's rule. The
@@ -157,8 +158,9 @@ refused JSON body names the field that broke the rule, such as `$.qty`. The
 generated TypeScript client for a front end (`bynk client`, still
 experimental) runs the rules too, before it sends a request.
 
-**Between contexts, a narrower rule is accepted.** When one context calls
-another, a value is compared by its shape and rules, not its name, and a value
+**Between contexts, a narrower rule is accepted.** A *context* is a separate
+part of a Bynk system, with its own services and agents, that other parts can
+reach only across an explicit boundary. When one context calls another, a value is compared by its shape and rules, not its name, and a value
 with a stricter rule is accepted where a looser one is expected. A
 `MaxLength(4)` string fits where `MaxLength(8)` is expected, and
 `InRange(1, 5)` fits `InRange(0, 10)`. The compiler works this out by
@@ -182,8 +184,9 @@ runs, so `MaxLength(40)` also limits how much text the pattern ever sees.
   that compares two fields, needs code of your own, which the boundary and
   the generated client can't run for you.
 - **Patterns can't be generated.** `Val` needs an `@example` for a `Matches`
-  type, and a property test can't use one at all: it would run the same value
-  every time. Use a pinned value instead.
+  type, and a property test can't draw from a `Matches` type at all, since an
+  `@example` would give it the same value every time: the compiler refuses
+  it. Use a pinned value instead.
 - **Some familiar patterns are refused.** A pattern copied from elsewhere
   can be dangerous without looking dangerous. With the dash optional,
   `[a-z]+(-?[a-z]+)*` is a repeat inside a repeat, which is catastrophic, so
