@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from "astro:content";
+import type { series } from "../content.config";
 
 // The learning path the blog is organised around. Each post's `level` names
 // one of these rungs. Keep the ids in step with `levels` in
@@ -27,8 +28,9 @@ export const LEVELS = [
 ] as const;
 
 // The blog's series, in the order the home page shows them. A post joins one
-// with its `series` frontmatter field. Keep the ids in step with `series` in
-// src/content.config.ts. Each series has a plan in docs/series/.
+// with its `series` frontmatter field. The keys must be exactly the ids in
+// `series` in src/content.config.ts: the `satisfies` below makes a missing or
+// misspelt one a type error. Each series has a plan in docs/series/.
 export const SERIES = {
   "the-problem-with": {
     title: "The problem with…",
@@ -50,7 +52,7 @@ export const SERIES = {
     blurb:
       "A look back over recent releases: what changed, why it changed, and what it means for code you have already written.",
   },
-} as const;
+} as const satisfies Record<(typeof series)[number], { title: string; blurb: string }>;
 
 export type Post = CollectionEntry<"docs">;
 

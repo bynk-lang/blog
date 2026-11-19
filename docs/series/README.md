@@ -36,8 +36,8 @@ some content.
 | 12 Nov 2026 | The problem with null | The problem with… | 7 days |
 | 15 Nov 2026 | The problem with validation | The problem with… | 3 days |
 
-Next due: **18, 20 or 22 November 2026**, one of three, five or seven days
-after the last post. The 18th has passed, so 20 or 22 November.
+The next post is due three, five or seven days after the last one in the
+table above. Add each post to the table when it's published.
 
 A suggested order for the next few, to vary the series. Each plan has the
 detail.
