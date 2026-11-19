@@ -47,10 +47,10 @@ A suggested order for the next few, to vary the series. Each plan has the
 detail.
 
 1. A closer look: the component view
-2. The problem with webhooks
-3. Inside the showcase: events
-4. The problem with at-least-once
-5. What's new in Bynk (covering the versions since 0.639.1)
+2. Inside the showcase: events
+3. The problem with at-least-once (it follows on from webhooks: the replay
+   window leaves deduplication to `Idempotency`)
+4. What's new in Bynk (covering the versions since 0.639.1)
 
 ## Adding a series
 
