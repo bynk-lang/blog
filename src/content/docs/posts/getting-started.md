@@ -1,11 +1,10 @@
 ---
 title: "Getting started with Bynk"
 description: "From nothing installed to a deployed service in one sitting: open the Bynk starter in a codespace, run its tests, read its code, change it and deploy it, with the reasons for what you see along the way."
-date: 2026-11-25
+date: 2026-10-31
 authors: matthew
 tags: [getting-started, starter, agents, refined-types]
 excerpt: "Open the Bynk starter in your browser, run it, change it and deploy it, and see why the code looks the way it does."
-draft: true
 level: first-steps
 repo: starter
 bynkVersion: 0.639.1
@@ -275,7 +274,7 @@ In one small app, you've met the main ideas in Bynk:
 - The [showcase](https://github.com/bynk-lang/showcase): small projects, one
   feature each, from money to webhooks.
 - The rest of this blog, especially
-  [The problem with money](/blog/posts/the-problem-with-money/), for the
+  [The problem with money](../the-problem-with-money/), for the
   thinking behind one of those features.
 
 The starter is small on purpose. Make it yours: change the guestbook into

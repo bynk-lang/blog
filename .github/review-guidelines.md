@@ -13,9 +13,11 @@ block matches the showcase project (or projects) named in `showcase`
 checked, so read it as closely as the prose.
 
 [docs/writing-a-post.md](../docs/writing-a-post.md) is the house guide: the
-five-part shape, the frontmatter, the levels and the style. Read it, and read
-the series' other posts (the files in `src/content/docs/posts/` with the same
-`series`) before judging consistency.
+frontmatter, the levels and the style. Each series has its own shape, the
+headings every post in it follows, in [docs/series/](../docs/series/README.md):
+check a post against its series' shape. Read the series' other posts too (the
+files in `src/content/docs/posts/` with the same `series`) before judging
+consistency.
 
 ## The two readers
 

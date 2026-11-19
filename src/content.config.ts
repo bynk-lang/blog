@@ -9,6 +9,11 @@ import { blogSchema } from "starlight-blog/schema";
 // effects. Keep this list in step with LEVELS in src/lib/ladder.ts.
 export const levels = ["first-steps", "building", "designing", "contributing"] as const;
 
+// The blog's series. A post joins one with its `series` field; a post with no
+// series stands on its own. Keep this list in step with SERIES in
+// src/lib/ladder.ts, and give each series a plan in docs/series/.
+export const series = ["the-problem-with", "a-closer-look", "inside-the-showcase", "whats-new"] as const;
+
 export const collections = {
   // The site's language is en-GB (for British date formats). starlight-blog
   // ships its UI strings under `en` only, so src/content/i18n/en-GB.json
@@ -19,8 +24,8 @@ export const collections = {
     schema: docsSchema({
       extend: (context) =>
         blogSchema(context).extend({
-          // The series a post belongs to, such as `the-problem-with`.
-          series: z.string().optional(),
+          // The series a post belongs to (see `series` above).
+          series: z.enum(series).optional(),
           // Who the post is written for (see `levels` above).
           level: z.enum(levels).optional(),
           // The bynk-lang/showcase project the post's Bynk code is quoted

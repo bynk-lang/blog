@@ -1,6 +1,6 @@
 # Bynk blog
 
-The thinking behind [Bynk](https://bynk-lang.org), one problem at a time.
+The thinking behind [Bynk](https://bynk-lang.org), one idea at a time.
 
 The blog is an [Astro](https://astro.build) site using
 [Starlight](https://starlight.astro.build) and
@@ -11,7 +11,8 @@ bynk-lang.org. It's built to be served at **bynk-lang.org/blog/**.
 
 Posts live in [`src/content/docs/posts/`](src/content/docs/posts/). Read
 [docs/writing-a-post.md](docs/writing-a-post.md) before writing one, and see
-[docs/series-plan.md](docs/series-plan.md) for what's coming.
+[docs/series/](docs/series/) for the series, the publishing rhythm and what's
+coming.
 
 The blog's home page, [`src/content/docs/index.mdx`](src/content/docs/index.mdx),
 lists the series and a learning path. Both are built from post frontmatter
@@ -28,8 +29,8 @@ npm run build     # into dist/
 ## Bynk code is checked
 
 Every ` ```bynk ` block in a post must be quoted from the
-[showcase](https://github.com/bynk-lang/showcase) project the post names in
-its `showcase` field. The showcase's own CI formats, type-checks and tests
+[showcase](https://github.com/bynk-lang/showcase) project (or projects) the
+post names in its `showcase` field, or from the repository it names in `repo`. The showcase's own CI formats, type-checks and tests
 every project, and the org canary re-runs them on each Bynk release, so a
 quoted snippet is code that compiles and is tested.
 

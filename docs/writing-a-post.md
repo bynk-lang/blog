@@ -4,24 +4,22 @@ The blog explains the thinking behind Bynk. Posts don't repeat the Book or a
 showcase README: they say why the language works the way it does, then send
 the reader to the code.
 
-## The problem with… shape
+## Series and shapes
 
-Every post in the series follows the same five parts. Use them as headings.
+Most posts belong to a series, and each series has its own shape: a set of
+headings every post in it follows, so a reader knows what to expect. The
+shapes, and the plan of posts for each series, are in
+[docs/series/](series/README.md):
 
-1. **The problem.** Something that goes wrong in practice, described so a
-   newcomer understands why it matters. Start from what the reader has seen,
-   not from Bynk.
-2. **How it's usually handled.** The conventions, libraries and discipline
-   other languages rely on, and where each one stops short. Name the prior art
-   (`BigDecimal`, decimal.js and so on) and treat it with respect: some
-   readers use it every day.
-3. **Bynk's answer.** What the language or compiler takes on, and what it
-   leaves to you. Quote code from the showcase project.
-4. **The trade-offs.** What the approach costs or rules out. Be specific and
-   honest. This is the section that earns an experienced reader's trust.
-5. **See it working.** Link the showcase project, show how to run its tests,
-   and link the Book's guide and reference pages. End with one sentence that
-   returns to the problem.
+- [The problem with…](series/the-problem-with.md): one problem, in five parts.
+- [A closer look](series/a-closer-look.md): one feature of the language or
+  its tools.
+- [Inside the showcase](series/inside-the-showcase.md): one showcase project,
+  read from top to bottom.
+- [What's new in Bynk](series/whats-new.md): a look back over recent releases.
+
+A post can also stand on its own, as "Getting started with Bynk" does. Leave
+out `series`, and choose headings that suit it.
 
 ## Frontmatter
 
@@ -29,11 +27,11 @@ Every post in the series follows the same five parts. Use them as headings.
 ---
 title: "The problem with money"
 description: "One or two sentences for search results and link previews."
-date: 2026-11-18
+date: 2026-11-05
 authors: matthew
 tags: [types, decimal]
-excerpt: "Shown in post lists. Usually the same as the description."
-series: the-problem-with
+excerpt: "Shown in post lists. Shorter than the description, not a copy of it."
+series: the-problem-with   # see docs/series/; leave out for a standalone post
 level: building        # first-steps | building | designing | contributing
 showcase: money        # the bynk-lang/showcase project the code comes from
 # showcase: [refined-types, decode-json]   # or several, as a list
@@ -42,6 +40,9 @@ bynkVersion: 0.639.1   # the Bynk release the post was written against
 draft: true            # remove to publish
 ---
 ```
+
+`date` is the publication date. Posts go out every three, five or seven days,
+so check [the schedule](series/README.md#schedule) when you choose it.
 
 `level` puts the post on the blog's learning path:
 

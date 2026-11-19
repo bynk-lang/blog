@@ -1,11 +1,10 @@
 ---
 title: "The problem with validation"
 description: "A check written in one place protects one path in. Why Bynk puts the rule in the type instead, so a value is checked once, where it arrives, and trusted everywhere after."
-date: 2026-12-16
+date: 2026-11-15
 authors: matthew
 tags: [types, refined-types, validation, json]
 excerpt: "Checks get forgotten, repeated and drift apart. Bynk puts the rule in the type, so a value is checked once, where it arrives."
-draft: true
 series: the-problem-with
 level: first-steps
 showcase: [refined-types, decode-json]
