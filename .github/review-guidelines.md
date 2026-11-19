@@ -8,7 +8,7 @@ content.
 
 Skip what CI already enforces: the site builds (`astro build`), the
 frontmatter fits the schema in `src/content.config.ts`, and every ` ```bynk `
-block matches the showcase project named in `showcase`
+block matches the showcase project (or projects) named in `showcase`
 (`scripts/check-snippets.mjs`). A block marked ` ```bynk nocheck ` isn't
 checked, so read it as closely as the prose.
 

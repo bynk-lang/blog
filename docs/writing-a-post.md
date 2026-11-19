@@ -36,6 +36,7 @@ excerpt: "Shown in post lists. Usually the same as the description."
 series: the-problem-with
 level: building        # first-steps | building | designing | contributing
 showcase: money        # the bynk-lang/showcase project the code comes from
+# showcase: [refined-types, decode-json]   # or several, as a list
 # repo: starter        # or: another bynk-lang repository it comes from instead
 bynkVersion: 0.639.1   # the Bynk release the post was written against
 draft: true            # remove to publish
@@ -52,7 +53,7 @@ draft: true            # remove to publish
 ## Code
 
 Every ` ```bynk ` block must be quoted from the showcase project named in
-`showcase`, or, for a post about another bynk-lang repository such as the
+`showcase` (or from one of them, when it's a list), or, for a post about another bynk-lang repository such as the
 starter template, from the repository named in `repo`. CI checks this (`scripts/check-snippets.mjs`), and a weekly canary
 re-checks it as the showcase changes. You can dedent a snippet and leave out
 blank lines and comments between the lines you quote. Nothing else may differ.
