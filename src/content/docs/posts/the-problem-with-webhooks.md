@@ -74,8 +74,10 @@ framework parses it, and calling them on every route that needs them.
 
 **Test the failure cases.** A test suite that sends a forged signature, an
 unsigned request and an old one catches most of these mistakes. In practice,
-those tests are rarely written, because building a correctly signed request
-in a test is fiddly, and building wrong ones on purpose is more fiddly still.
+those tests are often skipped: building a correctly signed request in a test
+is fiddly (Stripe's Node SDK has a helper for it,
+`generateTestHeaderString`, but most providers don't), and building wrong
+ones on purpose is more fiddly still.
 
 ## Bynk's answer
 
@@ -124,27 +126,34 @@ on POST("/webhooks/payment") (
 }
 ```
 
-(`given Crypto, Secrets` lists what the handler itself uses: here, to sign a
-receipt of its own. It isn't needed for the webhook check.)
+The handler answers each notice with a receipt: `receiptFor` signs the
+payment's id with a second key of the service's own, and returns `None` when
+that key isn't configured, hence the `503`. That's the service's own
+business, not part of the webhook check, and so is `given Crypto, Secrets`,
+which lists what the handler itself uses to sign the receipt.
 
 From that declaration, the compiler generates the check, and runs it before
 the handler. It takes each of the four mistakes in turn:
 
-- **The right bytes.** The generated code reads the body once, as text,
-  computes HMAC-SHA256 over exactly those bytes, and only then parses the
-  `Payment`, from the same text. Nothing is ever re-serialised.
-- **The right comparison.** It verifies with the platform's own constant-time
-  HMAC check, from the Web Crypto API, rather than comparing strings.
+- **The right bytes.** The generated code reads the body once, computes
+  HMAC-SHA256 over what it read, and only then parses the `Payment`, from the
+  same text. The parsed object is never turned back into JSON to be hashed.
+- **The right comparison.** It verifies with `crypto.subtle.verify`, the
+  HMAC check in the Web Crypto API (the cryptography built into the
+  JavaScript runtimes Bynk compiles for), which Bynk's runtime relies on to
+  compare in constant time, rather than comparing strings.
 - **A replay window.** With a `timestamp`, the signed text is
   `<timestamp>.<body>`, and a timestamp more than `tolerance` seconds from now
   is refused.
-- **Every route.** Whether a route checks a signature is part of its first
-  line: `by Processor`. A route that should check and doesn't says
-  `by Visitor` (anyone) instead, where a reviewer can see it.
+- **Every route.** Every HTTP handler must name its caller after `by`; leave
+  it out and the program doesn't compile. So whether a route checks a
+  signature is part of its first line: `by Processor`. A route that doesn't
+  check says `by Visitor` (anyone) instead, where a reviewer can see it.
 
-Any failure answers `401 Unauthorized`, and the handler never runs. So by the
-time the handler's first line runs, the notice is from the processor, recent,
-and a well-formed `Payment`.
+Any signature failure answers `401 Unauthorized`, and the handler never runs;
+a body that isn't a `Payment` is refused with a `400`. So by the time the
+handler's first line runs, the notice is from the processor, a well-formed
+`Payment` and, when the sender signs a timestamp, recent.
 
 **The failure cases are easy to test.** A test at the `system` tier runs the
 service as it will be deployed, so the generated check sees every request.
@@ -185,10 +194,13 @@ case "a signed but malformed body is refused" {
 
 - **One signature format.** The generated check handles HMAC-SHA256, sent as
   a hex digest (bare, or as `sha256=…`), with an optional timestamp in a
-  header of its own. GitHub's format fits. Others don't yet: Stripe's single
-  header that carries both the timestamp and the signature (`t=…,v1=…`),
-  signatures encoded as base64 (as Shopify's are), and signatures made with a
-  public key, such as Ed25519. Bynk's design notes plan particular providers'
+  header of its own. GitHub's format fits, though GitHub signs no timestamp,
+  so a GitHub webhook gets no replay window. Others don't fit yet: Stripe's
+  single header that carries both the timestamp and the signature
+  (`t=…,v1=…`), signatures encoded as base64 (as Shopify's are), the Standard
+  Webhooks format (base64, over the message id, timestamp and body), and
+  public-key signatures (signed with the sender's private key and checked
+  with their public key), such as Ed25519. Bynk's design notes plan particular providers'
   formats as a later layer over the same check. Until then, a route can take the raw body
   and the headers and check the signature itself with `bynk.crypto`. That
   capability is experimental, and you're back to writing the check by hand.
@@ -196,6 +208,11 @@ case "a signed but malformed body is refused" {
   minutes; it doesn't stop one. Providers retry, too, so the same genuine
   notice can arrive twice. Removing duplicates by the notice's id is a
   separate job, for the `Idempotency` capability.
+- **A JSON body is checked as text.** On a JSON route, the check signs the
+  body after decoding it as UTF-8, so a body with a byte-order mark or bytes
+  that aren't valid UTF-8 won't verify, even if the sender signed it
+  correctly. A route that takes the raw body (`@raw`, with `body: Bytes`)
+  signs the bytes exactly as received.
 - **One secret at a time.** The actor takes one secret, with no slot for the
   previous one while you rotate it. (Bynk's signed cookies have one; webhook
   signatures don't, yet.)
