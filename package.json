@@ -5,8 +5,8 @@
   "private": true,
   "description": "The Bynk blog: Astro + Starlight with starlight-blog, styled to match bynk-lang.org.",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
+    "dev": "astro dev --force",
+    "build": "astro build --force",
     "check": "astro check",
     "preview": "astro preview",
     "check:snippets": "node scripts/check-snippets.mjs"

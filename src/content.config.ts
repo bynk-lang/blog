@@ -14,9 +14,16 @@ export const levels = ["first-steps", "building", "designing", "contributing"] a
 // src/lib/ladder.ts, and give each series a plan in docs/series/.
 export const series = ["the-problem-with", "a-closer-look", "inside-the-showcase", "whats-new"] as const;
 
-// When this build runs. A post dated after it is treated as a draft (see
-// `scheduled` below), and the daily deploy (.github/workflows/deploy.yml)
+// When this build runs. A post dated after it is treated as a draft (see the
+// `docs` schema below), and the daily deploy (.github/workflows/deploy.yml)
 // publishes it on its date.
+//
+// The draft flag is decided when a post is parsed, and Astro caches parsed
+// entries (node_modules/.astro/data-store.json) and skips files that haven't
+// changed, so a cached build would keep a post hidden after its date. That's
+// why `npm run build` and `npm run dev` pass `--force`, which clears the cache:
+// the site takes seconds to build. Don't cache that store in CI. A dev server
+// decides once, when it starts, so restart it to see a post whose date has come.
 const buildTime = new Date();
 
 export const collections = {
