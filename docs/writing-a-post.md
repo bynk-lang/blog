@@ -42,7 +42,9 @@ draft: true            # remove to publish
 ```
 
 `date` is the publication date. Posts go out every three, five or seven days,
-so check [the schedule](series/README.md#schedule) when you choose it.
+so check [the schedule](series/README.md#schedule) when you choose it. A
+finished post can be merged early: it stays hidden until its date, then the
+daily build publishes it.
 
 `level` puts the post on the blog's learning path:
 

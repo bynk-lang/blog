@@ -1,5 +1,10 @@
 # Build the blog and upload it to its Cloudflare Pages project, after CI
-# passes on a push to main. Modelled on bynk-lang/bynk's deploy-site.yml.
+# passes on a push to main, and once a day. Modelled on bynk-lang/bynk's
+# deploy-site.yml.
+#
+# The daily build publishes scheduled posts: a post dated after the build is
+# treated as a draft (src/content.config.ts), so it appears in the first build
+# on or after its date, without a new commit.
 #
 # Where the blog is served is set by two repository variables, read at build
 # time by astro.config.mjs:
@@ -15,6 +20,11 @@ on:
     workflows: ["CI"]
     types: [completed]
     branches: [main]
+  # Every day at 05:17 UTC (05:17 GMT, 06:17 BST), so a post dated today is up
+  # by morning in the UK. GitHub runs a schedule on the default branch only, and
+  # pauses it after 60 days without activity in the repository.
+  schedule:
+    - cron: "17 5 * * *"
   workflow_dispatch:
 
 permissions:
@@ -31,8 +41,11 @@ jobs:
     # triggering run's commit, so only a green CI run for a push to this
     # repository's own main may deploy. A pull request (from a fork's `main`
     # too) never matches. See the note in bynk-lang/bynk's deploy-site.yml.
+    # A scheduled or manual run builds main as it stands, which reached main
+    # through CI.
     if: >-
       github.event_name == 'workflow_dispatch'
+      || github.event_name == 'schedule'
       || (github.event.workflow_run.conclusion == 'success'
       && github.event.workflow_run.event == 'push'
       && github.event.workflow_run.head_repository.full_name == github.repository)
@@ -55,7 +68,7 @@ jobs:
           fi
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          ref: ${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.workflow_run.head_sha }}
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
           persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v6
         with:

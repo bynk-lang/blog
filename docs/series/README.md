@@ -21,10 +21,12 @@ the rhythm from feeling mechanical, and the longer gaps leave room for a post
 that needs more research. Mix the series: try not to publish two posts from
 the same series in a row while another series has one ready.
 
-`date` in a post's frontmatter is its publication date. The site builds from
-`main`, so a post with a future date and no `draft: true` goes live as soon as
-it's merged, dated in the future. Merge on or after the date, or keep
-`draft: true` until then.
+`date` in a post's frontmatter is its publication date, and a finished post
+can be merged ahead of it. Until its date, a post is treated as a draft: a
+production build leaves it out, and `npm run dev` shows it with a draft badge.
+The site is rebuilt every morning (05:17 UTC), so the post appears on its
+date without another commit. Keep `draft: true` for a post that isn't
+finished, whatever its date.
 
 The first four posts were backdated when the blog launched, so it opened with
 some content.
