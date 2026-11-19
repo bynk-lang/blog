@@ -4,7 +4,7 @@ The blog explains the thinking behind Bynk. Posts don't repeat the Book or a
 showcase README: they say why the language works the way it does, then send
 the reader to the code.
 
-## The Problem With… shape
+## The problem with… shape
 
 Every post in the series follows the same five parts. Use them as headings.
 
@@ -27,7 +27,7 @@ Every post in the series follows the same five parts. Use them as headings.
 
 ```yaml
 ---
-title: "The Problem With Money"
+title: "The problem with money"
 description: "One or two sentences for search results and link previews."
 date: 2026-11-18
 authors: matthew
@@ -64,6 +64,9 @@ unchecked block is one that can quietly go out of date.
 ## Style
 
 - **British English**: "behaviour", "licence" (noun), "realise".
+- **Sentence case** for titles and headings: "The problem with money", not
+  "The Problem With Money". Names and code keep their own capitals ("SQL",
+  "`Promise.all`").
 - **Plain words.** Explain each term the first time it appears, in a few
   words: "a refined type, a type with a rule attached". Assume the reader is
   clever but new to the idea.
