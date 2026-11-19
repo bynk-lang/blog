@@ -71,7 +71,9 @@ Any other value goes through the type's `.of` constructor, which checks the
 rule when the program runs and returns a `Result`. The validation post covers
 both, so here's the one thing to add: Bynk also has `is` for checking a value
 in an `if`. `if n is Quantity { … }` runs the rule, and inside the branch `n`
-*is* a `Quantity`, so it can be passed straight on without `.of`. Reach for
+*is* a `Quantity`, so it can be passed straight on without `.of`. It works
+like a TypeScript type guard or a Kotlin smart cast, except that the compiler
+writes the guard from the rule. Reach for
 `.of` when the failure is something to report, and `is` when it just decides
 which way the code goes.
 
@@ -128,7 +130,8 @@ which check a claim against many generated values: `for all n: Seats` tries
 property that only restates the type's own rule, such as "every `Seats` is at
 least 1", is flagged as proving nothing.
 
-**The editor knows the rule.** In VS Code, hovering over a refined type lists
+**The editor knows the rule.** In VS Code (the Bynk extension, version
+0.639.4), hovering over a refined type lists
 its rules in words, with a **Try values…** link. That opens a panel of example
 values from the type's range, and a box where you can type a value and see
 which part of the rule it breaks. It's a quick way to check a regular
@@ -142,9 +145,10 @@ that exists only while TypeScript checks the code, so a plain `number` won't
 fit where a `Seats` is expected. Alongside it comes a `Seats.of` that runs the
 rule. That's the pattern careful TypeScript developers write by hand, but
 generated from one line. The generated code deliberately has no unchecked
-constructor (no `.unsafe`), so the only ways to a `Seats` are the two checked
-ones. A literal the compiler already checked becomes a plain cast, with no
-check left to run.
+constructor (no `.unsafe`), so Bynk code has only the two checked ways to a
+`Seats`. The brand is still only a compile-time marker, so TypeScript written
+by hand could cast with `as Seats`, as with any brand. A literal the compiler
+already checked becomes a plain cast, with no check left to run.
 
 **The rule runs wherever a value crosses a boundary.** The same rule is
 applied to a request body, a path segment, a query string, a queue message,
@@ -169,7 +173,7 @@ analyses each pattern and refuses the dangerous ones, such as `(a+)+`, with
 `bynk.types.catastrophic_regex`. `City`'s pattern passes because each repeat
 must start with a `-`, which the letters before it can't match, so there's
 only one way to split any string. Length rules are checked before the pattern
-runs, so `MaxLength(40)` also caps how much work the pattern can do.
+runs, so `MaxLength(40)` also limits how much text the pattern ever sees.
 
 ## Its limits
 
@@ -180,10 +184,14 @@ runs, so `MaxLength(40)` also caps how much work the pattern can do.
 - **Patterns can't be generated.** `Val` needs an `@example` for a `Matches`
   type, and a property test can't use one at all: it would run the same value
   every time. Use a pinned value instead.
-- **Some patterns need rewriting.** The ReDoS check is conservative. A
-  pattern with an optional separator inside a repeat, such as
-  `[a-z]+(-?[a-z]+)*`, is refused even if you only ever meant it for short
-  strings. Adding a length rule turns some milder cases into warnings.
+- **Some familiar patterns are refused.** A pattern copied from elsewhere
+  can be dangerous without looking dangerous. With the dash optional,
+  `[a-z]+(-?[a-z]+)*` is a repeat inside a repeat, which is catastrophic, so
+  it's refused however short you meant the input to be. Making the dash
+  required, `[a-z]+(-[a-z]+)*`, is safe. The check also refuses patterns it can't
+  analyse, such as a backreference inside a repeat, even if they'd be safe.
+  The milder case, two repeats that can split the same text (`\d*\d*`), is
+  only a warning when a length rule keeps the input short enough.
 - **Arithmetic and methods give the base type.** As the validation post
   says, results go back through `.of`. Nothing tries to prove that `qty + 1`
   stays in range.
@@ -197,11 +205,12 @@ runs, so `MaxLength(40)` also caps how much work the pattern can do.
 
 ## Try it
 
-Most of the code in this post comes from the
-[`testing`](https://github.com/bynk-lang/showcase/tree/main/testing) and
+The tour's tests come from the
+[`testing`](https://github.com/bynk-lang/showcase/tree/main/testing) project,
+and the shop from the validation post, with its `Quantity`, is the
 [`refined-types`](https://github.com/bynk-lang/showcase/tree/main/refined-types)
-projects. Run their tests, then open one in VS Code and hover over `Seats`
-or `HoldId` to try the explorer.
+project. Run their tests, then open `testing` in VS Code and hover over
+`Seats` or `HoldId` to try the explorer.
 
 ```sh
 git clone https://github.com/bynk-lang/showcase
@@ -220,3 +229,7 @@ To go further:
 - [Narrow and bind with `is`](https://bynk-lang.org/book/guides/type-system/narrow-with-is/)
 - [`Val[T]` and property tests](https://bynk-lang.org/book/reference/testing/#val),
   in the testing reference
+
+A refined type is one line of code, but it isn't one check. It's a single
+rule that the compiler, the boundary, the tests, the editor and the generated
+TypeScript all read the same way, so none of them can drift from the others.
