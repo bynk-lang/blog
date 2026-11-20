@@ -150,7 +150,18 @@ duplicates, not retries: Bynk doesn't re-run a listener that failed (more on
 that below). A more ordinary duplicate comes from the customer. One whose
 checkout timed out may resubmit it, which emits a second, separate event for
 the same order. If the loyalty scheme simply added points each time, a customer could
-earn them twice. So `Points` remembers which orders it has already awarded:
+earn them twice. So `Points` keeps a record of the orders it has already
+awarded, beside the balance:
+
+```bynk
+agent Points {
+	key customer: String
+
+	store balance: Cell[Int] = 0
+	store awarded: Cache[String, ()] @ttl(7.days)
+```
+
+and its `award` handler checks that record first:
 
 ```bynk
 on call award(orderId: String, points: Int) -> Effect[()] given Clock {
@@ -180,8 +191,8 @@ can't get out of step. Bynk has an `Idempotency` capability for deduplication
 too, but checking and recording with it would be separate calls from the
 award, and a failure between them could lose the points or award them twice.
 
-The set of awarded orders is a `Cache` with a seven-day lifetime
-(`@ttl(7.days)`): the project's judgement of how long a duplicate could take
+`awarded` is a `Cache`, which forgets each entry after its lifetime: here
+seven days (`@ttl(7.days)`), the project's judgement of how long a duplicate could take
 to turn up, not a figure the Book promises. Checking whether an entry has expired
 reads the clock, which is why the handler says `given Clock`.
 
@@ -228,6 +239,8 @@ and they shape how you'd use events in a real system:
 
 Each context is tested on its own, which is the decoupling again: the
 publisher's tests run no listener, and the listeners' tests need no checkout.
+Every case runs at the `unit` tier, the default: in one process, with nothing
+crossing the network.
 
 **The publisher alone.** In a test, `Events` is a *double*: a stand-in that
 records what the code asked of it, instead of delivering anything. So the
@@ -278,15 +291,7 @@ one.
 
 ## Make it yours
 
-Clone the showcase and run the tests:
-
-```sh
-git clone https://github.com/bynk-lang/showcase
-cd showcase/events
-bynk test .
-```
-
-Then try a couple of changes:
+Try a couple of changes:
 
 - **Add a third listener.** Create a context of your own that consumes
   `shop.orders` and declares a service `from Events(OrderPlaced)`: say, one
@@ -301,6 +306,14 @@ Then try a couple of changes:
 - **Spread the tally.** Every order goes through one `Takings("all")` agent.
   Try keying it by day instead, so each day's tally is its own agent, and see
   what changes in the tests.
+
+To try them, clone the showcase and run the tests:
+
+```sh
+git clone https://github.com/bynk-lang/showcase
+cd showcase/events
+bynk test .
+```
 
 To go further:
 
