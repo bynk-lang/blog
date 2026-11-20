@@ -43,6 +43,7 @@ some content.
 | 15 Nov 2026 | Check once, trust everywhere | The problem with… | 3 days |
 | 18 Nov 2026 | One rule, everywhere it reaches | A closer look | 3 days |
 | 21 Nov 2026 | Who really sent this? | The problem with… | 3 days |
+| 24 Nov 2026 | The checkout that doesn't know who's listening | Inside the showcase | 3 days |
 
 The next post is due three, five or seven days after the last one in the
 table above. Add each post to the table when it's published.
@@ -51,10 +52,9 @@ A suggested order for the next few, to vary the series. Each plan has the
 detail.
 
 1. A closer look: the component view
-2. Inside the showcase: events
-3. The problem with at-least-once (it follows on from webhooks: the replay
-   window leaves deduplication to `Idempotency`)
-4. What's new in Bynk (covering the versions since 0.639.1)
+2. The problem with at-least-once (it follows on from webhooks and events:
+   both leave deduplication to the reader, by id or with `Idempotency`)
+3. What's new in Bynk (covering the versions since 0.639.1)
 
 ## Adding a series
 
