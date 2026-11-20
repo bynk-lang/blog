@@ -1,5 +1,5 @@
 ---
-title: "A closer look: refined types"
+title: "One rule, everywhere it reaches"
 description: "Refined types attach a rule to a type, and the rule follows the value everywhere: into the compiler, the HTTP boundary, the tests, the editor and the TypeScript the compiler writes. A tour of the whole feature, how it works, and where it stops."
 date: 2026-11-18
 authors: matthew
@@ -11,7 +11,7 @@ showcase: [refined-types, money, capabilities-and-providers, testing]
 bynkVersion: 0.639.1
 ---
 
-[The problem with validation](../the-problem-with-validation/) showed what
+["Check once, trust everywhere"](../validation/) showed what
 refined types are for: a rule written once, in the type, so a value is checked
 where it arrives and trusted everywhere after. That post kept to the one idea.
 This one takes the feature apart. It looks at which rules you can write,

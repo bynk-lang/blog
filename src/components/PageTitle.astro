@@ -1,0 +1,21 @@
+---
+// Starlight's page title, with the post's series above it. A post's title is
+// its own point ("Who gets the penny?"), so the series name, which used to be
+// part of the title, appears here instead, linking to the series on the home
+// page (SeriesSections gives each section the series id as its anchor).
+import Default from "@astrojs/starlight/components/PageTitle.astro";
+import { SERIES } from "../lib/ladder";
+
+const id = Astro.locals.starlightRoute.entry.data.series;
+const series = id ? SERIES[id] : undefined;
+const home = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+---
+
+{
+  series && (
+    <p class="series-kicker">
+      <a href={`${home}#${id}`}>{series.title}</a>
+    </p>
+  )
+}
+<Default />

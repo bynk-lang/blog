@@ -21,11 +21,25 @@ shapes, and the plan of posts for each series, are in
 A post can also stand on its own, as "Getting started with Bynk" does. Leave
 out `series`, and choose headings that suit it.
 
+## Title and file name
+
+**The title is the post's own point, not its series.** The series is shown
+above the title on the post's page, so the title doesn't need to repeat it.
+"Who gets the penny?" says more than "The problem with money", and the
+reader still sees that it's part of *The problem with…*. Aim for a short
+question or claim that the post answers or argues, in sentence case.
+
+**The file name is the topic, and it's the URL.** A post at
+`src/content/docs/posts/money.md` is served at `/blog/posts/money/`. Use one
+or two lowercase words for what the post is about (`money`, `webhooks`,
+`refined-types`), not the title, so the URL stays put if the title changes.
+The topic must be unique across all the series.
+
 ## Frontmatter
 
 ```yaml
 ---
-title: "The problem with money"
+title: "Who gets the penny?"
 description: "One or two sentences for search results and link previews."
 date: 2026-11-05
 authors: matthew
@@ -68,8 +82,8 @@ unchecked block is one that can quietly go out of date.
 ## Style
 
 - **British English**: "behaviour", "licence" (noun), "realise".
-- **Sentence case** for titles and headings: "The problem with money", not
-  "The Problem With Money". Names and code keep their own capitals ("SQL",
+- **Sentence case** for titles and headings: "Who gets the penny?", not
+  "Who Gets The Penny?". Names and code keep their own capitals ("SQL",
   "`Promise.all`").
 - **Plain words.** Explain each term the first time it appears, in a few
   words: "a refined type, a type with a rule attached". Assume the reader is

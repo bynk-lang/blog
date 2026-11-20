@@ -30,3 +30,19 @@
 .ladder-rung h3 {
   margin-top: 0;
 }
+
+/* The series a post belongs to, above its title (src/components/PageTitle.astro). */
+.series-kicker {
+  margin-top: 1rem;
+  margin-bottom: -0.75rem;
+  font-size: var(--sl-text-sm);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.series-kicker a {
+  color: var(--sl-color-accent-high);
+  text-decoration: none;
+}
+.series-kicker a:hover {
+  text-decoration: underline;
+}

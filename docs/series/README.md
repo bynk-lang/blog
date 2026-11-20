@@ -14,6 +14,10 @@ frontmatter, the code rules and the style.
 
 A post with no `series` stands alone, as "Getting started with Bynk" does.
 
+The titles in each plan are working titles that name the topic. A post's
+published title is its own point, chosen when it's written: see
+[Title and file name](../writing-a-post.md#title-and-file-name).
+
 ## Schedule
 
 A post goes out every **three, five or seven days**. Varying the gap keeps
@@ -34,11 +38,11 @@ some content.
 | Date | Post | Series | Gap |
 |---|---|---|---|
 | 31 Oct 2026 | Getting started with Bynk | none | |
-| 5 Nov 2026 | The problem with money | The problem with… | 5 days |
-| 12 Nov 2026 | The problem with null | The problem with… | 7 days |
-| 15 Nov 2026 | The problem with validation | The problem with… | 3 days |
-| 18 Nov 2026 | A closer look: refined types | A closer look | 3 days |
-| 21 Nov 2026 | The problem with webhooks (draft) | The problem with… | 3 days |
+| 5 Nov 2026 | Who gets the penny? | The problem with… | 5 days |
+| 12 Nov 2026 | Missing isn't the same as wrong | The problem with… | 7 days |
+| 15 Nov 2026 | Check once, trust everywhere | The problem with… | 3 days |
+| 18 Nov 2026 | One rule, everywhere it reaches | A closer look | 3 days |
+| 21 Nov 2026 | Who really sent this? (draft) | The problem with… | 3 days |
 
 The next post is due three, five or seven days after the last one in the
 table above. Add each post to the table when it's published.

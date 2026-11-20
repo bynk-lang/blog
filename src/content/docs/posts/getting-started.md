@@ -274,7 +274,7 @@ In one small app, you've met the main ideas in Bynk:
 - The [showcase](https://github.com/bynk-lang/showcase): small projects, one
   feature each, from money to webhooks.
 - The rest of this blog, especially
-  [The problem with money](../the-problem-with-money/), for the
+  ["Who gets the penny?"](../money/), for the
   thinking behind one of those features.
 
 The starter is small on purpose. Make it yours: change the guestbook into

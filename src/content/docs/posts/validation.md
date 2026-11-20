@@ -1,5 +1,5 @@
 ---
-title: "The problem with validation"
+title: "Check once, trust everywhere"
 description: "A check written in one place protects one path in. Why Bynk puts the rule in the type instead, so a value is checked once, where it arrives, and trusted everywhere after."
 date: 2026-11-15
 authors: matthew
@@ -154,7 +154,7 @@ The second door is for **everything else**: values that aren't known until
 the program runs. These go through the type's `.of` constructor, which checks
 the rule and returns a `Result`, either `Ok` with the checked value or `Err`
 with a `ValidationError` that says what was wrong. (`Result` is the subject of
-[the previous post](../the-problem-with-null/), which explains how
+[the previous post](../null/), which explains how
 Bynk handles failure without exceptions.) Here's a function that adds one more
 of an item to a line:
 

@@ -43,6 +43,8 @@ export default defineConfig({
         // site, so a reader can move between the blog, the Book and the docs.
         Header: "./src/components/Header.astro",
         Head: "./src/components/Head.astro",
+        // The post's series, above its title.
+        PageTitle: "./src/components/PageTitle.astro",
       },
       plugins: [
         starlightBlog({
