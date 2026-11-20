@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="bynk-diagram bynk-seq" width="737" height="246" viewBox="0 0 737 246" font-family="-apple-system, BlinkMacSystemFont, sans-serif"><style>
+.bynk-diagram { font-size: 12px; overflow: visible; }
+.bynk-diagram text { fill: #e8efe9; }
+.bynk-diagram .bynk-name { font-size: 13px; font-weight: 600; }
+.bynk-diagram .bynk-stereotype,
+.bynk-diagram .bynk-note-text,
+.bynk-diagram .bynk-guard,
+.bynk-diagram .bynk-frag-op { font-size: 11px; }
+.bynk-diagram .bynk-stereotype { fill: #9fb0a8; }
+.bynk-diagram .bynk-frag-op { font-weight: 600; }
+
+.bynk-diagram .bynk-head-box {
+  fill: #223a34;
+  stroke: #2b3a35;
+}
+.bynk-diagram .bynk-head--entry .bynk-head-box { stroke: #e8efe9; stroke-width: 1.5; }
+.bynk-diagram .bynk-figure { fill: none; stroke: #e8efe9; stroke-width: 1.5; }
+.bynk-diagram .bynk-lifeline-line { stroke: #2b3a35; stroke-dasharray: 4 4; }
+.bynk-diagram .bynk-activation {
+  fill: #151e1b;
+  stroke: #e8efe9;
+}
+
+.bynk-diagram .bynk-msg-line { fill: none; stroke: #e8efe9; stroke-width: 1.2; }
+.bynk-diagram .bynk-msg--reply .bynk-msg-line { stroke-dasharray: 5 4; }
+.bynk-diagram .bynk-head-filled { fill: #e8efe9; }
+.bynk-diagram .bynk-head-open { fill: none; stroke: #e8efe9; stroke-width: 1.2; }
+.bynk-diagram .bynk-hit { fill: none; stroke: transparent; stroke-width: 12; }
+.bynk-diagram .bynk-found-dot { fill: #e8efe9; }
+.bynk-diagram .bynk-ref-glyph { font-size: 12px; font-weight: 600; fill: #3cc4a6; }
+.bynk-diagram .bynk-ref-hit { fill: transparent; }
+.bynk-diagram .bynk-frag--break .bynk-frag-box { stroke-dasharray: 6 3; }
+
+.bynk-diagram .bynk-snode-box {
+  fill: #223a34;
+  stroke: #2b3a35;
+}
+.bynk-diagram .bynk-snode--open &gt; .bynk-snode-box { fill: #151e1b; }
+.bynk-diagram .bynk-snode--service &gt; .bynk-snode-box,
+.bynk-diagram .bynk-snode--agent &gt; .bynk-snode-box,
+.bynk-diagram .bynk-snode--capability &gt; .bynk-snode-box,
+.bynk-diagram .bynk-snode--provider &gt; .bynk-snode-box { fill: #1d2825; }
+.bynk-diagram .bynk-snode--adapter &gt; .bynk-snode-box { stroke-dasharray: 5 3; }
+.bynk-diagram .bynk-snode--platform &gt; .bynk-snode-box { fill: none; stroke-dasharray: 3 3; }
+.bynk-diagram .bynk-snode--platform text { fill: #9fb0a8; }
+.bynk-diagram .bynk-snode--event &gt; .bynk-snode-box { stroke: #b180d7; }
+.bynk-diagram .bynk-component-icon { fill: none; stroke: #9fb0a8; }
+.bynk-diagram .bynk-detail { font-size: 11px; fill: #9fb0a8; }
+.bynk-diagram .bynk-boundary { fill: none; stroke: #9fb0a8; stroke-dasharray: 8 4; }
+.bynk-diagram .bynk-boundary-label { font-size: 11px; font-style: italic; fill: #9fb0a8; }
+.bynk-diagram .bynk-sedge-line { fill: none; stroke: #e8efe9; stroke-width: 1.2; }
+.bynk-diagram .bynk-sedge--consumes .bynk-sedge-line,
+.bynk-diagram .bynk-sedge--wires .bynk-sedge-line { stroke-dasharray: 6 4; }
+.bynk-diagram .bynk-sedge--wires .bynk-sedge-line { stroke: #9fb0a8; }
+.bynk-diagram .bynk-sedge--emits .bynk-sedge-line,
+.bynk-diagram .bynk-sedge--subscribes .bynk-sedge-line { stroke: #b180d7; stroke-dasharray: 2 3; }
+.bynk-diagram .bynk-sedge-label { font-size: 11px; }
+.bynk-diagram .bynk-sedge-label-box { fill: #151e1b; opacity: 0.85; }
+.bynk-diagram .bynk-muted &gt; .bynk-snode-box { fill: none; stroke: #9fb0a8; }
+.bynk-diagram .bynk-muted text { fill: #9fb0a8; }
+.bynk-diagram .bynk-muted .bynk-ref-glyph { fill: #3cc4a6; }
+.bynk-diagram .bynk-compartment-rule { stroke: #2b3a35; stroke-width: 1; }
+.bynk-diagram .bynk-item-text { font-size: 11px; }
+.bynk-diagram .bynk-item--attribute .bynk-item-text { fill: #9fb0a8; }
+.bynk-diagram .bynk-port-box { fill: #151e1b; stroke: #e8efe9; stroke-width: 1.2; }
+.bynk-diagram .bynk-port-stem, .bynk-diagram .bynk-port-socket { fill: none; stroke: #e8efe9; stroke-width: 1.2; }
+.bynk-diagram .bynk-port-ball { fill: #151e1b; stroke: #e8efe9; stroke-width: 1.2; }
+.bynk-diagram .bynk-port-label { font-size: 11px; }
+.bynk-diagram .bynk-sedge--delegates .bynk-sedge-line { stroke: #9fb0a8; }
+.bynk-diagram .bynk-sedge--invokes .bynk-sedge-line { stroke-dasharray: 6 4; }
+.bynk-diagram .bynk-sedge--assembly .bynk-sedge-line { stroke: #9fb0a8; }
+.bynk-diagram .bynk-initial { fill: #e8efe9; }
+.bynk-diagram .bynk-snode--state &gt; .bynk-snode-box { fill: #223a34; }
+.bynk-diagram .bynk-snode--computed &gt; .bynk-snode-box { fill: none; stroke-dasharray: 4 3; }
+.bynk-diagram .bynk-snode--note &gt; .bynk-snode-box { fill: #151e1b; stroke: #9fb0a8; }
+.bynk-diagram .bynk-dimmed { opacity: 0.45; }
+.bynk-diagram .bynk-dimmed &gt; .bynk-snode-box { stroke-dasharray: 4 3; }
+.bynk-diagram .bynk-flag-known .bynk-sedge-line { stroke: #ff8a78; stroke-width: 2; }
+.bynk-diagram .bynk-flag-possible .bynk-sedge-line { stroke: #f2b134; stroke-width: 2; stroke-dasharray: 5 3; }
+.bynk-diagram .bynk-flag-known .bynk-sedge-label { fill: #ff8a78; }
+.bynk-diagram .bynk-flag-possible .bynk-sedge-label { fill: #f2b134; }
+.bynk-diagram .bynk-diff-added &gt; .bynk-snode-box,
+.bynk-diagram .bynk-diff-added .bynk-sedge-line { stroke: #a5dc86; stroke-width: 3; }
+.bynk-diagram .bynk-diff-changed &gt; .bynk-snode-box,
+.bynk-diagram .bynk-diff-changed .bynk-sedge-line { stroke: #f2b134; stroke-width: 3; }
+.bynk-diagram .bynk-diff-removed { opacity: 0.6; }
+.bynk-diagram .bynk-diff-removed &gt; .bynk-snode-box,
+.bynk-diagram .bynk-diff-removed .bynk-sedge-line { stroke: #ff8a78; stroke-width: 2; stroke-dasharray: 4 3; }
+.bynk-cov-bar { margin: 0.4em 0; font-size: 0.95em; }
+.bynk-cov-bar .bynk-cov-count { color: #9fb0a8; }
+.bynk-cov-bar p { margin: 0.2em 0; color: #9fb0a8; font-size: 0.9em; }
+.bynk-cov-bar p.bynk-cov-stale { color: #f2b134; }
+.bynk-cov-uncovered-entry { color: #f2b134; font-style: italic; }
+/* #144: test coverage. Untested is dashed and amber; tested is solid green;
+   partly tested is dotted green. The words are on the accessible names. */
+.bynk-diagram .bynk-cov-uncovered &gt; .bynk-snode-box,
+.bynk-diagram .bynk-cov-uncovered .bynk-sedge-line,
+.bynk-diagram .bynk-cov-uncovered .bynk-msg-line { stroke: #f2b134; stroke-width: 2; stroke-dasharray: 5 3; }
+.bynk-diagram .bynk-cov-covered &gt; .bynk-snode-box,
+.bynk-diagram .bynk-cov-covered .bynk-sedge-line,
+.bynk-diagram .bynk-cov-covered .bynk-msg-line { stroke: #73c991; stroke-width: 2; }
+.bynk-diagram .bynk-cov-partial &gt; .bynk-snode-box,
+.bynk-diagram .bynk-cov-partial .bynk-sedge-line,
+.bynk-diagram .bynk-cov-partial .bynk-msg-line { stroke: #73c991; stroke-width: 2; stroke-dasharray: 2 3; }
+.bynk-diagram .bynk-cov-uncovered .bynk-label,
+.bynk-diagram .bynk-cov-uncovered .bynk-sedge-label,
+.bynk-diagram .bynk-guard.bynk-cov-uncovered { fill: #f2b134; font-style: italic; }
+.bynk-diagram .bynk-guard.bynk-cov-covered, .bynk-diagram .bynk-guard.bynk-cov-partial { fill: #73c991; }
+.bynk-diagram .bynk-cycle &gt; .bynk-snode-box,
+.bynk-diagram .bynk-cycle .bynk-sedge-line { stroke: #f2b134; stroke-width: 2; }
+
+.bynk-diagram .bynk-note-box {
+  fill: #1d2825;
+  stroke: #2b3a35;
+}
+.bynk-diagram .bynk-note--state .bynk-note-box { stroke: #b180d7; }
+.bynk-diagram .bynk-note--collapsed .bynk-note-box,
+.bynk-diagram .bynk-note--empty .bynk-note-box { stroke-dasharray: 3 3; }
+.bynk-diagram .bynk-note--collapsed .bynk-note-text,
+.bynk-diagram .bynk-note--empty .bynk-note-text { fill: #9fb0a8; }
+
+.bynk-diagram .bynk-frag-box { fill: none; stroke: #e8efe9; stroke-opacity: 0.7; }
+.bynk-diagram .bynk-frag-sep { stroke: #e8efe9; stroke-opacity: 0.7; stroke-dasharray: 5 4; }
+.bynk-diagram .bynk-frag-tab-box {
+  fill: #223a34;
+  stroke: #e8efe9;
+  stroke-opacity: 0.7;
+}
+.bynk-diagram .bynk-guard { fill: #9fb0a8; }
+
+.bynk-diagram .bynk-frag-summary { font-size: 11px; font-style: italic; fill: #9fb0a8; }
+.bynk-diagram .bynk-fold-hit { fill: transparent; }
+.bynk-diagram .bynk-fold-glyph { fill: #e8efe9; }
+.bynk-diagram .bynk-frag--folded .bynk-frag-box { stroke-dasharray: 2 3; }
+
+/* #218: the request timing diagram. Failing is red and pending amber, as on the
+   sequence overlay; the longest chain is outlined; words are on the accessible
+   names, so colour is never the only signal. */
+.bynk-diagram .bynk-taxis-rule, .bynk-diagram .bynk-ttick { stroke: #9fb0a8; }
+.bynk-diagram .bynk-taxis-title, .bynk-diagram .bynk-ttick-label, .bynk-diagram .bynk-tfooter { font-size: 11px; fill: #9fb0a8; }
+.bynk-diagram .bynk-tfooter { font-style: italic; }
+.bynk-diagram .bynk-tgrid-line { stroke: #2b3a35; stroke-opacity: 0.5; stroke-dasharray: 2 4; }
+.bynk-diagram .bynk-theading { font-size: 12px; font-weight: 600; }
+.bynk-diagram .bynk-theading--fault { fill: #ff8a78; }
+.bynk-diagram .bynk-trow-line { stroke-opacity: 0.5; }
+.bynk-diagram .bynk-trow-detail { font-size: 10px; }
+.bynk-diagram .bynk-thit { fill: transparent; }
+.bynk-diagram .bynk-tbar-box { fill: #6fd3e8; fill-opacity: 0.55; stroke: #6fd3e8; stroke-width: 1; }
+.bynk-diagram .bynk-tbar--request .bynk-tbar-box { fill: #223a34; fill-opacity: 1; stroke: #e8efe9; stroke-opacity: 0.7; }
+.bynk-diagram .bynk-tbar--call .bynk-tbar-box { fill: #b180d7; stroke: #b180d7; }
+.bynk-diagram .bynk-tbar--agent .bynk-tbar-box { fill: #89d185; stroke: #89d185; }
+.bynk-diagram .bynk-tbar--fault .bynk-tbar-box { fill: #ff8a78; fill-opacity: 0.75; stroke: #ff8a78; }
+.bynk-diagram .bynk-tbar--pending .bynk-tbar-box { fill: #f2b134; fill-opacity: 0.6; stroke: #f2b134; stroke-dasharray: 4 2; }
+.bynk-diagram .bynk-tbar--critical .bynk-tbar-box { stroke: #e8efe9; stroke-width: 2.5; }
+.bynk-diagram .bynk-tbar--only .bynk-tbar-box { stroke-dasharray: 3 2; fill-opacity: 0.3; }
+.bynk-diagram .bynk-tbar-label { font-size: 11px; }
+.bynk-diagram .bynk-tbar-label--inside { fill: #e8efe9; }
+.bynk-diagram .bynk-tdelta { font-size: 11px; font-weight: 600; }
+.bynk-diagram .bynk-tdelta--slower { fill: #f2b134; }
+.bynk-diagram .bynk-tdelta--faster { fill: #73c991; }
+
+body.vscode-high-contrast .bynk-diagram .bynk-head-box,
+body.vscode-high-contrast .bynk-diagram .bynk-note-box,
+body.vscode-high-contrast .bynk-diagram .bynk-frag-box { stroke: initial; }
+
+</style><rect width="100%" height="100%" fill="#151e1b"/><defs><marker id="bynk-struct-open" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10" class="bynk-head-open"/></marker></defs><g class="bynk-snodes"><g class="bynk-snode bynk-snode--context bynk-muted"><rect class="bynk-snode-box" x="16" y="90" width="142" height="52" rx="3"/><path class="bynk-component-icon" d="M141,96 H152 V110 H141 Z M138,99 H144 V102 H138 Z M138,104 H144 V107 H138 Z"/><text class="bynk-stereotype" x="67" y="112" text-anchor="middle">«context»</text><text class="bynk-name" x="67" y="128" text-anchor="middle">shop.loyalty</text><g class="bynk-ref-link" data-bynk-open=""><rect class="bynk-ref-hit" x="117" y="97" width="14" height="14"/><text class="bynk-ref-glyph" x="124" y="108" text-anchor="middle">↗</text></g></g><g class="bynk-snode bynk-snode--context bynk-muted"><rect class="bynk-snode-box" x="26" y="170" width="132" height="52" rx="3"/><path class="bynk-component-icon" d="M141,176 H152 V190 H141 Z M138,179 H144 V182 H138 Z M138,184 H144 V187 H138 Z"/><text class="bynk-stereotype" x="72" y="192" text-anchor="middle">«context»</text><text class="bynk-name" x="72" y="208" text-anchor="middle">shop.sales</text><g class="bynk-ref-link" data-bynk-open=""><rect class="bynk-ref-hit" x="117" y="177" width="14" height="14"/><text class="bynk-ref-glyph" x="124" y="188" text-anchor="middle">↗</text></g></g><g class="bynk-snode bynk-snode--context bynk-snode--open"><rect class="bynk-snode-box" x="274" y="16" width="234" height="214" rx="3"/><path class="bynk-component-icon" d="M491,22 H502 V36 H491 Z M488,25 H494 V28 H488 Z M488,30 H494 V33 H488 Z"/><text class="bynk-stereotype" x="286" y="34" text-anchor="start">«context»</text><text class="bynk-name" x="286" y="50" text-anchor="start">shop.orders</text></g><g class="bynk-snode bynk-snode--service"><rect class="bynk-snode-box" x="336" y="66" width="110" height="76" rx="3"/><text class="bynk-stereotype" x="391" y="88" text-anchor="middle">«service»</text><text class="bynk-name" x="391" y="104" text-anchor="middle">checkout</text><path class="bynk-compartment-rule" d="M336,112 H446"/><g class="bynk-item bynk-item--operation"><text class="bynk-item-text" x="348" y="128">call</text></g><g class="bynk-ref-link" data-bynk-open=""><rect class="bynk-ref-hit" x="427" y="117" width="14" height="14"/><text class="bynk-ref-glyph" x="434" y="128" text-anchor="middle">↗</text></g></g><g class="bynk-snode bynk-snode--platform bynk-muted"><rect class="bynk-snode-box" x="611" y="88" width="110" height="52" rx="3"/><text class="bynk-stereotype" x="666" y="110" text-anchor="middle">«platform»</text><text class="bynk-name" x="666" y="126" text-anchor="middle">bynk</text></g></g><g class="bynk-sedges"><g class="bynk-sedge bynk-sedge--delegates"><path class="bynk-hit" d="M268,114 L336,114"/><path class="bynk-sedge-line" d="M268,114 L336,114" marker-end="url(#bynk-struct-open)"/></g><g class="bynk-sedge bynk-sedge--delegates"><path class="bynk-hit" d="M446,114 L514,114"/><path class="bynk-sedge-line" d="M446,114 L514,114" marker-end="url(#bynk-struct-open)"/></g><g class="bynk-sedge bynk-sedge--assembly"><path class="bynk-hit" d="M158,116 L168,116 L168,166 L274,166"/><path class="bynk-sedge-line" d="M158,116 L168,116 L168,166 L274,166"/></g><g class="bynk-sedge bynk-sedge--assembly"><path class="bynk-hit" d="M158,196 L274,196"/><path class="bynk-sedge-line" d="M158,196 L274,196"/></g><g class="bynk-sedge bynk-sedge--assembly"><path class="bynk-hit" d="M514,114 L611,114"/><path class="bynk-sedge-line" d="M514,114 L611,114"/></g></g><g class="bynk-sports"><g class="bynk-port bynk-port--provided"><rect class="bynk-ref-hit" x="214" y="108" width="84" height="28"/><rect class="bynk-port-box" x="268" y="108" width="12" height="12"/><path class="bynk-port-stem" d="M268,114 H262"/><circle class="bynk-port-ball" cx="257" cy="114" r="5"/><text class="bynk-port-label" x="240.5" y="132.5" text-anchor="middle">checkout</text></g><g class="bynk-port bynk-port--required"><rect class="bynk-ref-hit" x="484" y="108" width="71" height="28"/><rect class="bynk-port-box" x="502" y="108" width="12" height="12"/><path class="bynk-port-stem" d="M514,114 H520"/><path class="bynk-port-socket" d="M527,107 A7,7 0 0,0 527,121"/><text class="bynk-port-label" x="535" y="132.5" text-anchor="middle">Events</text></g></g></svg>
