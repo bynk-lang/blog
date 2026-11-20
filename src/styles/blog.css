@@ -31,7 +31,12 @@
   margin-top: 0;
 }
 
-/* The series a post belongs to, above its title (src/components/PageTitle.astro). */
+/* The series a post belongs to, shown above its title but placed after it in
+   the markup (src/components/PageTitle.astro). */
+.post-title {
+  display: flex;
+  flex-direction: column-reverse;
+}
 .series-kicker {
   margin-top: 1rem;
   margin-bottom: -0.75rem;

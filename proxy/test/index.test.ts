@@ -21,8 +21,8 @@ afterEach(() => mock.restoreAll());
 describe("the /blog proxy", () => {
   it("fetches the same path from the Pages project, without the prefix", async () => {
     const seen = upstream(new Response("<html>", { headers: { "content-type": "text/html" } }));
-    const res = await handle(new Request("https://bynk-lang.org/blog/posts/the-problem-with-money/?ref=x"), env);
-    assert.equal(seen[0].url, "https://bynk-blog.pages.dev/posts/the-problem-with-money/?ref=x");
+    const res = await handle(new Request("https://bynk-lang.org/blog/posts/money/?ref=x"), env);
+    assert.equal(seen[0].url, "https://bynk-blog.pages.dev/posts/money/?ref=x");
     assert.equal(res.status, 200);
     assert.equal(res.headers.get("content-type"), "text/html");
     assert.equal(await res.text(), "<html>");
@@ -63,10 +63,10 @@ describe("the /blog proxy", () => {
   });
 
   it("puts the prefix back on a redirect within the Pages project", async () => {
-    upstream(new Response(null, { status: 308, headers: { location: "/posts/the-problem-with-money/" } }));
-    const res = await handle(new Request("https://bynk-lang.org/blog/posts/the-problem-with-money"), env);
+    upstream(new Response(null, { status: 308, headers: { location: "/posts/money/" } }));
+    const res = await handle(new Request("https://bynk-lang.org/blog/posts/money"), env);
     assert.equal(res.status, 308);
-    assert.equal(res.headers.get("location"), "/blog/posts/the-problem-with-money/");
+    assert.equal(res.headers.get("location"), "/blog/posts/money/");
   });
 
   it("rewrites an absolute redirect to the Pages project too", async () => {
