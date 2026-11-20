@@ -1,13 +1,18 @@
 ---
 title: The Bynk Blog
-description: The thinking behind Bynk, its features and its releases, with a path from your first program to designing with effects.
+description: The thinking behind Bynk, its features and its releases, written for every stage from your first program to designing with effects.
 template: splash
+prev: false
+next: false
 hero:
   tagline: The thinking behind Bynk, one idea at a time.
   actions:
+    - text: Start here
+      link: posts/getting-started/
+      icon: right-arrow
     - text: All posts
       link: posts/
-      icon: right-arrow
+      variant: minimal
     - text: Read the Book
       link: https://bynk-lang.org/book/
       variant: minimal
@@ -15,18 +20,20 @@ hero:
 
 import PostList from "../../components/PostList.astro";
 import SeriesSections from "../../components/SeriesSections.astro";
-import { LEVELS } from "../../lib/ladder";
+
+## Latest
+
+<PostList limit={3} />
+
+## The series
+
+Most posts belong to a series. Every post is labelled with who it's written
+for: first steps, building a service, designing with effects, or
+contributing to Bynk.
 
 <SeriesSections />
 
-## Where to start
+## About
 
-Every post is written for one stage of learning Bynk. Start wherever you are.
-
-{LEVELS.map((level) => (
-  <section class="ladder-rung">
-    <h3>{level.title}</h3>
-    <p>{level.blurb}</p>
-    <PostList level={level.id} empty="Posts for this stage are on the way." />
-  </section>
-))}
+What this blog is for, how its code is checked, and how to suggest a topic or
+report a mistake: [about this blog](about/).

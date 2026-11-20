@@ -21,22 +21,36 @@ shapes, and the plan of posts for each series, are in
 A post can also stand on its own, as "Getting started with Bynk" does. Leave
 out `series`, and choose headings that suit it.
 
+## Title and file name
+
+**The title is the post's own point, not its series.** The series is shown
+above the title on the post's page, so the title doesn't need to repeat it.
+"Who gets the penny?" says more than "The problem with money", and the
+reader still sees that it's part of *The problem with…*. Aim for a short
+question or claim that the post answers or argues, in sentence case.
+
+**The file name is the topic, and it's the URL.** A post at
+`src/content/docs/posts/money.md` is served at `/blog/posts/money/`. Use one
+or two lowercase words for what the post is about (`money`, `webhooks`,
+`refined-types`), not the title, so the URL stays put if the title changes.
+The topic must be unique across all the series.
+
 ## Frontmatter
 
 ```yaml
 ---
-title: "The problem with money"
+title: "Who gets the penny?"
 description: "One or two sentences for search results and link previews."
 date: 2026-11-05
 authors: matthew
-tags: [types, decimal]
+tags: [types, data]    # one to four, from the fixed list (below)
 excerpt: "Shown in post lists. Shorter than the description, not a copy of it."
 series: the-problem-with   # see docs/series/; leave out for a standalone post
 level: building        # first-steps | building | designing | contributing
 showcase: money        # the bynk-lang/showcase project the code comes from
 # showcase: [refined-types, decode-json]   # or several, as a list
 # repo: starter        # or: another bynk-lang repository it comes from instead
-bynkVersion: 0.639.1   # the Bynk release the post was written against
+bynkVersion: 0.639.1   # the Bynk release the post was written against (shown on the post)
 draft: true            # remove to publish
 ---
 ```
@@ -46,7 +60,16 @@ so check [the schedule](series/README.md#schedule) when you choose it. A
 finished post can be merged early: it stays hidden until its date, then the
 daily build publishes it.
 
-`level` puts the post on the blog's learning path:
+`tags` come from a fixed list in
+[`src/content.config.ts`](../src/content.config.ts), and the build fails on
+any other. Each tag is a topic, broad enough to gather several posts: `types`,
+`errors`, `validation`, `data`, `testing`, `tooling`, `http`, `security`,
+`agents`, `capabilities`, `concurrency`, `deployment` and `getting-started`.
+Give a post one to four. If a post needs a topic the list doesn't have, add it
+there in the same pull request, but only if later posts will share it.
+
+`level` says who the post is written for. It's shown above the title and in
+post lists:
 
 - **first-steps**: new to Bynk, or new to programming.
 - **building**: can write Bynk and is building a real service.
@@ -68,8 +91,8 @@ unchecked block is one that can quietly go out of date.
 ## Style
 
 - **British English**: "behaviour", "licence" (noun), "realise".
-- **Sentence case** for titles and headings: "The problem with money", not
-  "The Problem With Money". Names and code keep their own capitals ("SQL",
+- **Sentence case** for titles and headings: "Who gets the penny?", not
+  "Who Gets The Penny?". Names and code keep their own capitals ("SQL",
   "`Promise.all`").
 - **Plain words.** Explain each term the first time it appears, in a few
   words: "a refined type, a type with a rule attached". Assume the reader is

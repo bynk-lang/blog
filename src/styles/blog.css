@@ -16,17 +16,87 @@
   margin-top: 0.25rem;
   color: var(--sl-color-gray-2);
 }
+.post-list-meta {
+  margin-top: 0.125rem !important;
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-3) !important;
+}
 .post-list-empty {
   color: var(--sl-color-gray-3);
   font-style: italic;
 }
 
-.ladder-rung {
-  padding: 1rem 1.25rem;
-  border-inline-start: 0.25rem solid var(--sl-color-accent);
-  border-radius: 0 0.5rem 0.5rem 0;
-  background: var(--sl-color-accent-low);
+
+/* The line above a post's title: its series, level and Bynk version. It comes
+   after the title in the markup, and is shown above it
+   (src/components/PageTitle.astro). */
+.post-title {
+  display: flex;
+  flex-direction: column-reverse;
 }
-.ladder-rung h3 {
-  margin-top: 0;
+.post-kicker {
+  margin-top: 1rem;
+  margin-bottom: -0.75rem;
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-3);
+}
+.post-kicker > * + *::before {
+  content: " · ";
+  color: var(--sl-color-gray-4);
+}
+.post-kicker a {
+  font-weight: 600;
+  color: var(--sl-color-accent-high);
+  text-decoration: none;
+}
+.post-kicker a:hover {
+  text-decoration: underline;
+}
+
+/* A series' own previous and next posts, at the end of a post in a series
+   (src/components/SeriesNav.astro). They replace starlight-blog's links, which
+   go by date across every series. */
+.series-nav {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--sl-color-hairline);
+}
+.series-nav > p {
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-3);
+}
+.sl-markdown-content:has(.series-nav) .sl-blog-pagination {
+  display: none;
+}
+
+/* The posts on a series' page, in reading order (src/pages/series). */
+.series-list li {
+  margin-block: 1rem;
+}
+.series-list li > a {
+  font-family: var(--sl-font-heading);
+  font-weight: 600;
+  font-size: var(--sl-text-lg);
+}
+.series-list-meta {
+  margin-top: 0.25rem;
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-3);
+}
+
+/* A series' heading on the home page links to the series' page. */
+.series h3 a {
+  text-decoration: none;
+}
+.series h3 a:hover {
+  text-decoration: underline;
+}
+
+/* A page's title (Starlight's h1#_top) sits outside .sl-markdown-content, so
+   brand.css's heading rule misses it, and it would fall back to the body
+   face. Set it in the heading face like every other heading. The rule belongs
+   in brand.css, but that file is kept as a copy of bynk-lang.org's: fix it
+   there, then here. */
+h1#_top {
+  font-family: var(--sl-font-heading);
 }

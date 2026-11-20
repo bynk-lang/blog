@@ -15,8 +15,15 @@ Posts live in [`src/content/docs/posts/`](src/content/docs/posts/). Read
 coming.
 
 The blog's home page, [`src/content/docs/index.mdx`](src/content/docs/index.mdx),
-lists the series and a learning path. Both are built from post frontmatter
-(`series` and `level`), so a new post appears there without editing the page.
+points newcomers to "Getting started", then lists the latest posts and each
+series. Every series with a published post also has its own page,
+`/blog/series/<id>/` ([`src/pages/series/`](src/pages/series/)), listing its
+posts in reading order. A post shows its series, level and Bynk version above
+its title, and ends with the previous and next posts in its series. All of
+this is built from post frontmatter (`series`, `level` and `bynkVersion`), so
+a new post appears everywhere without editing a page.
+[`src/content/docs/about.mdx`](src/content/docs/about.mdx) is the About page,
+linked from the bottom of the home page.
 
 ## Running it
 

@@ -1,0 +1,59 @@
+---
+title: About this blog
+description: What the Bynk blog is for, how its series and levels work, how its code is checked, and how to suggest a topic or report a mistake.
+template: splash
+prev: false
+next: false
+---
+
+import SeriesSummary from "../../components/SeriesSummary.astro";
+
+[Bynk](https://bynk-lang.org) is a statically typed language for building
+services. You write Bynk, and the compiler produces TypeScript that runs on
+Cloudflare Workers. The [Book](https://bynk-lang.org/book/) says what the
+language does. This blog says why: the problems Bynk takes on, the thinking
+behind its design, and what each decision costs.
+
+It's written by Matthew Gibbons, who works on Bynk. New to it? Start with
+[Getting started with Bynk](../posts/getting-started/).
+
+## The series
+
+Most posts belong to a series, named above each post's title. Each series has
+its own page, with its posts in reading order.
+
+<SeriesSummary kind="series" />
+
+## Who each post is for
+
+Every post is written for one stage of learning Bynk, shown above its title:
+
+<SeriesSummary kind="levels" />
+
+## The code is real
+
+Every piece of Bynk in a post is quoted from a project in the
+[showcase](https://github.com/bynk-lang/showcase), whose own checks format,
+compile and test every project. The blog's build checks that each quote still
+matches its source, and a weekly check repeats it as Bynk changes. Each post
+says which version of Bynk it was written for, above its title.
+
+A block that's deliberately not from the showcase, such as code that must not
+compile, says so in the text around it.
+
+## Suggestions and corrections
+
+If you spot a mistake, or have a problem you'd like a post about, open an
+issue on [bynk-lang/blog](https://github.com/bynk-lang/blog/issues). Every
+post's source is in that repository, so you can also suggest a change
+directly.
+
+To follow along, subscribe to the [RSS feed](../posts/rss.xml).
+
+## Licence
+
+The posts are licensed under
+[CC BY 4.0](https://github.com/bynk-lang/blog/blob/main/LICENSE-CC-BY-4.0.md),
+and the site's code under
+[MIT](https://github.com/bynk-lang/blog/blob/main/LICENSE-MIT). Code quoted
+from the showcase keeps its own licence.

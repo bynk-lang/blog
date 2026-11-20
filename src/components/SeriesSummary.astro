@@ -1,0 +1,33 @@
+---
+// Every series and every level, for the About page. A series links to its
+// page once it has a published post; until then it's listed as coming soon.
+import { LEVELS, SERIES, posts, seriesHref, type SeriesId } from "../lib/ladder";
+
+const all = await posts();
+const ids = Object.keys(SERIES) as SeriesId[];
+const live = new Set(all.map((post) => post.data.series).filter(Boolean));
+const { kind } = Astro.props as { kind: "series" | "levels" };
+---
+
+{
+  kind === "series" ? (
+    <ul>
+      {ids.map((id) => (
+        <li>
+          {live.has(id) ? <a href={seriesHref(id)}>{SERIES[id].title}</a> : <strong>{SERIES[id].title}</strong>}
+          {!live.has(id) && " (coming soon)"}
+          <br />
+          {SERIES[id].blurb}
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <ul>
+      {LEVELS.map((level) => (
+        <li>
+          <strong>{level.title}.</strong> {level.blurb}
+        </li>
+      ))}
+    </ul>
+  )
+}

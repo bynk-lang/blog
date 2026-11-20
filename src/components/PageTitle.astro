@@ -1,0 +1,36 @@
+---
+// Starlight's page title, with a line about the post above it: its series
+// (linking to the series' page), who it's written for, and the Bynk version
+// its code was written against. A post's title is its own point ("Who gets
+// the penny?"), so the series name, which used to be part of the title,
+// appears here instead. Pages that aren't posts get the plain title.
+//
+// The line comes after the <h1> in the markup and is shown above it with CSS
+// (blog.css, .post-title). "Skip to content" and the table of contents jump
+// to the <h1>, so a screen reader starting there still hears it straight
+// after the title.
+import Default from "@astrojs/starlight/components/PageTitle.astro";
+import { SERIES, levelTitle, seriesHref } from "../lib/ladder";
+
+const { entry } = Astro.locals.starlightRoute;
+const isPost = entry.id.startsWith("posts/") && entry.data.date !== undefined;
+const { series: id, level, bynkVersion } = entry.data;
+const series = id ? SERIES[id] : undefined;
+const version = bynkVersion?.replace(/^v/, "");
+const shown = isPost && (series || level || version);
+---
+
+{
+  shown ? (
+    <div class="post-title">
+      <Default />
+      <p class="post-kicker">
+        {series && id && <a href={seriesHref(id)}>{series.title}</a>}
+        {level && <span>{levelTitle(level)}</span>}
+        {version && <span>Written for Bynk {version}</span>}
+      </p>
+    </div>
+  ) : (
+    <Default />
+  )
+}

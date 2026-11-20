@@ -1,0 +1,29 @@
+---
+// The end of a post in a series: where it sits in the series, and the series'
+// previous and next posts. Renders nothing for a post outside a series.
+import { LinkCard, CardGrid } from "@astrojs/starlight/components";
+import { SERIES, href, seriesHref, seriesPosts } from "../lib/ladder";
+
+const { entry } = Astro.locals.starlightRoute;
+const id = entry.data.series;
+const list = id ? await seriesPosts(id) : [];
+const index = list.findIndex((post) => post.id === entry.id);
+const prev = index > 0 ? list[index - 1] : undefined;
+const next = index >= 0 ? list[index + 1] : undefined;
+---
+
+{
+  id && index >= 0 && (
+    <nav class="series-nav" aria-label={`More from ${SERIES[id].title}`} data-pagefind-ignore>
+      <p>
+        Part {index + 1} of {list.length} in <a href={seriesHref(id)}>{SERIES[id].title}</a>
+      </p>
+      {(prev || next) && (
+        <CardGrid>
+          {prev && <LinkCard href={href(prev)} title={prev.data.title} description="Previous in the series" />}
+          {next && <LinkCard href={href(next)} title={next.data.title} description="Next in the series" />}
+        </CardGrid>
+      )}
+    </nav>
+  )
+}

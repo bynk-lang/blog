@@ -1,0 +1,43 @@
+---
+// One page per series, listing its posts in reading order (oldest first),
+// with the series' blurb. Only a series with a published post gets a page,
+// so a new series appears here with its first post. Each post links back here
+// from the series name above its title (src/components/PageTitle.astro).
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import { SERIES, href, levelTitle, posts, type SeriesId } from "../../lib/ladder";
+
+export async function getStaticPaths() {
+  const all = await posts();
+  return (Object.keys(SERIES) as SeriesId[])
+    .filter((id) => all.some((post) => post.data.series === id))
+    .map((id) => ({ params: { series: id } }));
+}
+
+const id = Astro.params.series as SeriesId;
+const series = SERIES[id];
+const list = (await posts()).filter((post) => post.data.series === id).reverse();
+const date = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+// Excerpts are short Markdown strings; the only Markdown they use is `code`.
+const escape = (text: string) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const inlineCode = (text: string) => escape(text).replace(/`([^`]+)`/g, "<code>$1</code>");
+---
+
+<StarlightPage
+  frontmatter={{ title: series.title, description: series.blurb, template: "splash", prev: false, next: false }}
+>
+  <p>{series.blurb}</p>
+  <ol class="series-list">
+    {
+      list.map((post) => (
+        <li>
+          <a href={href(post)}>{post.data.title}</a>
+          <p class="series-list-meta">
+            {post.data.date && date.format(post.data.date)}
+            {post.data.level && <> · {levelTitle(post.data.level)}</>}
+          </p>
+          {post.data.excerpt && <p set:html={inlineCode(post.data.excerpt)} />}
+        </li>
+      ))
+    }
+  </ol>
+</StarlightPage>
