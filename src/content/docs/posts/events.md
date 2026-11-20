@@ -27,10 +27,19 @@ subscribes to it. The checkout never names its listeners. This is
 *publish and subscribe*, built into the language: the compiler, not your code,
 wires each event to the services that listen for it.
 
+If you come from TypeScript, it sits between two things you may know. Node's
+`EventEmitter` is in one process, with listeners added while the program
+runs. A broker such as SNS, Kafka or Cloudflare Queues works between services,
+with subscriptions set up separately from the code. Bynk's listeners live in
+other services, so delivery crosses the network, as with a broker, but the
+subscriptions come from the source, and each listener receives the event as a
+typed record, with an envelope of details such as its `eventId`.
+
 ## The layout
 
 The project is three **contexts**: separate parts of a Bynk system, each with
-its own services and agents, deployed as its own Worker on Cloudflare.
+its own services and agents, deployed as its own Cloudflare Worker (a small
+program that Cloudflare runs on its servers).
 
 - `shop.orders`, the checkout, declares the `OrderPlaced` event and emits it.
 - `shop.loyalty` listens for domestic orders and awards points.
@@ -105,10 +114,12 @@ service checkout {
 ```
 
 `given Events` in the signature says this handler may emit, so a reader can
-tell what it touches from its first line. `Events.emit` is fire-and-forget:
-the checkout learns nothing about who heard the event or how they got on,
-which is exactly what keeps it independent of them. Nothing in this file
-mentions loyalty or sales.
+tell what it touches from its first line. `let _ <- …` runs an effect, waits
+for it to finish and ignores its result. Here, finishing means the event has
+been handed over for delivery, not that anyone has received it. Emitting is
+fire-and-forget: the checkout learns nothing about who heard the event or how
+they got on, which is exactly what keeps it independent of them. Nothing in
+this file mentions loyalty or sales.
 
 **The loyalty scheme subscribes, with a filter.** In `src/shop/loyalty.bynk`,
 a service listens for the event. Its header names what it hears, and a pattern
@@ -132,10 +143,13 @@ The body hands the work to `Points`, an **agent**: a piece of state, here
 each customer's balance, together with the handlers that change it. One
 point is earned per whole pound, so `PencePerPoint` is `100`.
 
-**The same order can arrive twice.** Bynk delivers events *at least once*: a
-listener may see the same emission again. A customer whose checkout timed out
-may also resubmit it, which emits a second, separate event for the same
-order. If the loyalty scheme simply added points each time, a customer could
+**The same order can arrive twice.** The Book describes event delivery as
+*at least once*, and tells listeners to expect duplicates: an emission can
+reach a listener again, for instance after a restart. That's a promise about
+duplicates, not retries: Bynk doesn't re-run a listener that failed (more on
+that below). A more ordinary duplicate comes from the customer. One whose
+checkout timed out may resubmit it, which emits a second, separate event for
+the same order. If the loyalty scheme simply added points each time, a customer could
 earn them twice. So `Points` remembers which orders it has already awarded:
 
 ```bynk
@@ -151,7 +165,8 @@ on call award(orderId: String, points: Int) -> Effect[()] given Clock {
 }
 ```
 
-Two decisions here are worth stealing.
+(`do x` is the short way to write `let _ <- x`: run an effect and ignore its
+result.) Two decisions here are worth stealing.
 
 First, it checks the **order's id**, not the event's. Every emission carries
 an envelope with an `eventId`, and a redelivery repeats it, but a resubmitted
@@ -165,8 +180,9 @@ can't get out of step. Bynk has an `Idempotency` capability for deduplication
 too, but checking and recording with it would be separate calls from the
 award, and a failure between them could lose the points or award them twice.
 
-The set of awarded orders is a `Cache` with a seven-day lifetime (`@ttl(7.days)`),
-long enough to outlast any redelivery. Checking whether an entry has expired
+The set of awarded orders is a `Cache` with a seven-day lifetime
+(`@ttl(7.days)`): the project's judgement of how long a duplicate could take
+to turn up, not a figure the Book promises. Checking whether an entry has expired
 reads the clock, which is why the handler says `given Clock`.
 
 **The sales tally is a second, independent listener.** `src/shop/sales.bynk`
@@ -182,7 +198,10 @@ service TallySale from Events(OrderPlaced) {
 
 Its `Takings` agent removes duplicates the same way, by order id and in the
 same handler that adds to the totals. Adding this listener took no change to
-the checkout or to the loyalty scheme. That's the point of the whole design.
+the checkout's code or to the loyalty scheme. That's the point of the whole
+design. (The checkout's Worker does change: the compiler gives it a
+connection to each listener, so adding one means deploying the checkout
+again.)
 
 **What events don't do yet.** The Book is candid about the current limits,
 and they shape how you'd use events in a real system:
@@ -191,16 +210,17 @@ and they shape how you'd use events in a real system:
   the failure is logged, and its siblings still get theirs. But that delivery
   isn't tried again, and there's no durable log to replay missed events from
   yet.
-- **Limited ordering.** Everything one handler emits arrives in order, and so
-  do events from one agent's successive calls. Events from overlapping calls
-  can arrive in either order. A listener that needs a strict order must carry
-  its own sequence number in the event.
+- **Limited ordering.** Everything one call of a handler emits arrives in
+  order, and so do events from one agent's successive calls. Events from
+  overlapping calls can arrive in either order. A listener that needs a strict
+  order needs the publisher to put a sequence number in the event.
 - **Every listener hears every event.** A pattern filters inside the
   listener, not in the delivery, so a narrow listener still runs, briefly,
   for every emission.
 - **A listener mustn't also call its publisher, if you want to deploy it.**
   A listener that only names the event deploys before the checkout, because
-  the checkout's Worker is bound to it. If the listener also called a
+  the checkout's Worker is bound to it (set up to call it directly) and
+  Cloudflare won't deploy a Worker bound to one that doesn't exist yet. If the listener also called a
   service in the checkout, each Worker would need the other to exist first,
   and `bynk deploy` refuses the project, though `bynk dev` serves it.
 
@@ -248,7 +268,7 @@ case "the same order earns nothing the second time" {
 (`order` is a small helper in the test file that builds a £25.99 order for a
 customer called Ada, so 25 points is one award, not two.) The sales tally's
 tests check the mirror image: it counts the international order that loyalty
-ignored, and counts a redelivered order once.
+ignored, and counts the same order delivered twice only once.
 
 These tests deliver each event by hand, so they don't exercise the delivery
 between contexts. A test at the `system` tier, which runs the code as it's
@@ -270,9 +290,10 @@ Then try a couple of changes:
 
 - **Add a third listener.** Create a context of your own that consumes
   `shop.orders` and declares a service `from Events(OrderPlaced)`: say, one
-  that keeps a count of orders per customer. Notice that nothing outside your
+  that keeps a count of orders per customer. Notice that no code outside your
   new file changes, and that its tests can deliver events to it without the
-  checkout.
+  checkout. The checkout is deployed again, with a connection to your
+  listener.
 - **Try to forge an order.** In `shop.loyalty`, add `consumes bynk { Events }`
   and a service that emits an `OrderPlaced`. The build refuses it with
   `bynk.event.emit_outside_owner`, because only `shop.orders` may announce an
