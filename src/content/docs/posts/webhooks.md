@@ -9,7 +9,6 @@ series: the-problem-with
 level: building
 showcase: verify-webhooks
 bynkVersion: 0.639.1
-draft: true
 ---
 
 A payment processor sends your service a notice whenever a customer pays: a

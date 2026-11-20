@@ -42,7 +42,7 @@ some content.
 | 12 Nov 2026 | Missing isn't the same as wrong | The problem with… | 7 days |
 | 15 Nov 2026 | Check once, trust everywhere | The problem with… | 3 days |
 | 18 Nov 2026 | One rule, everywhere it reaches | A closer look | 3 days |
-| 21 Nov 2026 | Who really sent this? (draft) | The problem with… | 3 days |
+| 21 Nov 2026 | Who really sent this? | The problem with… | 3 days |
 
 The next post is due three, five or seven days after the last one in the
 table above. Add each post to the table when it's published.
