@@ -3,7 +3,7 @@ title: "One rule, everywhere it reaches"
 description: "Refined types attach a rule to a type, and the rule follows the value everywhere: into the compiler, the HTTP boundary, the tests, the editor and the TypeScript the compiler writes. A tour of the whole feature, how it works, and where it stops."
 date: 2026-11-18
 authors: matthew
-tags: [types, refined-types, testing, tooling]
+tags: [types, validation, testing, tooling]
 excerpt: "One rule, written once in a type, and everywhere it reaches: the compiler, the boundary, the tests, the editor and the generated TypeScript."
 series: a-closer-look
 level: building

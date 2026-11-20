@@ -3,7 +3,7 @@ title: "Who really sent this?"
 description: "A webhook proves where it came from with a signature over its body, and checking one by hand goes wrong in quiet ways: the wrong bytes, a leaky comparison, no replay guard, or a route that skips it. Why Bynk generates the check from one declaration."
 date: 2026-11-21
 authors: matthew
-tags: [webhooks, security, actors, http]
+tags: [security, http, validation]
 excerpt: "Checking a webhook's signature by hand is easy to get subtly wrong. Bynk declares the sender once and generates the check."
 series: the-problem-with
 level: building

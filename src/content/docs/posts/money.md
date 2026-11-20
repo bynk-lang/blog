@@ -3,7 +3,7 @@ title: "Who gets the penny?"
 description: "Floats drift, integer pence only move the problem, and someone has to decide who gets the penny. Why Bynk has a Decimal type, and why it has no `/`."
 date: 2026-11-05
 authors: matthew
-tags: [types, decimal, refined-types]
+tags: [types, data]
 excerpt: "Floats drift, integer pence only move the problem, and someone has to decide who gets the penny. Why Bynk has a `Decimal` type, and why it has no `/`."
 series: the-problem-with
 level: building

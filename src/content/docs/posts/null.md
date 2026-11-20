@@ -3,7 +3,7 @@ title: "Missing isn't the same as wrong"
 description: "A value can be missing, and an operation can fail, and in most languages nothing in a function's type tells you which. Why Bynk has no null and no exceptions, and what it has instead."
 date: 2026-11-12
 authors: matthew
-tags: [types, option, result, errors]
+tags: [types, errors]
 excerpt: "Something missing and something gone wrong are different, and your types should say which. Why Bynk uses `Option` and `Result` instead of `null` and exceptions."
 series: the-problem-with
 level: first-steps

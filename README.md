@@ -22,6 +22,8 @@ posts in reading order. A post shows its series, level and Bynk version above
 its title, and ends with the previous and next posts in its series. All of
 this is built from post frontmatter (`series`, `level` and `bynkVersion`), so
 a new post appears everywhere without editing a page.
+[`src/content/docs/about.mdx`](src/content/docs/about.mdx) is the About page,
+linked from the bottom of the home page.
 
 ## Running it
 

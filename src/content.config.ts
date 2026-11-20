@@ -14,6 +14,26 @@ export const levels = ["first-steps", "building", "designing", "contributing"] a
 // src/lib/ladder.ts, and give each series a plan in docs/series/.
 export const series = ["the-problem-with", "a-closer-look", "inside-the-showcase", "whats-new"] as const;
 
+// The blog's tags: a short, fixed list of topics, so each tag gathers enough
+// posts to be worth a page of its own. A post takes one to four. Add a tag
+// here only when several posts will share it (docs/writing-a-post.md). Pages
+// that aren't posts, such as the home page, have none.
+export const tags = [
+  "getting-started",
+  "types",
+  "errors",
+  "validation",
+  "data",
+  "testing",
+  "tooling",
+  "http",
+  "security",
+  "agents",
+  "capabilities",
+  "concurrency",
+  "deployment",
+] as const;
+
 // When this build runs. A post dated after it is treated as a draft (see the
 // `docs` schema below), and the daily deploy (.github/workflows/deploy.yml)
 // publishes it on its date.
@@ -42,6 +62,8 @@ export const collections = {
       docsSchema({
         extend: (context) =>
           blogSchema(context).extend({
+            // Topics from the fixed list above (`tags`).
+            tags: z.array(z.enum(tags)).max(4).optional(),
             // The series a post belongs to (see `series` above).
             series: z.enum(series).optional(),
             // Who the post is written for (see `levels` above).

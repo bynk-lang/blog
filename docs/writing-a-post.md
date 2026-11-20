@@ -43,7 +43,7 @@ title: "Who gets the penny?"
 description: "One or two sentences for search results and link previews."
 date: 2026-11-05
 authors: matthew
-tags: [types, decimal]
+tags: [types, data]    # one to four, from the fixed list (below)
 excerpt: "Shown in post lists. Shorter than the description, not a copy of it."
 series: the-problem-with   # see docs/series/; leave out for a standalone post
 level: building        # first-steps | building | designing | contributing
@@ -59,6 +59,14 @@ draft: true            # remove to publish
 so check [the schedule](series/README.md#schedule) when you choose it. A
 finished post can be merged early: it stays hidden until its date, then the
 daily build publishes it.
+
+`tags` come from a fixed list in
+[`src/content.config.ts`](../src/content.config.ts), and the build fails on
+any other. Each tag is a topic, broad enough to gather several posts: `types`,
+`errors`, `validation`, `data`, `testing`, `tooling`, `http`, `security`,
+`agents`, `capabilities`, `concurrency`, `deployment` and `getting-started`.
+Give a post one to four. If a post needs a topic the list doesn't have, add it
+there in the same pull request, but only if later posts will share it.
 
 `level` says who the post is written for. It's shown above the title and in
 post lists:

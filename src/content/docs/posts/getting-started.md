@@ -3,7 +3,7 @@ title: "Getting started with Bynk"
 description: "From nothing installed to a deployed service in one sitting: open the Bynk starter in a codespace, run its tests, read its code, change it and deploy it, with the reasons for what you see along the way."
 date: 2026-10-31
 authors: matthew
-tags: [getting-started, starter, agents, refined-types]
+tags: [getting-started, types, agents, http]
 excerpt: "Open the Bynk starter in your browser, run it, change it and deploy it, and see why the code looks the way it does."
 level: first-steps
 repo: starter

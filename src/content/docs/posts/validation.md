@@ -3,7 +3,7 @@ title: "Check once, trust everywhere"
 description: "A check written in one place protects one path in. Why Bynk puts the rule in the type instead, so a value is checked once, where it arrives, and trusted everywhere after."
 date: 2026-11-15
 authors: matthew
-tags: [types, refined-types, validation, json]
+tags: [types, validation, data, http]
 excerpt: "Checks get forgotten, repeated and drift apart. Bynk puts the rule in the type, so a value is checked once, where it arrives."
 series: the-problem-with
 level: first-steps
