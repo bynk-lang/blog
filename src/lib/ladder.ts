@@ -68,3 +68,21 @@ export async function posts(): Promise<Post[]> {
 export function href(post: Post): string {
   return `${import.meta.env.BASE_URL}${post.id}/`.replace(/\/{2,}/g, "/");
 }
+
+export type SeriesId = keyof typeof SERIES;
+export type LevelId = (typeof LEVELS)[number]["id"];
+
+// A level's display title, such as "Building a service".
+export function levelTitle(id: LevelId): string {
+  return LEVELS.find((level) => level.id === id)?.title ?? id;
+}
+
+// A series' own page: src/pages/series/[series].astro.
+export function seriesHref(id: SeriesId): string {
+  return `${import.meta.env.BASE_URL}/series/${id}/`.replace(/\/{2,}/g, "/");
+}
+
+// A series' published posts in reading order, oldest first.
+export async function seriesPosts(id: SeriesId): Promise<Post[]> {
+  return (await posts()).filter((post) => post.data.series === id).reverse();
+}

@@ -1,18 +1,21 @@
 ---
-// One section per series, in the order SERIES lists them. A series with no
+// One section per series, in the order SERIES lists them, each with its posts
+// in reading order and a link to the series' own page. A series with no
 // published posts yet is left out, so the home page never shows an empty one.
 import PostList from "./PostList.astro";
-import { SERIES, posts } from "../lib/ladder";
+import { SERIES, posts, seriesHref, type SeriesId } from "../lib/ladder";
 
 const all = await posts();
-const shown = Object.entries(SERIES).filter(([id]) => all.some((post) => post.data.series === id));
+const shown = (Object.keys(SERIES) as SeriesId[]).filter((id) => all.some((post) => post.data.series === id));
 ---
 
 {
-  shown.map(([id, series]) => (
+  shown.map((id) => (
     <section class="series">
-      <h2 id={id}>{series.title}</h2>
-      <p>{series.blurb}</p>
+      <h3 id={id}>
+        <a href={seriesHref(id)}>{SERIES[id].title}</a>
+      </h3>
+      <p>{SERIES[id].blurb}</p>
       <PostList series={id} />
     </section>
   ))

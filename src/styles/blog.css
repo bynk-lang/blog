@@ -16,38 +16,78 @@
   margin-top: 0.25rem;
   color: var(--sl-color-gray-2);
 }
+.post-list-meta {
+  margin-top: 0.125rem !important;
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-3) !important;
+}
 .post-list-empty {
   color: var(--sl-color-gray-3);
   font-style: italic;
 }
 
-.ladder-rung {
-  padding: 1rem 1.25rem;
-  border-inline-start: 0.25rem solid var(--sl-color-accent);
-  border-radius: 0 0.5rem 0.5rem 0;
-  background: var(--sl-color-accent-low);
-}
-.ladder-rung h3 {
-  margin-top: 0;
-}
 
-/* The series a post belongs to, shown above its title but placed after it in
-   the markup (src/components/PageTitle.astro). */
+/* The line above a post's title: its series, level and Bynk version. It comes
+   after the title in the markup, and is shown above it
+   (src/components/PageTitle.astro). */
 .post-title {
   display: flex;
   flex-direction: column-reverse;
 }
-.series-kicker {
+.post-kicker {
   margin-top: 1rem;
   margin-bottom: -0.75rem;
   font-size: var(--sl-text-sm);
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  color: var(--sl-color-gray-3);
 }
-.series-kicker a {
+.post-kicker > * + *::before {
+  content: " · ";
+  color: var(--sl-color-gray-4);
+}
+.post-kicker a {
+  font-weight: 600;
   color: var(--sl-color-accent-high);
   text-decoration: none;
 }
-.series-kicker a:hover {
+.post-kicker a:hover {
+  text-decoration: underline;
+}
+
+/* A series' own previous and next posts, at the end of a post in a series
+   (src/components/SeriesNav.astro). They replace starlight-blog's links, which
+   go by date across every series. */
+.series-nav {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--sl-color-hairline);
+}
+.series-nav > p {
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-3);
+}
+.sl-markdown-content:has(.series-nav) .sl-blog-pagination {
+  display: none;
+}
+
+/* The posts on a series' page, in reading order (src/pages/series). */
+.series-list li {
+  margin-block: 1rem;
+}
+.series-list li > a {
+  font-family: var(--sl-font-heading);
+  font-weight: 600;
+  font-size: var(--sl-text-lg);
+}
+.series-list-meta {
+  margin-top: 0.25rem;
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-3);
+}
+
+/* A series' heading on the home page links to the series' page. */
+.series h3 a {
+  text-decoration: none;
+}
+.series h3 a:hover {
   text-decoration: underline;
 }

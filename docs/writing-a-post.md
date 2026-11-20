@@ -50,7 +50,7 @@ level: building        # first-steps | building | designing | contributing
 showcase: money        # the bynk-lang/showcase project the code comes from
 # showcase: [refined-types, decode-json]   # or several, as a list
 # repo: starter        # or: another bynk-lang repository it comes from instead
-bynkVersion: 0.639.1   # the Bynk release the post was written against
+bynkVersion: 0.639.1   # the Bynk release the post was written against (shown on the post)
 draft: true            # remove to publish
 ---
 ```
@@ -60,7 +60,8 @@ so check [the schedule](series/README.md#schedule) when you choose it. A
 finished post can be merged early: it stays hidden until its date, then the
 daily build publishes it.
 
-`level` puts the post on the blog's learning path:
+`level` says who the post is written for. It's shown above the title and in
+post lists:
 
 - **first-steps**: new to Bynk, or new to programming.
 - **building**: can write Bynk and is building a real service.

@@ -1,36 +1,44 @@
 ---
-// A compact list of posts, filtered by learning-path level or by series.
-import { posts, href } from "../lib/ladder";
+// A compact list of published posts: all of them newest first, or one
+// series in reading order (oldest first). Each item shows its series (when
+// the list isn't already one series) and who it's written for.
+import { SERIES, href, levelTitle, posts } from "../lib/ladder";
 
 interface Props {
-  level?: string;
-  series?: string;
+  series?: keyof typeof SERIES;
+  limit?: number;
   empty?: string;
 }
 
-const { level, series, empty = "Nothing here yet." } = Astro.props;
+const { series, limit, empty = "Nothing here yet." } = Astro.props;
 
 // Excerpts are short Markdown strings; the only Markdown they use is `code`.
 const escape = (text: string) =>
   text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const inlineCode = (text: string) => escape(text).replace(/`([^`]+)`/g, "<code>$1</code>");
 const all = await posts();
-const matching = all.filter(
-  (post) => (!level || post.data.level === level) && (!series || post.data.series === series),
-);
+const matching = series ? all.filter((post) => post.data.series === series).reverse() : all;
+const shown = limit ? matching.slice(0, limit) : matching;
 ---
 
 {
-  matching.length === 0 ? (
+  shown.length === 0 ? (
     <p class="post-list-empty">{empty}</p>
   ) : (
     <ul class="post-list">
-      {matching.map((post) => (
-        <li>
-          <a href={href(post)}>{post.data.title}</a>
-          {post.data.excerpt && <p set:html={inlineCode(post.data.excerpt)} />}
-        </li>
-      ))}
+      {shown.map((post) => {
+        const postSeries = !series && post.data.series ? SERIES[post.data.series].title : undefined;
+        const level = post.data.level ? levelTitle(post.data.level) : undefined;
+        return (
+          <li>
+            <a href={href(post)}>{post.data.title}</a>
+            {(postSeries || level) && (
+              <p class="post-list-meta">{[postSeries, level].filter(Boolean).join(" · ")}</p>
+            )}
+            {post.data.excerpt && <p set:html={inlineCode(post.data.excerpt)} />}
+          </li>
+        );
+      })}
     </ul>
   )
 }

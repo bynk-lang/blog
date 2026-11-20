@@ -61,8 +61,9 @@ detail.
 1. Add its id to `series` in [`src/content.config.ts`](../../src/content.config.ts),
    so a post's frontmatter can name it.
 2. Add its title and a one-sentence blurb to `SERIES` in
-   [`src/lib/ladder.ts`](../../src/lib/ladder.ts). The home page shows the
-   series, in that order, once it has a published post.
+   [`src/lib/ladder.ts`](../../src/lib/ladder.ts). Once the series has a
+   published post, the home page lists it (in that order), and it gets its
+   own page at `/blog/series/<id>/`.
 3. Write its plan here: what a post in it does, its shape (the headings every
    post uses), and a list of candidate posts.
 4. Add it to the table above.

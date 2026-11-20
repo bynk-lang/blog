@@ -43,8 +43,13 @@ export default defineConfig({
         // site, so a reader can move between the blog, the Book and the docs.
         Header: "./src/components/Header.astro",
         Head: "./src/components/Head.astro",
-        // The post's series, above its title.
+        // The post's series, level and Bynk version, above its title.
         PageTitle: "./src/components/PageTitle.astro",
+        // starlight-blog's post content, plus each series' own previous and
+        // next posts. With this override in place the plugin doesn't add its
+        // own, and logs a warning saying so: this file renders the plugin's
+        // component itself (starlight-blog/components/MarkdownContent.astro).
+        MarkdownContent: "./src/components/MarkdownContent.astro",
       },
       plugins: [
         starlightBlog({
