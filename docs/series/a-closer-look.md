@@ -34,8 +34,8 @@ Use these as headings.
 - **Prefer an SVG export.** The extension's diagrams have **Save as SVG**:
   sharp at any size, small, and with real text. Export every diagram in a
   post from the same editor theme, since the export keeps its colours. Check
-  an SVG has no `<script>`, `<foreignObject>` or external links before
-  committing it.
+  an SVG has no `<script>`, `<foreignObject>`, event-handler attributes (such
+  as `onload`) or external links before committing it.
 - **Watch for `:word` in alt text and prose.** Starlight reads `:word` as
   directive syntax and drops it, so a route such as `/forecast/:city` vanishes
   outside a code span. Reword it, or keep it in backticks where backticks
@@ -52,7 +52,7 @@ A working plan, not a promise. The level column says who the post is for.
 | # | Title | Feature | Showcase | Level | Notes |
 |---|---|---|---|---|---|
 | 0 | One rule, everywhere it reaches (refined types) | The whole feature: the predicates, `is`, reading a refined value, `Val` and `@example`, property tests, the editor's explorer, the emitted branded type, boundaries between contexts and the ReDoS check | `refined-types`, `money`, `capabilities-and-providers`, `testing` | building | **Published 18 Nov 2026.** Follows *Check once, trust everywhere*, and covers what #5 planned |
-| 1 | A closer look: the component view | **Bynk: Show Component View**: one context as a UML component diagram, with its services, agents and providers, a provided port per service, a required port per capability or consumed service, and who calls in | `capabilities-and-providers`, `events` | designing | Fills the plan's gap on contexts. The diagram is drawn from the code, so it can't drift from it **"A diagram that can't go out of date", published 27 Nov 2026**, with the architecture map, from diagrams exported with Save as SVG. |
+| 1 | A closer look: the component view | **Bynk: Show Component View**: one context as a UML component diagram, with its services, agents and providers, a provided port per service, a required port per capability or consumed service, and who calls in | `capabilities-and-providers`, `events` | designing | **Published 27 Nov 2026** as "A diagram that can't go out of date", with the architecture map, from diagrams exported with Save as SVG. Fills the plan's gap on contexts. The diagram is drawn from the code, so it can't drift from it |
 | 2 | A closer look: sequence diagrams and request traces | **Bynk: Show Sequence Diagram**, and the request trace laid over it while `bynk dev` runs | `concurrency` | building | The trace records each call's kind, target, location, time and outcome, never argument values |
 | 3 | A closer look: agent state machines | **Bynk: Show Agent State**: the state machine generated from an agent's handlers, the handler × state table, and live instances | `agent-state-machine` | designing | Pairs with *The problem with state*; publish that first |
 | 4 | A closer look: comparing two versions of a model | **Bynk: Compare Model with…**: what changed between two git refs, with compatible or breaking verdicts | `evolving-a-contract` | designing | Pairs with *The problem with deploying two services* |

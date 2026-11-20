@@ -22,9 +22,19 @@ The questions such a diagram answers are still worth answering. What does
 this part of the system offer? What does it need from outside? Who depends
 on it? The Bynk extension for VS Code answers them with diagrams drawn from
 the code itself, so they're as current as the last time you saved. This post
-looks at two of them: the **component view**, which opens up one context, and
-the **architecture map**, which shows the whole project. (It describes
-version 0.639.4 of the extension.)
+looks at two of them: the **component view**, which opens up one context (a
+separate part of a Bynk system, with its own services and agents, deployed on
+its own), and the **architecture map**, which shows the whole project. (It
+describes version 0.639.4 of the extension.)
+
+Drawing diagrams from code isn't a new idea, and the tools for it are good.
+Structurizr and Mermaid let you write a diagram as text and keep it in the
+repository. Nx, dependency-cruiser and IntelliJ draw graphs from the code
+itself. But a diagram written as text is still a second description that
+someone has to update, and a graph drawn from imports shows which files
+mention which, not what a piece of code is *allowed* to reach. Bynk's views
+read the compiler's own model: which capabilities each handler asks for,
+which contexts depend on which, and which events flow between them.
 
 ## A tour
 
@@ -65,8 +75,9 @@ box is the context, and the boxes inside it are its parts: here a service and
 a provider. A small square on the edge is a **port**. A ball on a stalk is a
 *provided* port, something the context offers (here, the HTTP route a
 `Visitor` calls). A socket, the open half-circle, is a *required* port,
-something the context needs from outside. Grey shapes outside the box are the
-neighbours: who calls in, and what satisfies the requirements.
+something the context needs from outside. Shapes outside the box are the
+neighbours: who calls in, and what satisfies the requirements. Other contexts
+and the platform are drawn in grey.
 
 Now read it against the code. The handler's `given Forecasts, Logger` is the
 dashed arrow to the provider and the line to the `Logger` port. The
@@ -95,13 +106,16 @@ shows them anyway, in grey, because each of them names `shop.orders` in its
 own `consumes`. The code stays decoupled, but you can still see who would be
 affected by a change.
 
-One of those listeners, opened up, shows an agent's insides as well:
+One of those listeners, opened up, shows an agent's insides as well (an agent
+is a piece of state, here each customer's points, together with the handlers
+that change it):
 
 ![The component view of the shop.loyalty context. Inside are the events service AwardPoints, with the operation event, and the agent Points, which lists key customer: String, store balance, awarded, and the operations award and current. A dashed arrow labelled award runs from the service to the agent. The service's provided port on the left is labelled AwardPoints · events. On the right are two required ports: Clock, connected to the bynk platform, and shop.orders, connected to the shop.orders context in grey.](../../../assets/component-view/shop-loyalty.svg)
 
 An agent lists its key, its stores and its handlers. The `Clock` port is
-there because the agent's `Cache` reads the clock, and the `shop.orders`
-port because the context consumes it to name the event it listens for.
+there because the agent's `award` handler asks for `given Clock` (its `Cache`
+reads the clock to expire entries), and the `shop.orders` port because the
+context consumes it to name the event it listens for.
 
 **The whole system.** **Bynk: Show Architecture Map** steps back to show
 every context in the project at once, with the events between them:
@@ -118,7 +132,7 @@ zoomable picture.
 
 Neither view reads your files itself. The Bynk language server, the same one that gives the editor its errors and
 completions, builds a model of the whole project from its analysis of the
-code: every context and adapter, what each one `consumes`, its services,
+code: every context, what each one `consumes`, its services,
 agents, capabilities and providers, the capabilities each handler asks for in
 its `given`, and every event with its emitters and subscribers. The extension
 asks for that model and draws it. The component view and the architecture map
@@ -161,7 +175,8 @@ Three things follow from that.
 
 ## Try it
 
-Open the showcase in VS Code (or a GitHub Codespace), and install the Bynk
+Clone the showcase and open it in VS Code, as below, or open the repository
+on GitHub in a Codespace (**Code → Codespaces**). Then install the Bynk
 extension from the Marketplace (`bynk-lang.bynk-vscode`). If you don't have
 the Bynk toolchain, **Bynk: Install Toolchain** downloads it.
 
