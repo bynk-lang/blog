@@ -17,6 +17,8 @@ on:
 
 permissions:
   contents: read
+  # Read @bynk-lang/site-theme from GitHub Packages.
+  packages: read
 
 jobs:
   build:
@@ -32,7 +34,12 @@ jobs:
         with:
           node-version: "24"
           cache: npm
+          # The site theme comes from GitHub Packages.
+          registry-url: https://npm.pkg.github.com
+          scope: "@bynk-lang"
       - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # `astro check` type-checks the config, the components and the .astro
       # files. The proxy has its own type check, below.
       - run: npm run check

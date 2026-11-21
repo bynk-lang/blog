@@ -1,4 +1,4 @@
-/* Blog-only styles, layered on brand.css (which is shared with bynk-lang.org). */
+/* Blog-only styles, layered on the Bynk site theme (@bynk-lang/site-theme). */
 
 .post-list {
   list-style: none;
@@ -8,7 +8,7 @@
   margin-block: 0.75rem;
 }
 .post-list li > a {
-  font-family: var(--sl-font-heading);
+  font-family: var(--bynk-font-sans);
   font-weight: 600;
   font-size: var(--sl-text-lg);
 }
@@ -74,7 +74,7 @@
   margin-block: 1rem;
 }
 .series-list li > a {
-  font-family: var(--sl-font-heading);
+  font-family: var(--bynk-font-sans);
   font-weight: 600;
   font-size: var(--sl-text-lg);
 }
@@ -90,13 +90,4 @@
 }
 .series h3 a:hover {
   text-decoration: underline;
-}
-
-/* A page's title (Starlight's h1#_top) sits outside .sl-markdown-content, so
-   brand.css's heading rule misses it, and it would fall back to the body
-   face. Set it in the heading face like every other heading. The rule belongs
-   in brand.css, but that file is kept as a copy of bynk-lang.org's: fix it
-   there, then here. */
-h1#_top {
-  font-family: var(--sl-font-heading);
 }

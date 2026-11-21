@@ -4,8 +4,9 @@ The thinking behind [Bynk](https://bynk-lang.org), one idea at a time.
 
 The blog is an [Astro](https://astro.build) site using
 [Starlight](https://starlight.astro.build) and
-[starlight-blog](https://github.com/HiDeoo/starlight-blog), styled to match
-bynk-lang.org. It's built to be served at **bynk-lang.org/blog/**.
+[starlight-blog](https://github.com/HiDeoo/starlight-blog). Its look comes
+from the Bynk site theme ([bynk-lang/site-theme](https://github.com/bynk-lang/site-theme)),
+which bynk-lang.org uses too. It's built to be served at **bynk-lang.org/blog/**.
 
 ## Writing
 
@@ -26,6 +27,18 @@ a new post appears everywhere without editing a page.
 linked from the bottom of the home page.
 
 ## Running it
+
+The site theme, `@bynk-lang/site-theme`, comes from GitHub Packages, which
+needs a token even to read. Create a classic personal access token with only
+the `read:packages` scope, and add it to your user-level `~/.npmrc` (never
+this repository's):
+
+```ini
+//npm.pkg.github.com/:_authToken=YOUR_TOKEN
+```
+
+The project's [`.npmrc`](.npmrc) already says where `@bynk-lang` packages
+live. CI uses the workflow's own token.
 
 ```sh
 npm install
@@ -82,9 +95,11 @@ The posts (`src/content/docs/`) and the guides (`docs/`) are licensed under
 [MIT](LICENSE-MIT). Code quoted from the showcase keeps its own licence (MIT
 or Apache-2.0).
 
-## Bynk highlighting
+## The look
 
-[`src/grammars/bynk.tmLanguage.json`](src/grammars/bynk.tmLanguage.json) is a
-copy of the VS Code extension's grammar, as the docs site keeps one. Refresh
-it from [vscode-bynk](https://github.com/bynk-lang/vscode-bynk) when the
-grammar changes.
+The colours, type, wordmark, header and Bynk highlighting all come from the
+site theme, added as a Starlight plugin in
+[`astro.config.mjs`](astro.config.mjs). Change them in
+[bynk-lang/site-theme](https://github.com/bynk-lang/site-theme), release it,
+and update the dependency here. Only blog-specific styles live in this
+repository, in [`src/styles/blog.css`](src/styles/blog.css).

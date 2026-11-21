@@ -2,20 +2,10 @@
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import starlightBlog from "starlight-blog";
-// Bynk highlighting is a TextMate grammar (scopeName: source.bynk), which Shiki
-// consumes directly. This is a copy of the docs site's copy (bynk-lang/bynk,
-// site/src/grammars/), itself copied from the VS Code extension
-// (bynk-lang/vscode-bynk, syntaxes/bynk.tmLanguage.json). Refresh it from the
-// extension when its grammar changes.
-import bynkGrammarJson from "./src/grammars/bynk.tmLanguage.json" with { type: "json" };
-
-// TypeScript infers a JSON file's type from its contents, and the inferred
-// type for a TextMate grammar (unions of rules with optional captures) doesn't
-// fit Shiki's grammar type under strict settings, though the grammar itself is
-// valid. Say what it is. (`shiki` comes with Starlight's Expressive Code.)
-const bynkGrammar = /** @type {import("shiki").LanguageRegistration} */ (
-  /** @type {unknown} */ (bynkGrammarJson)
-);
+// The Bynk brand, shared with bynk-lang.org (bynk-lang/site-theme): the
+// design-system colours and type, the wordmark, the cross-site header, and the
+// Bynk grammar and code themes.
+import bynkSiteTheme from "@bynk-lang/site-theme";
 
 // The blog is built to live under a path on the main site, bynk-lang.org/blog,
 // so every page, asset and the search index sit under `base`. Both values can
@@ -35,14 +25,9 @@ export default defineConfig({
       // British English: dates read "18 Nov 2026".
       locales: { root: { label: "English", lang: "en-GB" } },
       favicon: "/favicon.svg",
-      // The same brand as bynk-lang.org: one electric-indigo accent, Inter for
-      // body text and Literata for headings.
-      customCss: ["./src/styles/brand.css", "./src/styles/blog.css"],
+      // Blog-only styles. The theme's styles come first.
+      customCss: ["./src/styles/blog.css"],
       components: {
-        // The cross-surface nav from bynk-lang.org, pointing back at the main
-        // site, so a reader can move between the blog, the Book and the docs.
-        Header: "./src/components/Header.astro",
-        Head: "./src/components/Head.astro",
         // The post's series, level and Bynk version, above its title.
         PageTitle: "./src/components/PageTitle.astro",
         // starlight-blog's post content, plus each series' own previous and
@@ -52,12 +37,16 @@ export default defineConfig({
         MarkdownContent: "./src/components/MarkdownContent.astro",
       },
       plugins: [
+        // The blog is built and previewed on its own, so the header's links to
+        // the rest of the site are absolute.
+        bynkSiteTheme({ origin: "https://bynk-lang.org" }),
         starlightBlog({
           title: "Bynk Blog",
           // Posts live under /blog/posts/. The blog's own home page, /blog/,
           // is src/content/docs/index.mdx: the series and the learning path.
           prefix: "posts",
-          // Our Header carries the navigation, so the plugin adds no links.
+          // The theme's header carries the navigation, so the plugin adds no
+          // links.
           navigation: "none",
           postCount: 10,
           recentPostCount: 10,
@@ -70,17 +59,6 @@ export default defineConfig({
           },
         }),
       ],
-      expressiveCode: {
-        shiki: {
-          langs: [
-            {
-              ...bynkGrammar,
-              name: "bynk",
-              embeddedLangsLazy: ["sql", "json", "html", "css", "javascript"],
-            },
-          ],
-        },
-      },
       social: [{ icon: "github", label: "GitHub", href: "https://github.com/bynk-lang/blog" }],
     }),
   ],

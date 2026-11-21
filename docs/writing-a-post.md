@@ -107,6 +107,10 @@ unchecked block is one that can quietly go out of date.
 
 ## Previewing
 
+The first `npm install` needs a token for the site theme, which comes from
+GitHub Packages: set it up once as the [README](../README.md#running-it)
+describes.
+
 ```sh
 npm install
 npm run dev                 # http://localhost:4321/blog/ (drafts included)

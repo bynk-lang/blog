@@ -17,6 +17,8 @@ on:
 
 permissions:
   contents: read
+  # checks.yml reads @bynk-lang/site-theme from GitHub Packages.
+  packages: read
 
 jobs:
   checks:
