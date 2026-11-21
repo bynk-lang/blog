@@ -31,6 +31,8 @@ permissions:
   contents: read
   # Read CI runs, for the scheduled deploy's check that CI passed on main.
   actions: read
+  # Read @bynk-lang/site-theme from GitHub Packages.
+  packages: read
 
 concurrency:
   group: deploy
@@ -90,7 +92,12 @@ jobs:
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v6
         with:
           node-version: "24"
+          # The site theme comes from GitHub Packages.
+          registry-url: https://npm.pkg.github.com
+          scope: "@bynk-lang"
       - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # `npm run build` passes --force, so the content cache never keeps a
       # scheduled post hidden after its date. Don't cache node_modules/.astro.
       - name: Build the site
