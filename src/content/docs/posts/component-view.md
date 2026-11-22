@@ -199,7 +199,7 @@ To go further:
   [README](https://github.com/bynk-lang/vscode-bynk#views-of-the-project), for
   every view, including the sequence diagram, the agent state view and the
   contract diff
-- [Understand the capability model](https://bynk-lang.org/book/guides/effects-and-capabilities/understand-the-capability-model/),
+- [Understand the capability model](https://bynk-lang.org/book/concepts/effects-and-capabilities/understand-the-capability-model/),
   for what the ports on these diagrams mean
 - The [`capabilities-and-providers`](https://github.com/bynk-lang/showcase/tree/main/capabilities-and-providers)
   and [`events`](https://github.com/bynk-lang/showcase/tree/main/events)
