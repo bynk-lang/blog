@@ -55,7 +55,11 @@ nothing at all when a merged index fails to load. Every blog page gives search
 the title "Blog · <title>" (`src/components/PageTitle.astro`), so its results
 stand out in the docs site's search. Keep Pagefind on the same minor version
 as the docs site's: CI warns when they differ, and the deploy then leaves the
-merge off, so search covers the blog alone until they match.
+merge off, so search covers the blog alone until they match. The check runs
+only when the blog builds: if the docs site later moves to a different minor
+version, the blog's search returns nothing until the blog next deploys (the
+daily build at the latest), so bump both together. A build for any host other
+than bynk-lang.org/blog/ never merges.
 
 ## Bynk code is checked
 

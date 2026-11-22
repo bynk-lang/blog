@@ -35,7 +35,14 @@ export default defineConfig({
       // Pagefind returns no results at all when a merged index fails to load,
       // and the docs site's index exists only on bynk-lang.org, so a local
       // build or preview searches the blog alone.
-      ...(process.env.BYNK_MERGE_SEARCH
+      //
+      // The docs index is at /pagefind/ only on bynk-lang.org, so a build for
+      // another host (BLOG_SITE/BLOG_BASE, say a subdomain) never merges.
+      //
+      // The deploy checks versions once, at build time. If the docs site later
+      // deploys a different Pagefind minor version, this site's search returns
+      // nothing until the blog next deploys (the daily build at the latest).
+      ...(process.env.BYNK_MERGE_SEARCH && site === "https://bynk-lang.org" && base === "/blog"
         ? {
             pagefind: {
               mergeIndex: [{ bundlePath: "/pagefind/", indexWeight: 0.5, language: "en-gb" }],
