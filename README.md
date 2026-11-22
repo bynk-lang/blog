@@ -47,6 +47,15 @@ npm run check     # type-check the config, components and pages
 npm run build     # into dist/
 ```
 
+On bynk-lang.org the blog's search also covers the docs site: the deploy sets
+`BYNK_MERGE_SEARCH`, and the search then loads the docs site's Pagefind index
+from `/pagefind/` too, at half weight so posts lead (the docs site does the
+same with the blog's). A local build leaves it off, because Pagefind returns
+nothing at all when a merged index fails to load. Every blog page gives search
+the title "Blog · <title>" (`src/components/PageTitle.astro`), so its results
+stand out in the docs site's search. Keep Pagefind on the same minor version
+as the docs site's: CI warns when they differ.
+
 ## Bynk code is checked
 
 Every ` ```bynk ` block in a post must be quoted from the

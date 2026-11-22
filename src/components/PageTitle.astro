@@ -9,6 +9,10 @@
 // (blog.css, .post-title). "Skip to content" and the table of contents jump
 // to the <h1>, so a screen reader starting there still hears it straight
 // after the title.
+//
+// Search on both sites merges the two indexes (web presence slice 7), and a
+// result shows only its title, so every blog page gives search a title that
+// says where it is from: "Blog · <title>". The <h1> itself is unchanged.
 import Default from "@astrojs/starlight/components/PageTitle.astro";
 import { SERIES, levelTitle, seriesHref } from "../lib/ladder";
 
@@ -18,7 +22,10 @@ const { series: id, level, bynkVersion } = entry.data;
 const series = id ? SERIES[id] : undefined;
 const version = bynkVersion?.replace(/^v/, "");
 const shown = isPost && (series || level || version);
+const searchTitle = `title:Blog · ${entry.data.title}`;
 ---
+
+<span hidden data-pagefind-meta={searchTitle}></span>
 
 {
   shown ? (

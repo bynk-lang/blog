@@ -104,6 +104,9 @@ jobs:
         env:
           BLOG_SITE: ${{ vars.BLOG_SITE }}
           BLOG_BASE: ${{ vars.BLOG_BASE }}
+          # Search also covers the docs site, whose index is beside the blog's
+          # on bynk-lang.org (web presence slice 7). Local builds leave it off.
+          BYNK_MERGE_SEARCH: "1"
         # An unset variable arrives as an empty string, which astro.config.mjs
         # treats as "use the default".
         run: npm run build

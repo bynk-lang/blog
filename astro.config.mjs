@@ -25,6 +25,22 @@ export default defineConfig({
       // British English: dates read "18 Nov 2026".
       locales: { root: { label: "English", lang: "en-GB" } },
       favicon: "/favicon.svg",
+      // One search box covers both sites (web presence slice 7): the blog's
+      // search also searches the docs site's index, served on the same origin
+      // at /pagefind/. Its pages rank at half weight so the posts lead. The
+      // docs site merges the blog's index the same way.
+      //
+      // Only the deploy sets BYNK_MERGE_SEARCH. Pagefind returns no results at
+      // all when a merged index fails to load, and the docs site's index
+      // exists only on bynk-lang.org, so a local build or preview searches
+      // the blog alone.
+      ...(process.env.BYNK_MERGE_SEARCH
+        ? {
+            pagefind: {
+              mergeIndex: [{ bundlePath: "/pagefind/", indexWeight: 0.5, language: "en-gb" }],
+            },
+          }
+        : {}),
       // Blog-only styles. The theme's styles come first.
       customCss: ["./src/styles/blog.css"],
       components: {
