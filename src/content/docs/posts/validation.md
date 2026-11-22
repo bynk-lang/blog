@@ -322,7 +322,7 @@ To go further:
 - [The refined-literal admission model](https://bynk-lang.org/book/guides/type-system/refined-literal-admission/),
   for why literals and `.of` work the way they do
 - [Decode untrusted JSON into a typed value](https://bynk-lang.org/book/guides/type-system/decode-json/)
-- The [refined-type reference](https://bynk-lang.org/book/reference/refined-types/),
+- The [refined-type reference](https://bynk-lang.org/reference/refined-types/),
   with every predicate
 
 Validation never goes away: someone always has to decide what a valid value

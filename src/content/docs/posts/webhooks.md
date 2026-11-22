@@ -241,9 +241,9 @@ To go further:
 
 - [Verify an inbound webhook](https://bynk-lang.org/book/guides/actors/verify-webhooks/),
   the guide in the Bynk book
-- The [actors reference](https://bynk-lang.org/book/reference/actors/), for
+- The [actors reference](https://bynk-lang.org/reference/actors/), for
   `Signature` and the other kinds of actor
-- [The failure principals](https://bynk-lang.org/book/reference/testing/#failure-principals),
+- [The failure principals](https://bynk-lang.org/reference/testing/#failure-principals),
   for `Nobody`, `Forged` and `Stale`
 - [Deduplicate at-least-once deliveries](https://bynk-lang.org/book/guides/effects-and-capabilities/deduplicate-at-least-once-deliveries/),
   for what the replay window leaves to you

@@ -17,9 +17,10 @@ experimental.
 
 ## Sources
 
-- The Book's [changelog](https://bynk-lang.org/book/reference/changelog/)
-  (`site/src/content/docs/book/reference/changelog.md` in `bynk-lang/bynk`):
-  one row per increment.
+- The [release pages](https://bynk-lang.org/reference/releases/)
+  (`site/src/content/docs/reference/releases/` in `bynk-lang/bynk`): one page
+  per release, one row per increment, with the increments not yet released on
+  `unreleased.md`.
 - The decision records in `design/decisions/` in `bynk-lang/bynk`, for why a
   change was made and what else was considered.
 - The VS Code extension's `CHANGELOG.md`, for changes to the editor.
