@@ -61,6 +61,12 @@ version, the blog's search returns nothing until the blog next deploys (the
 daily build at the latest), so bump both together. A build for any host other
 than bynk-lang.org/blog/ never merges.
 
+The blog publishes its newest posts at `/blog/posts.json`
+(`src/pages/posts.json.ts`): title, URL, summary, date, and the series,
+level and Bynk version from each post's front matter, newest first, with
+scheduled posts left out. The docs site's home page reads it when it builds,
+for its "From the blog" cards.
+
 ## Bynk code is checked
 
 Every ` ```bynk ` block in a post must be quoted from the

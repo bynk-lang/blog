@@ -63,7 +63,15 @@ export default defineConfig({
       plugins: [
         // The blog is built and previewed on its own, so the header's links to
         // the rest of the site are absolute.
-        bynkSiteTheme({ origin: "https://bynk-lang.org" }),
+        bynkSiteTheme({
+          origin: "https://bynk-lang.org",
+          // The footer's licence line: the posts are CC BY 4.0 and their code
+          // MIT, so a developer can reuse the snippets (README, "Licence").
+          licence: [
+            { label: "Posts CC BY 4.0", href: "https://github.com/bynk-lang/blog/blob/main/LICENSE-CC-BY-4.0.md" },
+            { label: "Snippets MIT", href: "https://github.com/bynk-lang/blog/blob/main/LICENSE-MIT" },
+          ],
+        }),
         starlightBlog({
           title: "Bynk Blog",
           // Posts live under /blog/posts/. The blog's own home page, /blog/,
