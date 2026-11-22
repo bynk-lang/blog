@@ -43,7 +43,25 @@ jobs:
       # `astro check` type-checks the config, the components and the .astro
       # files. The proxy has its own type check, below.
       - run: npm run check
+      # Build the deploy's search config (the docs site's index merged, web
+      # presence slice 7), so a config Starlight rejects fails here rather
+      # than on main. The output isn't served, so the docs index needn't exist.
       - run: npm run build
+        env:
+          BYNK_MERGE_SEARCH: "1"
+      # Search merges the docs site's Pagefind index (web presence slice 7), and
+      # Pagefind loads it with this site's code, so the two should share a
+      # minor version. A warning, not a failure: the docs site deploys on its own.
+      - name: Pagefind matches the docs site's (warning only)
+        run: |
+          here=$(node -p "require('./node_modules/pagefind/package.json').version")
+          if ! there=$(curl -fsS --max-time 20 https://bynk-lang.org/pagefind/pagefind-entry.json | node -pe "JSON.parse(require('fs').readFileSync(0)).version"); then
+            echo "::warning::Could not read the docs site's Pagefind version from https://bynk-lang.org/pagefind/pagefind-entry.json"
+          elif [ "$(echo "$here" | cut -d. -f1,2)" != "$(echo "$there" | cut -d. -f1,2)" ]; then
+            echo "::warning::Pagefind here is $here, the docs site's is $there. Merged search needs the same minor version: bump the older site."
+          else
+            echo "Pagefind $here here, $there on the docs site."
+          fi
 
   snippets:
     name: Snippets match their sources
