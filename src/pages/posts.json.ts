@@ -17,7 +17,8 @@ export const GET: APIRoute = async () => {
     const { title, excerpt, description, date, series, level, bynkVersion } = post.data;
     return {
       title,
-      url: href(post),
+      // Absolute, so the file stands on its own for whichever build reads it.
+      url: new URL(href(post), import.meta.env.SITE).href,
       summary: excerpt ?? description,
       date: date?.toISOString(),
       series: series ? SERIES[series].title : undefined,
