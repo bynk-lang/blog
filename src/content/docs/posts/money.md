@@ -191,7 +191,7 @@ To go further:
 
 - [Handle money correctly](https://bynk-lang.org/book/guides/type-system/handle-money-correctly/),
   the guide in the Bynk book
-- [Reference: Decimal](https://bynk-lang.org/book/reference/types/#decimal)
+- [Reference: Decimal](https://bynk-lang.org/reference/types/#decimal)
 - The [`refined-types`](https://github.com/bynk-lang/showcase/tree/main/refined-types)
   showcase project, for more on how refined types check literals and values
 

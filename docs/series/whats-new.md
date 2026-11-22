@@ -17,14 +17,15 @@ experimental.
 
 ## Sources
 
-- The Book's [changelog](https://bynk-lang.org/book/reference/changelog/)
-  (`site/src/content/docs/book/reference/changelog.md` in `bynk-lang/bynk`):
-  one row per increment.
+- The [release pages](https://bynk-lang.org/reference/releases/)
+  (`site/src/content/docs/reference/releases/` in `bynk-lang/bynk`): one page
+  per release, one row per increment, with the increments not yet released on
+  `unreleased.md`.
 - The decision records in `design/decisions/` in `bynk-lang/bynk`, for why a
   change was made and what else was considered.
 - The VS Code extension's `CHANGELOG.md`, for changes to the editor.
 
-The changelog is exhaustive. The post is a selection: pick the handful of
+The release pages are exhaustive. The post is a selection: pick the handful of
 changes a Bynk developer would notice, and leave out internal ones, such as a
 change to how the compiler builds its output that doesn't change what the
 output does.
@@ -60,4 +61,4 @@ and a link to it is enough.
 
 | # | Covers | Notes |
 |---|---|---|
-| 1 | From 0.639.1, the version the first posts were written against, to whatever is current when it's written | Read the changelog rows since 0.639.1 and pick what a developer would notice |
+| 1 | From 0.639.1, the version the first posts were written against, to whatever is current when it's written | Read the release rows since 0.639.1 and pick what a developer would notice |

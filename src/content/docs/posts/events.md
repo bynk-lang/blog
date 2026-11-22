@@ -320,7 +320,7 @@ To go further:
 - [Understand events](https://bynk-lang.org/book/guides/events/understand-events/),
   the guide in the Bynk book, for envelopes, versioning events and delivery
   on each platform
-- [Delivering an event](https://bynk-lang.org/book/reference/testing/#event-address),
+- [Delivering an event](https://bynk-lang.org/reference/testing/#event-address),
   in the testing reference
 - The [`queues`](https://github.com/bynk-lang/showcase/tree/main/queues)
   showcase project, for messages sent to one consumer, with retries

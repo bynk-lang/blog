@@ -268,8 +268,9 @@ In one small app, you've met the main ideas in Bynk:
 
 ## Where next
 
-- The [Bynk Book](https://bynk-lang.org/book/): tutorials, guides and the full
-  reference. If you're coming from TypeScript, start with
+- The [Bynk Book](https://bynk-lang.org/book/): tutorials, concepts and guides,
+  with the full rules in the [Reference](https://bynk-lang.org/reference/). If
+  you're coming from TypeScript, start with
   [Coming from TypeScript](https://bynk-lang.org/book/introduction/coming-from-typescript/).
 - The [showcase](https://github.com/bynk-lang/showcase): small projects, one
   feature each, from money to webhooks.
