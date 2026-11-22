@@ -100,13 +100,32 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # `npm run build` passes --force, so the content cache never keeps a
       # scheduled post hidden after its date. Don't cache node_modules/.astro.
+      # Search also covers the docs site, whose index is beside the blog's on
+      # bynk-lang.org (web presence slice 7). Pagefind loads a merged index
+      # with this site's code and returns no results at all when that fails,
+      # so the merge is turned on only when the live docs index was built with
+      # the same Pagefind minor version. Otherwise this deploy searches the
+      # blog alone, and says so.
+      - name: Decide whether search merges the docs site's index
+        id: merge
+        run: |
+          here=$(node -p "require('./node_modules/pagefind/package.json').version")
+          url=https://bynk-lang.org/pagefind/pagefind-entry.json
+          if ! there=$(curl -fsS --max-time 20 "$url" | node -pe "JSON.parse(require('fs').readFileSync(0)).version"); then
+            echo "::warning::Could not read the docs site's Pagefind version from $url: search will cover the blog alone."
+            echo "flag=" >> "$GITHUB_OUTPUT"
+          elif [ "$(echo "$here" | cut -d. -f1,2)" != "$(echo "$there" | cut -d. -f1,2)" ]; then
+            echo "::warning::Pagefind here is $here, the docs site's is $there: search will cover the blog alone until they match."
+            echo "flag=" >> "$GITHUB_OUTPUT"
+          else
+            echo "Pagefind $here here, $there on the docs site: search covers both."
+            echo "flag=1" >> "$GITHUB_OUTPUT"
+          fi
       - name: Build the site
         env:
           BLOG_SITE: ${{ vars.BLOG_SITE }}
           BLOG_BASE: ${{ vars.BLOG_BASE }}
-          # Search also covers the docs site, whose index is beside the blog's
-          # on bynk-lang.org (web presence slice 7). Local builds leave it off.
-          BYNK_MERGE_SEARCH: "1"
+          BYNK_MERGE_SEARCH: ${{ steps.merge.outputs.flag }}
         # An unset variable arrives as an empty string, which astro.config.mjs
         # treats as "use the default".
         run: npm run build

@@ -54,7 +54,8 @@ same with the blog's). A local build leaves it off, because Pagefind returns
 nothing at all when a merged index fails to load. Every blog page gives search
 the title "Blog · <title>" (`src/components/PageTitle.astro`), so its results
 stand out in the docs site's search. Keep Pagefind on the same minor version
-as the docs site's: CI warns when they differ.
+as the docs site's: CI warns when they differ, and the deploy then leaves the
+merge off, so search covers the blog alone until they match.
 
 ## Bynk code is checked
 

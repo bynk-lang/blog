@@ -30,10 +30,11 @@ export default defineConfig({
       // at /pagefind/. Its pages rank at half weight so the posts lead. The
       // docs site merges the blog's index the same way.
       //
-      // Only the deploy sets BYNK_MERGE_SEARCH. Pagefind returns no results at
-      // all when a merged index fails to load, and the docs site's index
-      // exists only on bynk-lang.org, so a local build or preview searches
-      // the blog alone.
+      // The deploy sets BYNK_MERGE_SEARCH when the live docs index shares
+      // this site's Pagefind minor version; CI sets it to check the config.
+      // Pagefind returns no results at all when a merged index fails to load,
+      // and the docs site's index exists only on bynk-lang.org, so a local
+      // build or preview searches the blog alone.
       ...(process.env.BYNK_MERGE_SEARCH
         ? {
             pagefind: {
