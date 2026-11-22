@@ -227,7 +227,7 @@ To go further:
 
 - The [refined-type reference](https://bynk-lang.org/reference/refined-types/),
   with every predicate and every compile error
-- [The refined-literal admission model](https://bynk-lang.org/book/guides/type-system/refined-literal-admission/),
+- [The refined-literal admission model](https://bynk-lang.org/book/concepts/type-system/refined-literal-admission/),
   for why literals and `.of` work as they do
 - [Narrow and bind with `is`](https://bynk-lang.org/book/guides/type-system/narrow-with-is/)
 - [`Val[T]` and property tests](https://bynk-lang.org/reference/testing/#val),
