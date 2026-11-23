@@ -1,10 +1,12 @@
 // Each published post, and the blog's home page, gets a social preview
 // image: its card from src/pages/og/ (src/lib/og.ts), as og:image and
 // twitter:image, with its size and a description for people who can't see it.
-// A page that already declares an og:image (a post with a `cover`) keeps it.
+// A page that already declares an og:image (in its frontmatter `head`) keeps
+// it: the check runs after every other middleware, whatever their order.
 import { defineRouteMiddleware } from "@astrojs/starlight/route-data";
 
-export const onRequest = defineRouteMiddleware((context) => {
+export const onRequest = defineRouteMiddleware(async (context, next) => {
+  await next();
   const route = context.locals.starlightRoute;
   const { id, entry } = route;
   const isPost = id.startsWith("posts/") && entry.data.date !== undefined && !entry.data.draft;

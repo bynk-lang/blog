@@ -5,9 +5,11 @@
 //
 // The card is drawn as SVG and rasterised with sharp, so it needs no browser.
 // SVG text does not wrap, so the title is broken into lines here, by an
-// estimate of the face's average character width. The text is set in the
-// first face of the stack the build machine has: Instrument Sans, as the
-// site, where it is installed.
+// estimate of the average character width. The text is set in the first face
+// of the stack the build machine has: Instrument Sans, as the site, where it
+// is installed, but a GitHub runner usually has only DejaVu Sans, the widest
+// face in the stack. The estimate is DejaVu Sans Bold's, so a title fits in
+// any of them; in a narrower face its lines are just a little shorter.
 import sharp from "sharp";
 
 export const OG_WIDTH = 1200;
@@ -22,6 +24,8 @@ const ACCENT = "#3cc4a6";
 const FONT = "'Instrument Sans', Inter, 'DejaVu Sans', 'Liberation Sans', Arial, sans-serif";
 
 const PAD = 80;
+/** DejaVu Sans Bold's average character width, in ems, for mixed-case text. */
+const CHAR_EM = 0.64;
 
 const escape = (text: string) =>
   text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -45,12 +49,11 @@ function wrap(text: string, max: number): string[] {
 /** The title's lines and size: as large as fits in four lines. */
 function fitTitle(title: string): { lines: string[]; size: number } {
   for (const size of [76, 68, 60, 52]) {
-    // About 0.55em per character in these faces.
-    const max = Math.floor((OG_WIDTH - 2 * PAD) / (size * 0.55));
+    const max = Math.floor((OG_WIDTH - 2 * PAD) / (size * CHAR_EM));
     const lines = wrap(title, max);
     if (lines.length <= 3 || (size === 52 && lines.length <= 4)) return { lines, size };
   }
-  const lines = wrap(title, Math.floor((OG_WIDTH - 2 * PAD) / (52 * 0.55)));
+  const lines = wrap(title, Math.floor((OG_WIDTH - 2 * PAD) / (52 * CHAR_EM)));
   return { lines: [...lines.slice(0, 3), `${lines[3]}…`], size: 52 };
 }
 
