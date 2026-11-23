@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@astrojs/starlight": "^0.43.1",
-    "@bynk-lang/site-theme": "^0.3.2",
+    "@bynk-lang/site-theme": "^0.4.0",
     "astro": "^7.4.13",
     "sharp": "^0.35.5",
     "starlight-blog": "^0.30.2"

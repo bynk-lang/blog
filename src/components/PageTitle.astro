@@ -10,10 +10,9 @@
 // to the <h1>, so a screen reader starting there still hears it straight
 // after the title.
 //
-// Search on both sites merges the two indexes (web presence slice 7), and a
-// result shows only its title, so every blog page gives search a title that
-// says where it is from: "Blog · <title>". The <h1> itself is unchanged.
-import Default from "@astrojs/starlight/components/PageTitle.astro";
+// The title itself is the site theme's, which labels the page for search
+// ("Blog · <title>", and the Blog section filter), as on the docs site.
+import Default from "@bynk-lang/site-theme/components/PageTitle.astro";
 import { SERIES, levelTitle, seriesHref } from "../lib/ladder";
 
 const { entry } = Astro.locals.starlightRoute;
@@ -22,10 +21,7 @@ const { series: id, level, bynkVersion } = entry.data;
 const series = id ? SERIES[id] : undefined;
 const version = bynkVersion?.replace(/^v/, "");
 const shown = isPost && (series || level || version);
-const searchTitle = `title:Blog · ${entry.data.title}`;
 ---
-
-<span hidden data-pagefind-meta={searchTitle}></span>
 
 {
   shown ? (

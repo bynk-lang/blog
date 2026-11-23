@@ -21,6 +21,9 @@
   font-size: var(--sl-text-sm);
   color: var(--sl-color-gray-3) !important;
 }
+.post-list-meta > * + *::before {
+  content: " · ";
+}
 .post-list-empty {
   color: var(--sl-color-gray-3);
   font-style: italic;
