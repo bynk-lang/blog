@@ -49,6 +49,8 @@ export default defineConfig({
             },
           }
         : {}),
+      // Each post's social preview image (src/routeData.ts, src/pages/og/).
+      routeMiddleware: "./src/routeData.ts",
       // Blog-only styles. The theme's styles come first.
       customCss: ["./src/styles/blog.css"],
       components: {
@@ -65,6 +67,9 @@ export default defineConfig({
         // the rest of the site are absolute.
         bynkSiteTheme({
           origin: "https://bynk-lang.org",
+          // One header on both sites: the wordmark goes to bynk-lang.org's
+          // home, as it does there. The header's Blog link marks this site.
+          titleHref: "https://bynk-lang.org/",
           // The footer's licence line: the posts are CC BY 4.0 and their code
           // MIT, so a developer can reuse the snippets (README, "Licence").
           licence: [
@@ -91,7 +96,11 @@ export default defineConfig({
           },
         }),
       ],
-      social: [{ icon: "github", label: "GitHub", href: "https://github.com/bynk-lang/blog" }],
+      // The header's GitHub link is this blog's source; the language's
+      // repository is in the footer of bynk-lang.org. starlight-blog adds an
+      // RSS link here too; the theme's header leaves it out, and the home page
+      // links the feed instead.
+      social: [{ icon: "github", label: "Blog source on GitHub", href: "https://github.com/bynk-lang/blog" }],
     }),
   ],
 });
