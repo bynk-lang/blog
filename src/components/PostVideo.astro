@@ -1,58 +1,21 @@
 ---
-// A post's YouTube video, at the top of the post (its `video` field; see
-// src/content.config.ts). Rendered by MarkdownContent.astro.
+// A link to a post's YouTube video, at the top of the post (its `video` field;
+// see src/content.config.ts). Rendered by MarkdownContent.astro.
 //
-// Nothing loads from YouTube's player until a reader asks for it: the page
-// shows the video's thumbnail with a play button, as a link to the video on
-// YouTube. Clicking it swaps in the player from youtube-nocookie.com, which
-// starts playing. So a visit sets no YouTube cookies, and a post with a video
-// is as quick to open as one without. Without JavaScript, or with a modifier
-// key held, the link opens the video on YouTube instead.
+// The post links to the video rather than embedding it, so the page loads
+// nothing from YouTube and sets no YouTube cookies.
 interface Props {
   id: string;
-  title: string;
 }
 
-const { id, title } = Astro.props;
-const watch = `https://www.youtube.com/watch?v=${id}`;
-const thumbnail = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+const { id } = Astro.props;
 ---
 
-<figure class="post-video not-content" data-pagefind-ignore>
-  <a class="post-video-frame" href={watch} data-video-id={id} data-video-title={title}>
-    <img src={thumbnail} alt="" width="480" height="360" decoding="async" />
-    <span class="post-video-play" aria-hidden="true">
-      <svg viewBox="0 0 68 48" width="68" height="48" focusable="false">
-        <path class="post-video-play-bg" d="M66.5 7.7a8.5 8.5 0 0 0-6-6C55.2.3 34 .3 34 .3s-21.2 0-26.5 1.4a8.5 8.5 0 0 0-6 6C.1 13 .1 24 .1 24s0 11 1.4 16.3a8.5 8.5 0 0 0 6 6C12.8 47.7 34 47.7 34 47.7s21.2 0 26.5-1.4a8.5 8.5 0 0 0 6-6C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z" />
-        <path class="post-video-play-arrow" d="M45 24 27 14v20z" />
-      </svg>
-    </span>
-    <span class="sr-only">Play the video: {title}</span>
+<p class="post-video not-content" data-pagefind-ignore>
+  <a href={`https://www.youtube.com/watch?v=${id}`}>
+    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+      <path d="M8 5v14l11-7z" fill="currentColor" />
+    </svg>
+    Watch on YouTube
   </a>
-  <figcaption>
-    <a href={watch}>Watch on YouTube</a>
-  </figcaption>
-</figure>
-
-<script>
-  // Swap the thumbnail for the player when it's clicked.
-  for (const link of document.querySelectorAll<HTMLAnchorElement>(".post-video-frame")) {
-    link.addEventListener("click", (event) => {
-      // Let a modifier-click open YouTube in a new tab or window, as a link would.
-      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-      event.preventDefault();
-      const { videoId, videoTitle } = link.dataset;
-      if (!videoId) return;
-      const player = document.createElement("iframe");
-      player.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0`;
-      player.title = videoTitle ? `Video: ${videoTitle}` : "Video";
-      player.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
-      player.allowFullscreen = true;
-      // YouTube's embedded player refuses to play without a referrer.
-      player.referrerPolicy = "strict-origin-when-cross-origin";
-      player.className = "post-video-frame";
-      link.replaceWith(player);
-      player.focus();
-    });
-  }
-</script>
+</p>

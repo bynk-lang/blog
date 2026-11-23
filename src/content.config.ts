@@ -99,7 +99,7 @@ export const collections = {
             repo: z.string().optional(),
             // The Bynk release the post was written against.
             bynkVersion: z.string().optional(),
-            // The post's YouTube video, shown at the top of the post
+            // The post's YouTube video, linked at the top of the post
             // (src/components/PostVideo.astro). Give its 11-character ID or
             // a YouTube link to it; the build keeps only the ID (so a start
             // time in the link is dropped), and fails on anything it can't
