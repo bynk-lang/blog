@@ -8,6 +8,7 @@ excerpt: "Open the Bynk starter in your browser, run it, change it and deploy it
 level: first-steps
 repo: starter
 bynkVersion: 0.639.1
+video: https://youtu.be/pmTofaDHflo
 ---
 
 Bynk is a statically typed language for building services. You write Bynk,

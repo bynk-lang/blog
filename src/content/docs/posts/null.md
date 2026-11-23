@@ -9,6 +9,7 @@ series: the-problem-with
 level: first-steps
 showcase: results-and-optionals
 bynkVersion: 0.639.1
+video: https://youtu.be/YHcmzsuPkIU
 ---
 
 Picture a café till. The barista types in an order line: a product code and a

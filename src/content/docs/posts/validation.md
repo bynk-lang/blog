@@ -9,6 +9,7 @@ series: the-problem-with
 level: first-steps
 showcase: [refined-types, decode-json]
 bynkVersion: 0.639.1
+video: https://youtu.be/BB5PcsUyagY
 ---
 
 Picture a small online shop. An order line has two parts: a stock code, such

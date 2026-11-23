@@ -9,6 +9,7 @@ series: the-problem-with
 level: building
 showcase: money
 bynkVersion: 0.639.1
+video: https://youtu.be/_MFbw8x-1uY
 ---
 
 Open a JavaScript console and type `0.1 + 0.2`. The answer is
