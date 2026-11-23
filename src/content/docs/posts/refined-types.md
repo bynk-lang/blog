@@ -9,6 +9,7 @@ series: a-closer-look
 level: building
 showcase: [refined-types, money, capabilities-and-providers, testing]
 bynkVersion: 0.639.1
+video: https://youtu.be/-jex83geABM
 ---
 
 ["Check once, trust everywhere"](../validation/) showed what
