@@ -46,6 +46,27 @@ export const tags = [
 // decides once, when it starts, so restart it to see a post whose date has come.
 const buildTime = new Date();
 
+// A YouTube video's ID, from the ID itself or a link to the video: a watch
+// page (youtube.com/watch?v=…), a short link (youtu.be/…), or a Shorts, live
+// or embed page. Anything else is returned as it was, for the schema to reject.
+function youTubeId(value: string): string {
+  if (/^[\w-]{11}$/.test(value)) return value;
+  let url: URL;
+  try {
+    url = new URL(value);
+  } catch {
+    return value;
+  }
+  const host = url.hostname.replace(/^(www|m|music)\./, "");
+  if (host === "youtu.be") return url.pathname.slice(1);
+  if (host === "youtube.com" || host === "youtube-nocookie.com") {
+    if (url.pathname === "/watch") return url.searchParams.get("v") ?? value;
+    const match = url.pathname.match(/^\/(?:shorts|live|embed)\/([\w-]+)/);
+    if (match) return match[1];
+  }
+  return value;
+}
+
 export const collections = {
   // The site's language is en-GB (for British date formats). starlight-blog
   // ships its UI strings under `en` only, so src/content/i18n/en-GB.json
@@ -78,6 +99,16 @@ export const collections = {
             repo: z.string().optional(),
             // The Bynk release the post was written against.
             bynkVersion: z.string().optional(),
+            // The post's YouTube video, shown at the top of the post
+            // (src/components/PostVideo.astro). Give its 11-character ID or
+            // any YouTube link to it; the build keeps only the ID, and fails
+            // on anything it can't read one from.
+            video: z
+              .string()
+              .trim()
+              .transform(youTubeId)
+              .pipe(z.string().regex(/^[\w-]{11}$/, "Give a YouTube video ID or a link to the video"))
+              .optional(),
           }),
       })(context).transform((data) =>
         data.date && data.date > buildTime ? { ...data, draft: true } : data,

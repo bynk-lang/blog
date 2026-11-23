@@ -94,3 +94,60 @@
 .series h3 a:hover {
   text-decoration: underline;
 }
+
+/* A post's video, at the top of the post (src/components/PostVideo.astro):
+   first its thumbnail with a play button, then, once clicked, the player. */
+.post-video {
+  margin-block: 1.5rem 2rem;
+}
+.post-video-frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0.5rem;
+  background: #000;
+}
+.post-video-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.post-video-play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+.post-video-play-bg {
+  fill: #212121;
+  fill-opacity: 0.8;
+  transition: fill 0.1s, fill-opacity 0.1s;
+}
+.post-video-play-arrow {
+  fill: #fff;
+}
+.post-video-frame:hover .post-video-play-bg,
+.post-video-frame:focus-visible .post-video-play-bg {
+  fill: #f00;
+  fill-opacity: 1;
+}
+.post-video-frame:focus-visible {
+  outline: 2px solid var(--sl-color-accent-high);
+  outline-offset: 2px;
+}
+.post-video figcaption {
+  margin-top: 0.5rem;
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-3);
+}
+.post-video figcaption a {
+  font-weight: 600;
+  color: var(--sl-color-accent-high);
+  text-decoration: none;
+}
+.post-video figcaption a:hover {
+  text-decoration: underline;
+}
