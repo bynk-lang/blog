@@ -51,6 +51,7 @@ showcase: money        # the bynk-lang/showcase project the code comes from
 # showcase: [refined-types, decode-json]   # or several, as a list
 # repo: starter        # or: another bynk-lang repository it comes from instead
 bynkVersion: 0.639.1   # the Bynk release the post was written against (shown on the post)
+video: https://youtu.be/VIDEO_ID   # optional: the post's YouTube video (a link or just the ID)
 draft: true            # remove to publish
 ---
 ```
@@ -75,6 +76,16 @@ post lists:
 - **building**: can write Bynk and is building a real service.
 - **designing**: shaping a system with capabilities, agents and contexts.
 - **contributing**: working on the language or its toolchain.
+
+`video` is the post's YouTube video, if it has one, shown at the top of the
+post under the date and author. Paste the video's link (a `youtube.com/watch`
+page or a `youtu.be` short link) or just its 11-character ID; the build fails
+on anything else. Only the ID is kept, so a start time in the link (`?t=90`)
+is ignored and the video plays from the beginning. The frame is landscape
+(16:9), so a vertical Short would be cropped: use a landscape video. Until a reader clicks play, the post shows
+only the video's thumbnail, so a visit sets no YouTube cookies. The video
+isn't part of the post's text, so the RSS feed and search leave it out: write
+the post so it stands on its own without it.
 
 ## Code
 

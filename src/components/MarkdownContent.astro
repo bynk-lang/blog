@@ -3,9 +3,11 @@
 // renders it (date, author, tags, previous and next links), as its plugin
 // would if this override didn't exist. On a post in a series, SeriesNav adds
 // the series' own previous and next posts, which replace the plugin's
-// date-ordered links (hidden in blog.css when SeriesNav is present).
+// date-ordered links (hidden in blog.css when SeriesNav is present). A post
+// with a `video` shows it first, after the date and author (PostVideo).
 import Default from "@astrojs/starlight/components/MarkdownContent.astro";
 import BlogMarkdownContent from "starlight-blog/components/MarkdownContent.astro";
+import PostVideo from "./PostVideo.astro";
 import SeriesNav from "./SeriesNav.astro";
 
 const { entry } = Astro.locals.starlightRoute;
@@ -15,6 +17,7 @@ const isPost = entry.id.startsWith("posts/") && entry.data.date !== undefined;
 {
   isPost ? (
     <BlogMarkdownContent>
+      {entry.data.video && <PostVideo id={entry.data.video} title={entry.data.title} />}
       <slot />
       <SeriesNav />
     </BlogMarkdownContent>
