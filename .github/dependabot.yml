@@ -27,6 +27,11 @@ updates:
     groups:
       site:
         patterns: ["*"]
+    # @astrojs/check (and the Volar packages under it) require typescript <7,
+    # so hold TypeScript at 6.x until they support 7.
+    ignore:
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: npm
     directory: /proxy
     schedule:
