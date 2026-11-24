@@ -24,7 +24,7 @@ on:
   # by morning in the UK. GitHub runs a schedule on the default branch only, and
   # pauses it after 60 days without activity in the repository.
   schedule:
-    - cron: "17 5 * * *"
+    - cron: "37 13 * * *"
   workflow_dispatch:
 
 permissions:
