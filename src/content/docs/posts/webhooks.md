@@ -1,6 +1,6 @@
 ---
 title: "Who really sent this?"
-description: "Checking a webhook signature by hand fails quietly: the wrong bytes, a leaky comparison, no replay guard. Why Bynk generates the HMAC check for you."
+description: "Checking a webhook signature by hand can fail quietly: the wrong bytes, a leaky comparison, no replay guard. Why Bynk generates the HMAC check for you."
 date: 2026-11-21
 authors: matthew
 tags: [security, http, validation]
