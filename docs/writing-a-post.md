@@ -38,7 +38,10 @@ question or claim that the post answers or argues, in sentence case.
 `src/content/docs/posts/money.md` is served at `/blog/posts/money/`. Use one
 or two lowercase words for what the post is about (`money`, `webhooks`,
 `refined-types`), not the title, so the URL stays put if the title changes.
-The topic must be unique across all the series.
+The topic must be unique across all the series. Two series are the
+exception: a *What's new* post's slug carries the last version it covers
+(`whats-new-0-661`), and a *Build it with Bynk* part's slug is
+`turn-up-<part>` (`turn-up-3`), since their posts share one topic.
 
 ## Frontmatter
 

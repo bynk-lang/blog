@@ -3,7 +3,7 @@ slug: turn-up-1
 series: build-it
 workingTitle: "An event, and the rules it keeps"
 level: first-steps
-repo: turn-up
+repo: turn-up/01-an-event
 tags: [getting-started, types, validation]
 status: idea                      # ready once 01-an-event/ is merged in bynk-lang/turn-up
 pr:
@@ -14,7 +14,7 @@ video: none
 ## Brief
 
 For readers who have finished *Getting started* and want to build their own
-service. Part 1 starts *Turn up* from an empty folder: `bynk new`, the `Event`
+service. Part 1 starts *Turn up* from an empty folder: `bynk new`, the `Gathering`
 record, and the rules an event keeps, written as refined types and checked by
 a first test. The reader leaves with a project that compiles and a test that
 passes, and knows how a rule on a type differs from a check in a function.
@@ -35,7 +35,7 @@ live?
 
 ### What you'll build
 
-- A project with an `Event` type that can't hold an impossible capacity, and
+- A project with a `Gathering` type that can't hold an impossible capacity, and
   a test that proves it.
 
 ### The steps
@@ -44,7 +44,7 @@ live?
    `tests/`). Run `bynk test` on the empty project.
 2. A commons for the domain, and `type Capacity = Int where …` (1 to 500).
 3. `type Title = String where …` (a length range).
-4. The `Event` record: title, capacity, start time (an `Instant`).
+4. The `Gathering` record (an event, in the reader's words; see the naming note in the series plan): title, capacity, start time (an `Instant`).
 5. Make one with `.of`, and read the `Result`.
 6. A suite with three cases: a good event, a capacity of 0, a capacity of 501.
 7. Try a literal that breaks the rule, and read the compile error (literal
@@ -66,7 +66,7 @@ live?
 
 ## Code to quote
 
-- `01-an-event/`: the refined types, the `Event` record, and the test suite.
+- `01-an-event/`: the refined types, the `Gathering` record, and the test suite.
   The code is written first; see the series plan.
 
 ## Facts to check

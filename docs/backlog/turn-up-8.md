@@ -3,8 +3,8 @@ slug: turn-up-8
 series: build-it
 workingTitle: "Tapped twice"
 level: building
-repo: turn-up
-tags: [idempotency, http]
+repo: turn-up/08-tapped-twice
+tags: [http, concurrency]
 status: idea                      # ready once 08-tapped-twice/ is merged in bynk-lang/turn-up
 pr:
 published:

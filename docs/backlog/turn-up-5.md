@@ -3,7 +3,7 @@ slug: turn-up-5
 series: build-it
 workingTitle: "A place on the waiting list"
 level: building
-repo: turn-up
+repo: turn-up/05-waiting-list
 tags: [types, agents]
 status: idea                      # ready once 05-waiting-list/ is merged in bynk-lang/turn-up
 pr:

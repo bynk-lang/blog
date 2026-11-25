@@ -3,7 +3,7 @@ slug: turn-up-4
 series: build-it
 workingTitle: "Only the organiser"
 level: building
-repo: turn-up
+repo: turn-up/04-only-the-organiser
 tags: [security, http]
 status: idea                      # ready once 04-only-the-organiser/ is merged in bynk-lang/turn-up
 pr:

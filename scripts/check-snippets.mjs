@@ -18,6 +18,9 @@
 // the starter template, names it in a `repo` field (`repo: starter`), and every
 // ```bynk block must appear in that repository's .bynk source. The checkout is
 // passed as `--repo starter=<dir>`, or found beside this one (../starter).
+// A post can name one folder of that repository instead
+// (`repo: turn-up/03-whos-coming`), and its blocks must then appear in that
+// folder's source alone. The folder needs a bynk.toml; the root doesn't.
 //
 // A block that is deliberately not from either (pseudo-code, or a
 // counter-example that must not compile) opts out with `nocheck` in its fence:
@@ -159,24 +162,24 @@ async function projectSources(project) {
 }
 
 const repoSourceCache = new Map();
-async function repoSources(name) {
-  if (!repoSourceCache.has(name)) {
-    // Without --repo, look for a sibling checkout (../starter), as for the
-    // showcase.
-    const sibling = join(root, "..", name);
-    const dir =
-      repoDirs.get(name) ??
-      (await stat(join(sibling, "bynk.toml")).then(
-        () => sibling,
-        () => undefined,
-      ));
+async function repoSources(repo) {
+  if (!repoSourceCache.has(repo)) {
+    // `name` or `name/folder`. Without --repo, look for a sibling checkout
+    // (../starter), as for the showcase.
+    const [name, ...rest] = repo.split("/");
+    const folder = rest.join("/");
+    const base = repoDirs.get(name) ?? join(root, "..", name);
+    const dir = await stat(join(base, folder, "bynk.toml")).then(
+      () => join(base, folder),
+      () => undefined,
+    );
     const files = dir ? await walk(dir, (n) => n.endsWith(".bynk")).catch(() => null) : null;
     const sources = files
       ? await Promise.all(files.map(async (f) => normalise((await readFile(f, "utf8")).split(/\r?\n/))))
       : null;
-    repoSourceCache.set(name, sources);
+    repoSourceCache.set(repo, sources);
   }
-  return repoSourceCache.get(name);
+  return repoSourceCache.get(repo);
 }
 
 const showcaseExists = await stat(join(showcaseDir, "bynk.toml")).then(
@@ -201,7 +204,8 @@ for (const post of await walk(postsDir, (name) => /\.mdx?$/.test(name))) {
     where = `bynk-lang/${repo}`;
     sources = await repoSources(repo);
     if (!sources) {
-      fail(post, 1, `no checkout of bynk-lang/${repo}: clone it to ../${repo}, or pass --repo ${repo}=<dir>`);
+      const name = repo.split("/")[0];
+      fail(post, 1, `no project at bynk-lang/${repo} (looked for its bynk.toml): clone bynk-lang/${name} to ../${name}, or pass --repo ${name}=<dir>`);
       continue;
     }
   } else if (showcase && showcase.length > 0) {

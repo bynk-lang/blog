@@ -3,7 +3,7 @@ slug: turn-up-3
 series: build-it
 workingTitle: "Who's coming?"
 level: first-steps
-repo: turn-up
+repo: turn-up/03-whos-coming
 tags: [agents, errors]
 status: idea                      # ready once 03-whos-coming/ is merged in bynk-lang/turn-up
 pr:
@@ -37,7 +37,7 @@ it, and what does the other one see?
 
 ### The steps
 
-1. `agent Event` keyed by the event's id, with `store` fields for the details
+1. `agent Signups` keyed by the gathering's id, with `store` fields for the details
    and the attendees.
 2. `on call signUp(…)` returning `Result[…, Full]`.
 3. The route calls the agent and turns `Err(Full)` into `Conflict`.

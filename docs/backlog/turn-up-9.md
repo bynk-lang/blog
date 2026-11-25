@@ -3,7 +3,7 @@ slug: turn-up-9
 series: build-it
 workingTitle: "Ship it"
 level: building
-repo: turn-up
+repo: turn-up/09-ship-it
 tags: [deployment, tooling]
 status: idea                      # ready once 09-ship-it/ is merged in bynk-lang/turn-up
 pr:

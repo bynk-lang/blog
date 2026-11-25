@@ -3,7 +3,7 @@ slug: turn-up-6
 series: build-it
 workingTitle: "Tell them they're in"
 level: building
-repo: turn-up
+repo: turn-up/06-tell-them
 tags: [capabilities, agents, testing]
 status: idea                      # ready once 06-tell-them/ is merged in bynk-lang/turn-up
 pr:
@@ -13,7 +13,7 @@ video: none
 
 ## Brief
 
-Part 6 splits the service in two. The events context announces each sign-up
+Part 6 splits the service in two. The sign-ups context announces each sign-up
 and promotion as an event, and a new notifications context hears them and
 sends an email through a capability. The reader leaves knowing how contexts
 talk without naming each other, how a capability and its provider keep email
@@ -39,7 +39,7 @@ might be a text message, or nothing at all.
 
 ### The steps
 
-1. Event types (`SignedUp`, `Promoted`) in the shared commons.
+1. Bynk event types (`SignedUp`, `Promoted`); this is where the word "event" gets a second meaning, so say so in a sentence in the shared commons.
 2. `Events.emit` from the agent or route; say which, and why.
 3. A `notify` context: a service `from Events(…)` with `on event`.
 4. A capability for sending, provided by Cloudflare's `Email` (experimental:
@@ -86,5 +86,5 @@ might be a text message, or nothing at all.
 
 ## Video angle
 
-The events context rings a bell; the notifications context, in the next room,
+The sign-ups context rings a bell; the notifications context, in the next room,
 hears it and posts a letter. Neither can see the other. About 4:30.

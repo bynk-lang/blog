@@ -3,8 +3,8 @@ slug: turn-up-7
 series: build-it
 workingTitle: "See you tomorrow"
 level: building
-repo: turn-up
-tags: [time, testing]
+repo: turn-up/07-see-you-tomorrow
+tags: [testing, concurrency]
 status: idea                      # ready once 07-see-you-tomorrow/ is merged in bynk-lang/turn-up
 pr:
 published:

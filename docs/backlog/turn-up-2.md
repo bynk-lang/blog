@@ -3,7 +3,7 @@ slug: turn-up-2
 series: build-it
 workingTitle: "Open the doors"
 level: first-steps
-repo: turn-up
+repo: turn-up/02-open-the-doors
 tags: [http, getting-started]
 status: idea                      # ready once 02-open-the-doors/ is merged in bynk-lang/turn-up
 pr:
@@ -15,19 +15,19 @@ video: none
 
 Part 2 puts an HTTP service in front of the model: create an event, read it
 back. The reader leaves knowing how a route is declared, how a request body
-becomes an `Event` before the handler runs (and why a bad one is a `400`
+becomes a `Gathering` before the handler runs (and why a bad one is a `400`
 without a line of validation code), and how to try it with `bynk dev`.
 
 ## Hook
 
-The `Event` type keeps its rules, but nobody can reach it yet. Open the doors,
+The `Gathering` type keeps its rules, but nobody can reach it yet. Open the doors,
 and see what happens when someone sends a capacity of minus three.
 
 ## Outline
 
 ### Where we are
 
-- Part 1's project: a commons with `Event` and its rules, and a test suite.
+- Part 1's project: a commons with `Gathering` and its rules, and a test suite.
   Link `01-an-event/`.
 
 ### What you'll build

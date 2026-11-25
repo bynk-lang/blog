@@ -44,9 +44,11 @@ A later part changes code an earlier part quoted, so each part keeps its own
 copy. The repository's CI runs `bynk fmt --check`, `bynk check` and
 `bynk test` on every folder.
 
-A post sets `repo: turn-up` (instead of `showcase`), and every ` ```bynk `
-block must appear in the repository's source, which
-`scripts/check-snippets.mjs` already supports. Before the first post that
+A post names the folder it ends with, `repo: turn-up/03-whos-coming`
+(instead of `showcase`), and `scripts/check-snippets.mjs` holds every
+` ```bynk ` block to that folder's source alone, so a part can't quote a
+later part's code. Each folder has its own `bynk.toml`; the repository root
+needs none. Before the first post that
 uses it is merged, add a checkout of `bynk-lang/turn-up` to
 `.github/workflows/checks.yml` and `snippets-canary.yml`, beside the starter's,
 and pass `--repo turn-up=.turn-up`.
@@ -63,7 +65,7 @@ Use these as headings.
    folder this post starts from.
 2. **What you'll build.** The outcome, shown as a request and its response,
    or a test that will pass.
-3. **The steps.** Numbered (`### 1. Add the Event type`). Each says what to
+3. **The steps.** Numbered (`### 1. Add the Gathering type`). Each says what to
    do, shows the code, then shows what you should see. No step leaves the
    project broken: the reader can run `bynk check` after every one.
 4. **Check it works.** Run the tests, then try it with `bynk dev` and `curl`.
@@ -83,9 +85,16 @@ Use these as headings.
   `BYNK_VERSION` (or `bynk.toml`) in step with it.
 - **Experimental features.** `Email` and `Queue` are experimental: say so
   where they appear, and show the `[unstable] allow` line.
+- **Names.** In prose, an *event* is the thing people sign up for. In code
+  it's a `Gathering`, and the agent that holds its sign-ups is `Signups`,
+  because part 6 brings Bynk's own events (messages between contexts), and
+  one word mustn't mean two things in the code. Part 6 says so in a sentence.
 - **Level.** `first-steps` for parts 1 to 3, `building` after that.
 - **Slugs.** A part's slug is `turn-up-<part>`, so the parts sort together and
-  the URL stays put if a title changes.
+  the URL stays put if a title changes (the writing guide lists this
+  exception).
+- **Numbering.** The prologue is named in `SERIES` in `src/lib/ladder.ts`,
+  so the series footer calls it the prologue and numbers the parts from 1.
 - **Video.** A tutorial's video is mostly a screen recording of the steps,
   framed by the usual motion graphics for the title and recap.
 
@@ -95,8 +104,8 @@ Each part has a backlog item in [docs/backlog/](../backlog/README.md).
 
 | Part | Working title | What you build | Bynk features | Item |
 |---|---|---|---|---|
-| Prologue | Getting started with Bynk | The starter template, run, changed and deployed | Published 31 Oct 2026 | |
-| 1 | An event, and the rules it keeps | `bynk new`, an `Event` record, refined `Capacity` and `Title`, a first test | `bynk new`, records, refined types, `.of`, `suite` and `case` | [turn-up-1](../backlog/turn-up-1.md) |
+| Prologue | Getting started with Bynk (published 31 Oct 2026) | The starter template, run, changed and deployed | the starter, `bynk test`, `bynk dev`, `bynk deploy` | |
+| 1 | An event, and the rules it keeps | `bynk new`, a `Gathering` record, refined `Capacity` and `Title`, a first test | `bynk new`, records, refined types, `.of`, `suite` and `case` | [turn-up-1](../backlog/turn-up-1.md) |
 | 2 | Open the doors | An HTTP service to create and read events | `from http`, `HttpResult`, decoding at the boundary, `bynk dev` | [turn-up-2](../backlog/turn-up-2.md) |
 | 3 | Who's coming? | An agent per event that takes sign-ups and refuses one when full | agents, `store`, `on call`, `Result` | [turn-up-3](../backlog/turn-up-3.md) |
 | 4 | Only the organiser | The organiser signs in to create events | actors, `Bearer`, `by Visitor`, `401` and `403` | [turn-up-4](../backlog/turn-up-4.md) |

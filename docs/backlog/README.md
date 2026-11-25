@@ -16,10 +16,10 @@ topic of its own.
 One file per post, named after the post's slug: `docs/backlog/<slug>.md`
 becomes `src/content/docs/posts/<slug>.md`, served at `/blog/posts/<slug>/`.
 The slug follows [the writing guide](../writing-a-post.md#title-and-file-name):
-one or two lowercase words for the topic, unique across every series. A
-*What's new* post is the exception: its slug carries the last version it
-covers (`whats-new-0-661`), since every post in that series has the same
-topic.
+one or two lowercase words for the topic, unique across every series. Two
+series are the exception, since their posts share one topic: a *What's new*
+post's slug carries the last version it covers (`whats-new-0-661`), and a
+*Build it with Bynk* part's is `turn-up-<part>` (`turn-up-3`).
 
 ```markdown
 ---
@@ -28,7 +28,7 @@ series: the-problem-with          # leave out for a standalone post
 workingTitle: "The order that arrived twice"
 level: building
 showcase: idempotency             # or a list
-# repo: turn-up                   # or another bynk-lang repository, instead of showcase
+# repo: turn-up/03-whos-coming    # or a bynk-lang repository (or a folder in one), instead of showcase
 tags: [http, concurrency]         # from the fixed list in src/content.config.ts
 status: ready                     # idea | ready | published
 pr:                               # the draft pull request, once opened
