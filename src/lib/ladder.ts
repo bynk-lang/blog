@@ -32,6 +32,13 @@ export const LEVELS = [
 // `series` in src/content.config.ts: the `satisfies` below makes a missing or
 // misspelt one a type error. Each series has a plan in docs/series/.
 export const SERIES = {
+  "build-it": {
+    title: "Build it with Bynk",
+    // Shown first, called the prologue, and not counted as a part.
+    prologue: "posts/getting-started",
+    blurb:
+      "One small service built step by step, from an empty folder to a live deployment. Follow along and finish each post with working, tested code.",
+  },
   "the-problem-with": {
     title: "The problem with…",
     blurb:
@@ -62,7 +69,7 @@ export const SERIES = {
     blurb:
       "One design decision, told from its record: the question, the options weighed, why one won, and what it costs.",
   },
-} as const satisfies Record<(typeof series)[number], { title: string; blurb: string }>;
+} as const satisfies Record<(typeof series)[number], { title: string; blurb: string; prologue?: string }>;
 
 export type Post = CollectionEntry<"docs">;
 

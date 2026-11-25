@@ -7,6 +7,7 @@ frontmatter, the code rules and the style.
 
 | Series | `series` id | What a post does | Plan |
 |---|---|---|---|
+| Build it with Bynk | `build-it` | Builds one small service step by step, from `bynk new` to a deployment | [build-it.md](build-it.md) |
 | The problem with… | `the-problem-with` | Takes one problem, how it's usually handled, Bynk's answer and its costs | [the-problem-with.md](the-problem-with.md) |
 | A closer look | `a-closer-look` | Explores one feature of the language or its tools in depth | [a-closer-look.md](a-closer-look.md) |
 | Inside the showcase | `inside-the-showcase` | Reads one showcase project from top to bottom | [inside-the-showcase.md](inside-the-showcase.md) |
@@ -14,7 +15,8 @@ frontmatter, the code rules and the style.
 | Coming from TypeScript | `from-typescript` | Shows what Bynk declares in place of something a TypeScript developer writes by hand | [from-typescript.md](from-typescript.md) |
 | Behind the decision | `behind-the-decision` | Tells the story of one design decision record | [behind-the-decision.md](behind-the-decision.md) |
 
-A post with no `series` stands alone, as "Getting started with Bynk" does.
+A post with no `series` stands alone. "Getting started with Bynk" was
+written as one, and is now the prologue to *Build it with Bynk*.
 
 The titles in each plan are working titles that name the topic. A post's
 published title is its own point, chosen when it's written: see
@@ -39,7 +41,7 @@ some content.
 
 | Date | Post | Series | Gap |
 |---|---|---|---|
-| 31 Oct 2026 | Getting started with Bynk | none | |
+| 31 Oct 2026 | Getting started with Bynk | Build it with Bynk (prologue) | |
 | 5 Nov 2026 | Who gets the penny? | The problem with… | 5 days |
 | 12 Nov 2026 | Missing isn't the same as wrong | The problem with… | 7 days |
 | 15 Nov 2026 | Check once, trust everywhere | The problem with… | 3 days |
