@@ -22,6 +22,10 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "Bynk Blog",
+      // The RSS feed's description, and the meta description of any page
+      // that doesn't set its own (such as the list of all posts).
+      description:
+        "The thinking behind Bynk, its features and its releases, one idea at a time, from your first program to designing with effects.",
       // British English: dates read "18 Nov 2026".
       locales: { root: { label: "English", lang: "en-GB" } },
       favicon: "/favicon.svg",
@@ -78,7 +82,11 @@ export default defineConfig({
           ],
         }),
         starlightBlog({
-          title: "Bynk Blog",
+          // The heading of the list of all posts, /blog/posts/. Starlight's
+          // title is added to it, in the page's <title> ("All posts | Bynk
+          // Blog") and in the RSS feed's ("Bynk Blog | All posts"), so naming
+          // it "Bynk Blog" too would print the name twice.
+          title: "All posts",
           // Posts live under /blog/posts/. The blog's own home page, /blog/,
           // is src/content/docs/index.mdx: the series and the learning path.
           prefix: "posts",

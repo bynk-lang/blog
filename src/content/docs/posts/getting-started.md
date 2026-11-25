@@ -1,6 +1,6 @@
 ---
 title: "Getting started with Bynk"
-description: "From nothing installed to a deployed service in one sitting: open the Bynk starter in a codespace, run its tests, read its code, change it and deploy it, with the reasons for what you see along the way."
+description: "Get started with Bynk in one sitting: open the starter in a codespace, run its tests, read and change its code, then deploy it as a live service."
 date: 2026-10-31
 authors: matthew
 tags: [getting-started, types, agents, http]

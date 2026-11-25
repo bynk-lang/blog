@@ -1,6 +1,6 @@
 ---
 title: "A diagram that can't go out of date"
-description: "The Bynk extension for VS Code can draw any context as a UML component diagram, straight from the code. A tour of the component view and the architecture map on two showcase projects, where their information comes from, and what they don't show."
+description: "Draw a UML component diagram of any Bynk context straight from its code with the VS Code extension: a tour of the component view, how it works and its limits."
 date: 2026-11-27
 authors: matthew
 tags: [tooling, capabilities]

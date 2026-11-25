@@ -1,6 +1,6 @@
 ---
 title: "Who really sent this?"
-description: "A webhook proves where it came from with a signature over its body, and checking one by hand goes wrong in quiet ways: the wrong bytes, a leaky comparison, no replay guard, or a route that skips it. Why Bynk generates the check from one declaration."
+description: "Checking a webhook signature by hand fails quietly: the wrong bytes, a leaky comparison, no replay guard. Why Bynk generates the HMAC check for you."
 date: 2026-11-21
 authors: matthew
 tags: [security, http, validation]
