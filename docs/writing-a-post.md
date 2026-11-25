@@ -40,7 +40,7 @@ The topic must be unique across all the series.
 ```yaml
 ---
 title: "Who gets the penny?"
-description: "One or two sentences for search results and link previews."
+description: "About 155 characters for search results and link previews."
 date: 2026-11-05
 authors: matthew
 tags: [types, data]    # one to four, from the fixed list (below)
@@ -55,6 +55,13 @@ video: https://youtu.be/VIDEO_ID   # optional: the post's YouTube video (a link 
 draft: true            # remove to publish
 ---
 ```
+
+`description` is what search engines and link previews show, so keep it to
+about 155 characters: search results cut off anything longer. Put the words
+someone would search for near the start ("floating-point money", "webhook
+signatures"), since the title is the post's own point and often doesn't
+contain them. Write it as plain text, without backticks, because it's used
+outside the page.
 
 `date` is the publication date. Posts go out every three, five or seven days,
 so check [the schedule](series/README.md#schedule) when you choose it. A

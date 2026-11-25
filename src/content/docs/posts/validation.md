@@ -1,6 +1,6 @@
 ---
 title: "Check once, trust everywhere"
-description: "A check written in one place protects one path in. Why Bynk puts the rule in the type instead, so a value is checked once, where it arrives, and trusted everywhere after."
+description: "Input validation that can't be forgotten: Bynk puts the rule in the type, so a value is checked once, where it arrives, and trusted everywhere after."
 date: 2026-11-15
 authors: matthew
 tags: [types, validation, data, http]

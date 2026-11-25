@@ -1,6 +1,6 @@
 ---
 title: "The checkout that doesn't know who's listening"
-description: "A walk through the events showcase project: a checkout announces each order, two other contexts react, and the checkout never names either of them. How Bynk's events are declared, filtered, deduplicated and tested, and what they don't do yet."
+description: "Event-driven design in Bynk: a checkout publishes OrderPlaced, two contexts react without being named, and the events are filtered, deduplicated and tested."
 date: 2026-11-24
 authors: matthew
 tags: [agents, capabilities, testing]

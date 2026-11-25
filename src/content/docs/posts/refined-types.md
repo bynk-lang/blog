@@ -1,6 +1,6 @@
 ---
 title: "One rule, everywhere it reaches"
-description: "Refined types attach a rule to a type, and the rule follows the value everywhere: into the compiler, the HTTP boundary, the tests, the editor and the TypeScript the compiler writes. A tour of the whole feature, how it works, and where it stops."
+description: "Refined types in Bynk attach a rule to a type, and the compiler, the HTTP boundary, the tests, the editor and the generated TypeScript all enforce it."
 date: 2026-11-18
 authors: matthew
 tags: [types, validation, testing, tooling]

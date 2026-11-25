@@ -1,6 +1,6 @@
 ---
 title: "Who gets the penny?"
-description: "Floats drift, integer pence only move the problem, and someone has to decide who gets the penny. Why Bynk has a Decimal type, and why it has no `/`."
+description: "Floating-point money drifts, integer pence only move the problem, and someone must decide who gets the penny. Why Bynk has a Decimal type and no / operator."
 date: 2026-11-05
 authors: matthew
 tags: [types, data]
