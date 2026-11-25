@@ -1,5 +1,5 @@
 ---
-slug: no-portable-infrastructure
+slug: portability
 series: behind-the-decision
 workingTitle: "Why Bynk doesn't hide Cloudflare"
 level: designing
@@ -21,10 +21,9 @@ project's platform commitment visible instead.
 
 ## Hook
 
-Every portable storage layer promises that you can switch clouds later. Few
-teams ever do, and all of them pay for the promise in the meantime: in
-features they can't use, and in guarantees that differ from one backend to
-the next.
+A portable storage layer promises that you can switch clouds later. Many
+teams never do, and they pay for the promise in the meantime: in features
+they can't use, and in guarantees that differ from one backend to the next.
 
 ## Outline
 

@@ -39,8 +39,9 @@ anything.
 - `type RoomId = opaque String` and `type UserId = opaque String` from the
   `websocket` showcase: nominally distinct, though both are strings
   underneath.
-- Construction and inspection are confined to the defining context, through
-  `.of` (checked, a `Result`) or `.unsafe` there only.
+- Construction and inspection are confined to the type's defining unit,
+  through `.of` (checked, a `Result`) or `.unsafe` (see *Facts to check* for
+  exactly where `.unsafe` may be called).
 - Opaque types are excluded from literal admission, unlike refined types:
   a bare string literal is never a `RoomId`.
 - Compare refined types briefly (a rule attached, constructible anywhere
@@ -56,7 +57,7 @@ anything.
 ### What you give up
 
 - Ceremony at the edges: values must be wrapped and unwrapped where they cross
-  the context.
+  the unit.
 - An opaque type isn't `Ord` outside its unit unless it `derives Ord`.
 - No literal shortcut, even in tests.
 
@@ -84,7 +85,7 @@ anything.
   call them, and the diagnostic outside the defining unit
   (`bynk.types.opaque_unsafe_outside`).
 - How `roomId` becomes a `RoomId` when it arrives in the request, given that
-  construction is confined to the context: the language server's wire
+  construction is confined to the defining unit: the language server's wire
   contract describes an opaque type's boundary check as structural only.
   Explain this honestly; it's the question an experienced reader will ask.
 - `websocket/tests/chat/room.bynk` builds `UserId.unsafe("alice")` in a test
@@ -109,7 +110,7 @@ coloured stamp that only one desk can apply, and the swap is caught. About
 3. The branded type trick
 4. The `as` that forges a brand
 5. `opaque String`
-6. Who may stamp: the defining context
+6. Who may stamp: the defining unit
 7. What the compiler emits
 8. What you give up
 9. Close

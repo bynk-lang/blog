@@ -84,8 +84,9 @@ the pull request.
 
 ## Facts to check
 
-- The exact span: the first version after 0.639.1 and the last released
-  version on the day the post is drafted.
+- The exact span: the first version after 0.639.1, and v0.661.1. If a later
+  release is out when drafting, either stop at v0.661.1 or rename the slug and
+  title and move the start of `whats-new-next` to match.
 - Every version number above against the release pages.
 - Every breaking change against the Book's Upgrading page.
 

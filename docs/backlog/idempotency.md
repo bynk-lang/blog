@@ -1,5 +1,5 @@
 ---
-slug: at-least-once
+slug: idempotency
 series: the-problem-with
 workingTitle: "The order that arrived twice"
 level: building

@@ -79,6 +79,9 @@ someone has to own it afterwards. If nobody does, it leaks.
   set headers on `new WebSocket`): what the actor accepts, from the actors
   reference. An experienced reader will ask.
 - What `parTraverse` does when one send fails.
+- `List.parTraverse` changed in v0.646: it now returns the steps' values, and
+  the unit-returning form is `parForEach`. The showcase is pinned at 0.639.1,
+  so check which form it uses at the post's `bynkVersion` and describe that.
 
 ## Sources
 

@@ -22,10 +22,10 @@ replace.
 
 ## Hook
 
-A Durable Object for a shop's stockroom starts as forty lines. By the time it
-has an index by aisle, holds that lapse after fifteen minutes and a delivery
-log trimmed to thirty days, it's three hundred, and half of them are
-housekeeping.
+A Durable Object for a shop's stockroom starts small. Add an index by aisle,
+holds that lapse after fifteen minutes and a delivery log trimmed to thirty
+days, and much of the class becomes housekeeping. (If the post gives a line
+count, measure a real hand-written Durable Object first.)
 
 ## Outline
 

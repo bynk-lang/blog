@@ -16,7 +16,7 @@ video: none
 For developers who have put work on a queue and wondered what happens when
 the consumer can't finish it. The `queues` project is a warehouse that takes
 orders over HTTP and packs them later. The reader leaves knowing both ends of
-a Bynk queue, the three verdicts a consumer reaches, and when a send should
+a Bynk queue, the two verdicts a consumer reaches (`Ack` and `Retry`), and when a send should
 be waited for.
 
 ## Hook
@@ -31,7 +31,7 @@ had better not promise work that never reached the queue.
 - One context: a route that enqueues a `PackJob`, a consumer that packs it,
   and a `Shelf` agent that holds stock.
 - Features shown: `Queue` as a capability, `service … from queue`, the
-  `QueueResult` verdicts, `.detach()`, and queue tests at the `system` tier.
+  `QueueResult` verdicts (`Ack | Retry`, and nothing else), `.detach()`, and queue tests at the `system` tier.
 - Say near the top that `Queue` is experimental (`[unstable] allow`).
 
 ### The layout
@@ -90,14 +90,15 @@ had better not promise work that never reached the queue.
 ## Video angle
 
 A warehouse cut-away: an order slip drops into a chute, a packer at the far
-end stamps it Ack, Retry or (for a bad slip) Ack into the bin. About 2:30.
+end stamps it Ack or Retry; a bad slip is Acked straight into the bin, because
+the only two verdicts are `Ack` and `Retry`. About 2:30.
 
 1. Title
 2. "Accepted" is a promise
 3. The layout: route, queue, consumer, shelf
 4. Order versus PackJob
 5. Waiting for the send; not waiting for the log
-6. Three verdicts
+6. Two verdicts, three outcomes
 7. Dropping a job that can never succeed
 8. The system test: retry, restock, ack
 9. Make it yours

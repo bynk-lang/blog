@@ -16,11 +16,14 @@ topic of its own.
 One file per post, named after the post's slug: `docs/backlog/<slug>.md`
 becomes `src/content/docs/posts/<slug>.md`, served at `/blog/posts/<slug>/`.
 The slug follows [the writing guide](../writing-a-post.md#title-and-file-name):
-one or two lowercase words for the topic, unique across every series.
+one or two lowercase words for the topic, unique across every series. A
+*What's new* post is the exception: its slug carries the last version it
+covers (`whats-new-0-661`), since every post in that series has the same
+topic.
 
 ```markdown
 ---
-slug: at-least-once
+slug: idempotency
 series: the-problem-with          # leave out for a standalone post
 workingTitle: "The order that arrived twice"
 level: building
@@ -85,17 +88,17 @@ In the order they should be drafted. Order is the only priority: to change
 it, move a line. Keep the series mixed, as [the schedule](../series/README.md#schedule)
 asks, and remove an item's line once it's published.
 
-1. [at-least-once](at-least-once.md): The problem with…
+1. [idempotency](idempotency.md): The problem with…
 2. [whats-new-0-661](whats-new-0-661.md): What's new in Bynk
 3. [opaque-types](opaque-types.md): Coming from TypeScript
 4. [queues](queues.md): Inside the showcase
 5. [no-unsafe](no-unsafe.md): Behind the decision
-6. [sql](sql.md): The problem with…
+6. [promise-all](promise-all.md): The problem with…
 7. [sequence-diagrams](sequence-diagrams.md): A closer look
 8. [agents](agents.md): Coming from TypeScript
 9. [actors](actors.md): Inside the showcase
-10. [time-in-tests](time-in-tests.md): The problem with…
-11. [no-portable-infrastructure](no-portable-infrastructure.md): Behind the decision
+10. [time](time.md): The problem with…
+11. [portability](portability.md): Behind the decision
 12. [whats-new-next](whats-new-next.md): What's new in Bynk
-13. [promise-all](promise-all.md): The problem with…
+13. [sql](sql.md): The problem with…
 14. [websocket](websocket.md): Inside the showcase

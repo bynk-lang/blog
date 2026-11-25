@@ -42,9 +42,10 @@ real? Both, and the order was luck.
 - `Promise.allSettled` and `Promise.any`, `AbortController` and signals,
   structured concurrency (Kotlin coroutines, Swift task groups, Java's
   structured concurrency preview, Python's `TaskGroup`).
-- Credit structured concurrency: Bynk shares its goal that nothing outlives
-  its scope. Where JavaScript stops short: cancellation is cooperative and
-  opt-in, and a Worker's `waitUntil` adds its own rules.
+- Credit structured concurrency: `par` shares its goal that nothing outlives
+  its scope, while `race` and `within` deliberately depart from it by not
+  cancelling (see below). Where JavaScript stops short: cancellation is
+  cooperative and opt-in, and a Worker's `waitUntil` adds its own rules.
 
 ### Bynk's answer
 

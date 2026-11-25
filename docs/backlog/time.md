@@ -1,5 +1,5 @@
 ---
-slug: time-in-tests
+slug: time
 series: the-problem-with
 workingTitle: "Tests that wait for the clock"
 level: building
