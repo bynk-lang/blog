@@ -28,6 +28,7 @@ series: the-problem-with          # leave out for a standalone post
 workingTitle: "The order that arrived twice"
 level: building
 showcase: idempotency             # or a list
+# repo: turn-up                   # or another bynk-lang repository, instead of showcase
 tags: [http, concurrency]         # from the fixed list in src/content.config.ts
 status: ready                     # idea | ready | published
 pr:                               # the draft pull request, once opened
@@ -90,15 +91,24 @@ asks, and remove an item's line once it's published.
 
 1. [idempotency](idempotency.md): The problem with…
 2. [whats-new-0-661](whats-new-0-661.md): What's new in Bynk
-3. [opaque-types](opaque-types.md): Coming from TypeScript
-4. [queues](queues.md): Inside the showcase
-5. [no-unsafe](no-unsafe.md): Behind the decision
-6. [promise-all](promise-all.md): The problem with…
-7. [sequence-diagrams](sequence-diagrams.md): A closer look
-8. [agents](agents.md): Coming from TypeScript
-9. [actors](actors.md): Inside the showcase
-10. [time](time.md): The problem with…
-11. [portability](portability.md): Behind the decision
-12. [whats-new-next](whats-new-next.md): What's new in Bynk
-13. [sql](sql.md): The problem with…
-14. [websocket](websocket.md): Inside the showcase
+3. [turn-up-1](turn-up-1.md): Build it with Bynk
+4. [opaque-types](opaque-types.md): Coming from TypeScript
+5. [turn-up-2](turn-up-2.md): Build it with Bynk
+6. [queues](queues.md): Inside the showcase
+7. [turn-up-3](turn-up-3.md): Build it with Bynk
+8. [no-unsafe](no-unsafe.md): Behind the decision
+9. [turn-up-4](turn-up-4.md): Build it with Bynk
+10. [promise-all](promise-all.md): The problem with…
+11. [turn-up-5](turn-up-5.md): Build it with Bynk
+12. [sequence-diagrams](sequence-diagrams.md): A closer look
+13. [turn-up-6](turn-up-6.md): Build it with Bynk
+14. [agents](agents.md): Coming from TypeScript
+15. [actors](actors.md): Inside the showcase
+16. [time](time.md): The problem with…
+17. [turn-up-7](turn-up-7.md): Build it with Bynk
+18. [portability](portability.md): Behind the decision
+19. [turn-up-8](turn-up-8.md): Build it with Bynk
+20. [whats-new-next](whats-new-next.md): What's new in Bynk
+21. [sql](sql.md): The problem with…
+22. [turn-up-9](turn-up-9.md): Build it with Bynk
+23. [websocket](websocket.md): Inside the showcase

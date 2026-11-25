@@ -11,6 +11,7 @@ headings every post in it follows, so a reader knows what to expect. The
 shapes, and the plan of posts for each series, are in
 [docs/series/](series/README.md):
 
+- [Build it with Bynk](series/build-it.md): one service, built step by step.
 - [The problem with…](series/the-problem-with.md): one problem, in five parts.
 - [A closer look](series/a-closer-look.md): one feature of the language or
   its tools.
@@ -22,8 +23,8 @@ shapes, and the plan of posts for each series, are in
 - [Behind the decision](series/behind-the-decision.md): one design
   decision, from its record.
 
-A post can also stand on its own, as "Getting started with Bynk" does. Leave
-out `series`, and choose headings that suit it.
+A post can also stand on its own. Leave out `series`, and choose headings
+that suit it.
 
 ## Title and file name
 

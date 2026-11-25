@@ -32,6 +32,11 @@ export const LEVELS = [
 // `series` in src/content.config.ts: the `satisfies` below makes a missing or
 // misspelt one a type error. Each series has a plan in docs/series/.
 export const SERIES = {
+  "build-it": {
+    title: "Build it with Bynk",
+    blurb:
+      "One small service built step by step, from an empty folder to a live deployment. Follow along and finish each post with working, tested code.",
+  },
   "the-problem-with": {
     title: "The problem with…",
     blurb:

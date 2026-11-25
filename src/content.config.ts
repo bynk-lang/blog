@@ -12,7 +12,7 @@ export const levels = ["first-steps", "building", "designing", "contributing"] a
 // The blog's series. A post joins one with its `series` field; a post with no
 // series stands on its own. Keep this list in step with SERIES in
 // src/lib/ladder.ts, and give each series a plan in docs/series/.
-export const series = ["the-problem-with", "a-closer-look", "inside-the-showcase", "whats-new", "from-typescript", "behind-the-decision"] as const;
+export const series = ["build-it", "the-problem-with", "a-closer-look", "inside-the-showcase", "whats-new", "from-typescript", "behind-the-decision"] as const;
 
 // The blog's tags: a short, fixed list of topics, so each tag gathers enough
 // posts to be worth a page of its own. A post takes one to four. Add a tag

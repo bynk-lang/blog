@@ -63,9 +63,9 @@ design history before the post is written.
 ## Gaps this plan shows
 
 - **Few first-steps posts.** Posts 2 and 3 are the only ones aimed at
-  newcomers. "Getting started with Bynk", a standalone post built on the
-  starter template, now gives the blog a first rung, but the series itself
-  has no gentler posts left in the plan.
+  newcomers. "Getting started with Bynk" and *Build it with Bynk*
+  now give the blog its first rungs, but this series itself has no gentler
+  posts left in the plan.
 - **Little on designing with effects.** Posts 9–12 cover it, but contexts and
   events have no post in this series. *Inside the showcase* (`events`) and
   *A closer look* (the component view) plan to cover them.

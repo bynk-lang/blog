@@ -6,6 +6,7 @@ authors: matthew
 tags: [getting-started, types, agents, http]
 excerpt: "Open the Bynk starter in your browser, run it, change it and deploy it, and see why the code looks the way it does."
 level: first-steps
+series: build-it
 repo: starter
 bynkVersion: 0.639.1
 video: https://youtu.be/pmTofaDHflo
