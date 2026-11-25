@@ -11,6 +11,8 @@ frontmatter, the code rules and the style.
 | A closer look | `a-closer-look` | Explores one feature of the language or its tools in depth | [a-closer-look.md](a-closer-look.md) |
 | Inside the showcase | `inside-the-showcase` | Reads one showcase project from top to bottom | [inside-the-showcase.md](inside-the-showcase.md) |
 | What's new in Bynk | `whats-new` | Looks back over recent releases | [whats-new.md](whats-new.md) |
+| Coming from TypeScript | `from-typescript` | Shows what Bynk declares in place of something a TypeScript developer writes by hand | [from-typescript.md](from-typescript.md) |
+| Behind the decision | `behind-the-decision` | Tells the story of one design decision record | [behind-the-decision.md](behind-the-decision.md) |
 
 A post with no `series` stands alone, as "Getting started with Bynk" does.
 
@@ -49,12 +51,9 @@ some content.
 The next post is due three, five or seven days after the last one in the
 table above. Add each post to the table when it's published.
 
-A suggested order for the next few, to vary the series. Each plan has the
-detail.
-
-1. The problem with at-least-once (it follows on from webhooks and events:
-   both leave deduplication to the reader, by id or with `Idempotency`)
-2. What's new in Bynk (covering the versions since 0.639.1)
+What comes next is decided by the [backlog](../backlog/README.md): an
+ordered queue of posts written up and ready to draft. The series plans hold
+the longer lists of ideas, and an idea joins the backlog when it's written up.
 
 ## Adding a series
 

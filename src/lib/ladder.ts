@@ -52,6 +52,16 @@ export const SERIES = {
     blurb:
       "A look back over recent releases: what changed, why it changed, and what it means for code you have already written.",
   },
+  "from-typescript": {
+    title: "Coming from TypeScript",
+    blurb:
+      "Something a TypeScript or Workers developer already writes by hand, and what Bynk declares instead: the code, what the compiler emits, and what you give up.",
+  },
+  "behind-the-decision": {
+    title: "Behind the decision",
+    blurb:
+      "One design decision, told from its record: the question, the options weighed, why one won, and what it costs.",
+  },
 } as const satisfies Record<(typeof series)[number], { title: string; blurb: string }>;
 
 export type Post = CollectionEntry<"docs">;

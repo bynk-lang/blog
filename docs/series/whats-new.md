@@ -61,4 +61,4 @@ and a link to it is enough.
 
 | # | Covers | Notes |
 |---|---|---|
-| 1 | From 0.639.1, the version the first posts were written against, to whatever is current when it's written | Read the release rows since 0.639.1 and pick what a developer would notice |
+| 1 | From 0.639.1, the version the first posts were written against, to whatever is current when it's written | Read the release rows since 0.639.1 and pick what a developer would notice. Backlog: [whats-new-0-661](../backlog/whats-new-0-661.md) |

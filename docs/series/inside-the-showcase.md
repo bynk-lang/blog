@@ -40,9 +40,9 @@ A working plan, not a promise. These are projects with several parts that
 | # | Project | What it builds | Level | Notes |
 |---|---|---|---|---|
 | 1 | `events` | A checkout announces each order as an `OrderPlaced` event, and two other contexts hear it and react, without the checkout naming either | designing | Fills the plan's gap on contexts and events. **"The checkout that doesn't know who's listening", published 24 Nov 2026.** |
-| 2 | `websocket` | Accept a WebSocket connection, authenticate it at the edge, hand it to an agent and broadcast to a room | building | |
-| 3 | `queues` | A warehouse takes orders over HTTP and packs them later, through a queue and its consumer | building | Shows both ends of a queue |
-| 4 | `actors-and-authorisation` | Author bios behind a small HTTP service: anyone may read, an author may write their own, a moderator may clear one | building | Who may call each route, checked at the boundary |
+| 2 | `websocket` | Accept a WebSocket connection, authenticate it at the edge, hand it to an agent and broadcast to a room | building | Backlog: [websocket](../backlog/websocket.md) |
+| 3 | `queues` | A warehouse takes orders over HTTP and packs them later, through a queue and its consumer | building | Shows both ends of a queue. Backlog: [queues](../backlog/queues.md) |
+| 4 | `actors-and-authorisation` | Author bios behind a small HTTP service: anyone may read, an author may write their own, a moderator may clear one | building | Who may call each route, checked at the boundary. Backlog: [actors](../backlog/actors.md) |
 | 5 | `public-surface` | A library `commons` with a small public surface, brought into a `context` with `uses` | building | How a Bynk program is shaped across units |
 | 6 | `storage-and-queries` | A stockroom in one agent, with a `Map`, a `Cache` and a `Log`, read through `Query[T]` | building | |
 | 7 | `oidc` | A release endpoint only CI jobs from one trusted repository may call, with `Oidc` actors | designing | |

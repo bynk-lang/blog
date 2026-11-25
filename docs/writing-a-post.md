@@ -17,6 +17,10 @@ shapes, and the plan of posts for each series, are in
 - [Inside the showcase](series/inside-the-showcase.md): one showcase project,
   read from top to bottom.
 - [What's new in Bynk](series/whats-new.md): a look back over recent releases.
+- [Coming from TypeScript](series/from-typescript.md): one thing a
+  TypeScript developer writes by hand, and what Bynk declares instead.
+- [Behind the decision](series/behind-the-decision.md): one design
+  decision, from its record.
 
 A post can also stand on its own, as "Getting started with Bynk" does. Leave
 out `series`, and choose headings that suit it.
