@@ -88,9 +88,12 @@ Screen recording of the steps, framed by a title card and a recap. A ruler
 graphic for `Capacity`: values slide onto it and the out-of-range ones fall
 off. About 4:00.
 
-First-encounter pauses (see the series plan's
-[First encounters](../series/build-it.md#first-encounters)): hold the typing
-for two or three seconds with a callout at `commons` (line 1), the first
-`---` doc comment, and the first `where` clause. The post gives each a
-sentence at the same step. Part 1 is where most of the register's entries
-first appear, so keep each pause short.
+First encounters (see the series plan's
+[First encounters](../series/build-it.md#first-encounters)): the video pauses
+for the new syntax, `commons` (before the first line of `src/gatherings.bynk`
+is typed), `---` (when the docs are added, after the types exist) and `where`
+(when `Capacity` is refined). The narration explains each one's purpose before
+it's typed. Records, `.of` and `Result`, `suite` and `case`, and literal
+admission are covered by the narration as they happen, with no separate pause.
+The storyboard tells it as a problem and its fix: a naive `Gathering` with
+`String` and `Int` first, what that still allows, then the refined types.

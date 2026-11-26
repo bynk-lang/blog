@@ -111,9 +111,11 @@ later part can say "as in part 1" instead.
 - **In the post:** one or two sentences at the step where it first appears:
   what it is, in plain words, and a link to the Book page. It isn't a lesson;
   if it needs more, it belongs in a link or a later step.
-- **In the video:** a short pause at that moment: the typing holds for two or
-  three seconds and a callout names the feature, in time with the narration.
-  Mark each pause in the part's video notes.
+- **In the video:** new *syntax* gets space on screen. The narration says what
+  it's for before it's typed, conversationally, and the typing holds while it
+  does. An idea the viewer meets as an outcome (a record, a `Result`, a passing
+  suite) is covered by the narration as it happens, with no separate pause. The
+  part's video notes list which entries get a pause.
 
 The prologue (the starter template) shows some of these in passing, without
 explaining them, so they count as new in the part that explains them.
@@ -130,11 +132,11 @@ anything new to it. The list is a draft from the plan above; the code decides.
 | 1 | `where` and predicates (`InRange`, `MinLength`, `MaxLength`, `&&`) | A refined type: the base type plus a rule every value must keep. |
 | 1 | Records (`{ title: Title, … }`) | A type made of named fields. |
 | 1 | `Instant` | A point in time. |
-| 1 | `fn … -> T { … }` | A function; its last expression is the value it returns. |
+| 1 | `fn … -> T { … }` | A function; its last expression is the value it returns. Part 1 uses one to show a literal checked when it compiles (the Book's [refined types tutorial](https://bynk-lang.org/book/tutorials/refined-types/) does the same). |
 | 1 | `.of` and `Result` | Making a refined value from an unchecked one can fail, so it returns `Ok` or `Err`. |
 | 1 | Literal admission | A literal is checked against the rule when the code compiles. |
 | 1 | `suite` and `case` | Tests, grouped. |
-| 2 | `context` | A deployable unit that owns services and agents. |
+| 2 | `context` | A deployable unit that owns services and agents. `bynk new` already makes one (`src/turn_up.bynk`), so part 1's tour shows it in passing; part 2 explains it. |
 | 2 | `service … from http` and `on POST(…)` | A service and the requests it answers. |
 | 2 | `by Visitor` | Who may call the route; anyone, for now. |
 | 2 | `Effect[…]` and `HttpResult` | A handler's result, with its effects in the type. |
