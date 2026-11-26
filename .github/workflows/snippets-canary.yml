@@ -1,7 +1,8 @@
 # Snippet canary: re-check every post's Bynk snippets against the current
-# showcase and starter, and keep a `snippets` issue open while any have drifted.
+# showcase, starter and turn-up, and keep a `snippets` issue open while any have drifted.
 #
-# A post quotes code from a showcase project or the starter template, and both
+# A post quotes code from a showcase project, the starter template or a
+# turn-up part, and all of them
 # move on: the org canary bumps their Bynk version and code gets reworked. CI only runs
 # when the blog changes, so this runs on a schedule as well, and on a
 # `bynk-canary` dispatch once the blog is enrolled with the org dispatcher
@@ -54,7 +55,7 @@ jobs:
           fi
           body="The snippet canary failed: $RUN_URL
 
-          Either the site no longer builds, or a post quotes Bynk code that has changed in bynk-lang/showcase or bynk-lang/starter. The run's annotations name each post and line. Update the post to match its source, or mark the block \`nocheck\`."
+          Either the site no longer builds, or a post quotes Bynk code that has changed in bynk-lang/showcase, bynk-lang/starter or bynk-lang/turn-up. The run's annotations name each post and line. Update the post to match its source, or mark the block \`nocheck\`."
           if [ -n "$open" ]; then
             gh issue comment "$open" --body "Still failing: $RUN_URL"
           else

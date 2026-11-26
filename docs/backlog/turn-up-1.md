@@ -5,7 +5,7 @@ workingTitle: "An event, and the rules it keeps"
 level: first-steps
 repo: turn-up/01-an-event
 tags: [getting-started, types, validation]
-status: idea                      # ready once 01-an-event/ is merged in bynk-lang/turn-up
+status: ready                     # 01-an-event/ merged in bynk-lang/turn-up#1
 pr:
 published:
 video: none
@@ -40,13 +40,21 @@ live?
 
 ### The steps
 
-1. `bynk new turn-up`, and a tour of what it made (`bynk.toml`, `src/`,
-   `tests/`). Run `bynk test` on the empty project.
+1. `bynk new turn-up --name turnup`, and a tour of what it made (`bynk.toml`,
+   `.gitignore`, `src/turnup.bynk`, a "hello" HTTP service left alone until
+   part 2). Plain `bynk new turn-up` fails: a dash isn't legal in a Bynk name,
+   so show the error and the `--name` fix. Run `bynk test` ("no tests found").
+   If the reader uses git, have them add `/out` to `.gitignore`: `bynk check`
+   writes compiled TypeScript there and the scaffold doesn't ignore it
+   (bynk-lang/bynk#4361; drop this if a release fixes it).
 2. A commons for the domain, and `type Capacity = Int where …` (1 to 500).
 3. `type Title = String where …` (a length range).
 4. The `Gathering` record (an event, in the reader's words; see the naming note in the series plan): title, capacity, start time (an `Instant`).
 5. Make one with `.of`, and read the `Result`.
-6. A suite with three cases: a good event, a capacity of 0, a capacity of 501.
+6. A suite (`tests/gatherings.bynk`) with the folder's six cases: a good
+   gathering, a capacity of 0, a capacity of 501, both bounds (1 and 500), a
+   title that's too short, and `smallRoom()`. Its start time comes from a
+   helper `fn opening()`, since a suite can't hold a `let`.
 7. Try a literal that breaks the rule, and read the compile error (literal
    admission).
 
@@ -66,15 +74,22 @@ live?
 
 ## Code to quote
 
-- `01-an-event/`: the refined types, the `Gathering` record, and the test suite.
-  The code is written first; see the series plan.
+- `01-an-event/` (bynk-lang/turn-up#1, Bynk v0.655.0):
+  - `src/gatherings.bynk`: `commons gatherings` with `Capacity`
+    (`InRange(1, 500)`), `Title` (`MinLength(3) && MaxLength(80)`), the
+    `Gathering` record, `gathering(title, capacity, startsAt)` built with `.of`
+    and `?`, and `smallRoom()`, a literal `Capacity`.
+  - `tests/gatherings.bynk`: six cases, including both bounds and a short title.
+  - Changing `smallRoom()`'s `12` to `0` gives
+    ``[bynk.refine.literal_violates] literal 0 does not satisfy `InRange` required by type `Capacity` ``.
+    Show that error in step 7, and set `bynkVersion: 0.655.0`.
 
 ## Facts to check
 
-- What `bynk new` generates at the post's `bynkVersion` (the Book's *Start a
-  new project* guide), and whether it makes a context, a commons or both.
-- The exact predicate syntax for a length range and a numeric range.
-- The diagnostic for a literal that fails admission.
+Checked against v0.655.0 and recorded above: what `bynk new` generates (a
+context with one HTTP service, no commons), the predicate syntax, and the
+literal-admission diagnostic. If the post's `bynkVersion` moves past 0.655.0,
+check them again.
 
 ## Sources
 
