@@ -28,9 +28,11 @@ This guide covers the video itself.
 - **Give the reason, not just the rule.** "A commons holds shared types" is
   accurate but leaves the viewer asking why. Say what problem it solves
   ("an HTTP service and a notifications service both need to agree on what an
-  event is"), and where there's a design reason (`---` echoes Markdown's
-  thematic break), say that too. Check a design reason with the maintainers
-  rather than guessing.
+  event is"), and where there's a design reason, say that too. For example,
+  `---` keeps the look of a Markdown thematic break, as
+  [ADR 0541](https://github.com/bynk-lang/bynk/blob/main/design/decisions/0541-slash-comments-dash-docs.md)
+  records. Find a design reason in the ADRs, or check it with the
+  maintainers, rather than guessing.
 - **End with the next step.** The recap names what was learned, then one
   sentence says what the next part builds.
 
@@ -46,8 +48,8 @@ This guide covers the video itself.
 - **Check every factual line against the code.** For example, if the voice
   says "six tests pass", the terminal should show six tests passing.
 - **Voice it last.** Build and review the picture with scratch subtitles first.
-  Generating the voice (ElevenLabs) costs about one credit per character for
-  each take, so only generate it once the script and timings are agreed.
+  Generating the voice (ElevenLabs) costs credits for each take, so only
+  generate it once the script and timings are agreed.
 
 ## The editor
 
@@ -89,11 +91,12 @@ This guide covers the video itself.
 - **Check for single-frame glitches.** A frame that differs from both of its
   neighbours while they match each other is a glitch (a dropped caption, or a
   tiled frame under a zoom). Check the whole render for them. Drawing editor
-  takes as still images, rather than as video, avoids both.
+  takes as still images, rather than as video, avoids the tiled frames.
 
 ## Where the pipeline lives
 
 The recording and rendering pipeline (code-server driven by Playwright, the
-Remotion project, and the scripts) is kept with the video prototype in the
-project's shared files, under `video-prototype/`. Its README says how to
-re-record a take and re-render a cut.
+Remotion project, and the scripts) isn't in this repository yet. It's kept
+outside it, with part 1's prototype, and its README says how to re-record a
+take and re-render a cut. Ask the blog's maintainers for a copy before you
+start a video.
