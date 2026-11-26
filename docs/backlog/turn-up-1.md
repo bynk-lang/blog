@@ -51,7 +51,10 @@ live?
 3. `type Title = String where …` (a length range).
 4. The `Gathering` record (an event, in the reader's words; see the naming note in the series plan): title, capacity, start time (an `Instant`).
 5. Make one with `.of`, and read the `Result`.
-6. A suite with three cases: a good event, a capacity of 0, a capacity of 501.
+6. A suite (`tests/gatherings.bynk`) with the folder's six cases: a good
+   gathering, a capacity of 0, a capacity of 501, both bounds (1 and 500), a
+   title that's too short, and `smallRoom()`. Its start time comes from a
+   helper `fn opening()`, since a suite can't hold a `let`.
 7. Try a literal that breaks the rule, and read the compile error (literal
    admission).
 
@@ -78,15 +81,15 @@ live?
     and `?`, and `smallRoom()`, a literal `Capacity`.
   - `tests/gatherings.bynk`: six cases, including both bounds and a short title.
   - Changing `smallRoom()`'s `12` to `0` gives
-    `[bynk.refine.literal_violates] literal 0 does not satisfy `InRange`
-    required by type `Capacity``. Show that error in step 7.
+    ``[bynk.refine.literal_violates] literal 0 does not satisfy `InRange` required by type `Capacity` ``.
+    Show that error in step 7, and set `bynkVersion: 0.655.0`.
 
 ## Facts to check
 
-- What `bynk new` generates at the post's `bynkVersion` (the Book's *Start a
-  new project* guide), and whether it makes a context, a commons or both.
-- The exact predicate syntax for a length range and a numeric range.
-- The diagnostic for a literal that fails admission.
+Checked against v0.655.0 and recorded above: what `bynk new` generates (a
+context with one HTTP service, no commons), the predicate syntax, and the
+literal-admission diagnostic. If the post's `bynkVersion` moves past 0.655.0,
+check them again.
 
 ## Sources
 
