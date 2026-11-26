@@ -14,7 +14,9 @@ For each request, the Worker ([src/index.ts](src/index.ts)):
 
 1. sends `/blog` to `/blog/`;
 2. removes the `/blog` prefix and fetches the same path, query, method,
-   headers and body from the blog's Pages project (`UPSTREAM`);
+   headers and body from the blog's Pages project (`UPSTREAM`), appending
+   the path to its origin so the request can't leave it (a target on any
+   other origin is refused with `404`, as a second line of defence);
 3. returns the response unchanged, except that a redirect back into the Pages
    project (such as `/posts/x` → `/posts/x/`) gets its `/blog` prefix back, so
    the browser stays on bynk-lang.org.

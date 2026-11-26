@@ -43,7 +43,9 @@ export async function handle(request: Request, env: Env): Promise<Response> {
   // so a rest of `//evil.example/x` would be a protocol-relative reference and
   // `new URL(rest, upstream)` would send the request, with the visitor's
   // headers, to evil.example. Appended to the origin, it stays a path on the
-  // upstream. The origin check below is a second line of defence.
+  // upstream. The origin check below is a second line of defence: `pathname`
+  // always starts with `/` and holds no `?` or `#`, so it isn't expected to
+  // fire.
   const upstream = new URL(env.UPSTREAM);
   const target = new URL(upstream.origin + url.pathname.slice(PREFIX.length) + url.search);
   if (target.origin !== upstream.origin) {

@@ -100,6 +100,7 @@ describe("the /blog proxy", () => {
     await handle(new Request("https://bynk-lang.org/blog/\\evil.example/x"), env);
     assert.equal(seen.length, 1);
     assert.equal(new URL(seen[0].url).origin, "https://bynk-blog.pages.dev");
+    assert.equal(seen[0].url, "https://bynk-blog.pages.dev//evil.example/x");
   });
 
   it("refuses a path outside /blog/", async () => {
