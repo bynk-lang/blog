@@ -87,6 +87,21 @@ describe("the /blog proxy", () => {
     assert.equal(res.headers.get("location"), "https://bynk-lang.org/blog/?ref=x");
   });
 
+  it("keeps a path that starts with // on the Pages project", async () => {
+    const seen = upstream(new Response("ok"));
+    await handle(new Request("https://bynk-lang.org/blog//evil.example/x?y=1"), env);
+    assert.equal(seen.length, 1);
+    assert.equal(new URL(seen[0].url).origin, "https://bynk-blog.pages.dev");
+    assert.equal(seen[0].url, "https://bynk-blog.pages.dev//evil.example/x?y=1");
+  });
+
+  it("keeps a path with a backslash on the Pages project", async () => {
+    const seen = upstream(new Response("ok"));
+    await handle(new Request("https://bynk-lang.org/blog/\\evil.example/x"), env);
+    assert.equal(seen.length, 1);
+    assert.equal(new URL(seen[0].url).origin, "https://bynk-blog.pages.dev");
+  });
+
   it("refuses a path outside /blog/", async () => {
     const res = await handle(new Request("https://bynk-lang.org/blogroll"), env);
     assert.equal(res.status, 404);

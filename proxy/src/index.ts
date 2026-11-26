@@ -38,8 +38,17 @@ export async function handle(request: Request, env: Env): Promise<Response> {
     return new Response("Not found", { status: 404 });
   }
 
+  // Build the target by appending the path to the upstream's origin as text,
+  // never by resolving it as a reference: the rest of the path starts with `/`,
+  // so a rest of `//evil.example/x` would be a protocol-relative reference and
+  // `new URL(rest, upstream)` would send the request, with the visitor's
+  // headers, to evil.example. Appended to the origin, it stays a path on the
+  // upstream. The origin check below is a second line of defence.
   const upstream = new URL(env.UPSTREAM);
-  const target = new URL(url.pathname.slice(PREFIX.length) + url.search, upstream);
+  const target = new URL(upstream.origin + url.pathname.slice(PREFIX.length) + url.search);
+  if (target.origin !== upstream.origin) {
+    return new Response("Not found", { status: 404 });
+  }
 
   // The same method, headers and body, sent to the Pages project. Redirects
   // come back to us rather than being followed, so they can be rewritten.
