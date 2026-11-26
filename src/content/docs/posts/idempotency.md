@@ -22,8 +22,8 @@ doing that isn't quite enough.
 
 ## The problem
 
-Anything that promises to deliver a message promises it *at least once*,
-which means it might deliver it more than once. A client retries a request
+Most systems that promise a message will get through promise it *at least
+once*, which means they might deliver it more than once. A client retries a request
 it never saw an answer to. A queue redelivers a message when the consumer
 that took it was cut off. A webhook sender resends a notice when your answer
 was slow. [*Who really sent this?*](../webhooks/) left exactly this to one
@@ -49,14 +49,16 @@ spending it.
 
 ## How it's usually handled
 
-**An idempotency key.** The client makes up a unique key for each operation
+**An idempotency key.** An operation is *idempotent* when doing it twice has
+the same effect as doing it once, and a key is how a service makes a request
+idempotent. The client makes up a unique key for each operation
 (a fresh UUID, say) and sends it with every attempt, usually in an
 `Idempotency-Key` header. Stripe popularised the pattern: every `POST` to its
 API accepts a key, and a retry with the same key gets the saved response of
 the first attempt rather than a second charge. The header is now being
 standardised, in the IETF's
 [`draft-ietf-httpapi-idempotency-key-header`](https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/),
-an Internet-Draft (a proposal, not yet an RFC) on its ninth revision.
+an Internet-Draft (a proposal, not yet an RFC), currently at revision `-09`.
 
 **A table of keys, or a unique constraint.** On the server, the key goes into
 a database. Done carefully, with the key as a unique column and the insert as
@@ -67,7 +69,8 @@ they stop short is in the details around them, each of which you decide by
 hand:
 
 - **The race.** A lookup followed by an insert is still check-then-act. Only
-  an atomic "insert if absent" closes the gap, and it's easy to write the
+  an *atomic* "insert if absent" (one indivisible step, so nothing can
+  happen in between) closes the gap, and it's easy to write the
   lookup first because it reads more naturally.
 - **A first attempt that fails.** If the first attempt hits an outage, should
   the key now be spent? Stripe saves the response once the work has begun,
@@ -87,11 +90,13 @@ hand:
 Bynk has an `Idempotency` capability with two tools, and the point of this
 post is that you need both.
 
-**`claim(key, expiresAfter)` is first-delivery-wins.** Exactly one caller gets
-`Claimed` for a key, and every other gets `AlreadyClaimed` until the window
-ends. It's atomic: two copies that arrive together can't both win. On
-Cloudflare it's a single `INSERT … ON CONFLICT` in a database, so it holds
-across isolates and restarts.
+**`claim(key, expiresAfter)` is first-delivery-wins.** While a claim is
+held, exactly one caller has `Claimed` for a key, and every other gets
+`AlreadyClaimed` (when a claim is released, or lapses, comes below). It's
+atomic: two copies that arrive together can't both win. On Cloudflare, where
+a Bynk service runs as a Worker (a small program on Cloudflare's servers),
+it's a single `INSERT … ON CONFLICT` in a database, so it holds across
+restarts and across the separate copies of the Worker that Cloudflare runs.
 
 **`dedup[T](key)` and `remember[T](key, value, expiresAfter)` are a cache of
 outcomes.** `remember` stores a value, and `dedup` reads it back. On their own
@@ -127,7 +132,8 @@ match claimed {
 	},
 ```
 
-(`<-` runs an effect and waits for its result, and `KeyWindow` is a constant
+(`<-` runs an effect, an operation that reaches outside the function such
+as a database call, and waits for its result, and `KeyWindow` is a constant
 of 24 hours, so a client that retries for a day is covered.)
 
 A repeat looks up what the first attempt remembered. If there's an answer and
@@ -206,7 +212,8 @@ cut off mid-request and never gets to settle, the claim lapses after 30
 seconds instead of holding the key for a day, and a retry can claim it.
 
 The tests show each rule. Two attempts with one key place one order, and the
-stubbed warehouse is called once:
+stubbed warehouse is called once. (`returns each` answers `r-1` and then
+`r-2`, so a second reservation would show up as `r-2`.)
 
 ```bynk
 case "a retry gets the first answer and reserves nothing more" {
@@ -236,7 +243,8 @@ case "a failed attempt gives the key back for the retry" {
 ## The trade-offs
 
 - **At-most-once completion, not exactly-once side effects.** A claim makes
-  the handler *finish* at most once. Work done before a failure can still
+  the handler *finish* at most once, as long as it settles within the
+  lease (see below). Work done before a failure can still
   happen again on the retry: if the warehouse reserved the stock and then the
   connection dropped, the handler answers `503`, the claim is released, and
   the retry reserves again. The fix is to pass the key along. The showcase's
@@ -249,13 +257,16 @@ case "a failed attempt gives the key back for the retry" {
 - **Keys are scoped to the function, not the caller.** Keys are kept apart
   per handler, so two handlers can't collide. But every caller of one handler
   shares its keys. The showcase's route is anonymous (`by Visitor`), so a
-  client must make each key unguessable: two clients that both counted from
-  `1` would be given each other's answers. On an authenticated route, put the
+  client must make each key unguessable: if two clients both counted from
+  `1`, the second client's order would be refused, or handed the first's
+  answer if the two orders matched, and never placed either way. On an authenticated route, put the
   caller's identity in the key.
 - **Status codes are yours.** The draft suggests a `422` for a key reused
   with a different body; the showcase answers `400`. Bynk doesn't choose the
   responses for you, so following the draft to the letter is up to the
-  handler.
+  handler. The showcase also answers `409` both for "still being placed, try
+  again shortly" and for "out of stock", so a client can only tell the
+  retryable one from the final one by reading the body.
 - **One more piece of infrastructure.** On Cloudflare, claims and remembered
   values live in a D1 database (Cloudflare's SQLite service) that the build
   declares for you: `bynk deploy` creates and migrates it, and you write no
@@ -289,5 +300,5 @@ To go further:
   for `claim`, `dedup`, `remember` and the settling rules
 - [Deploy to Cloudflare: the idempotency database](https://bynk-lang.org/book/guides/projects-build-and-deployment/deploy-to-cloudflare/#the-idempotency-database)
 
-Back on the train, the app's second tap carried the same key as the first.
+Back on the train, the app's retry carried the same key as the first tap.
 The customer bought one sofa, and got the same receipt twice.
