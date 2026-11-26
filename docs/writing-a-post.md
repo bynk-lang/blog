@@ -98,7 +98,7 @@ embedded. Paste the video's link (a `youtube.com/watch` page or a `youtu.be`
 short link) or just its 11-character ID; the build fails on anything else.
 Only the ID is kept, so a start time in the link (`?t=90`) is ignored. The
 RSS feed and search leave the link out, so write the post to stand on its own
-without the video.
+without the video. [Making a video](making-a-video.md) covers making the video itself.
 
 ## Code
 

@@ -96,7 +96,8 @@ Use these as headings.
 - **Numbering.** The prologue is named in `SERIES` in `src/lib/ladder.ts`,
   so the series footer calls it the prologue and numbers the parts from 1.
 - **Video.** A tutorial's video is mostly a screen recording of the steps,
-  framed by the usual motion graphics for the title and recap.
+  framed by the usual motion graphics for the title and recap, with animated
+  explainers between them. Follow [Making a video](../making-a-video.md).
 - **First encounters.** The first time a reader meets a piece of syntax or an
   idea, give it a beat, even when a later step unpacks it. See
   [First encounters](#first-encounters).
