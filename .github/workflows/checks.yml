@@ -1,17 +1,17 @@
 # The blog's checks: the site type-checks and builds (with Astro's link and
 # content checks),
 # every ```bynk block in a post is still in the source it names (a showcase
-# project, or another bynk-lang repository such as the starter),
+# project, or another bynk-lang repository such as the starter or turn-up),
 # and the /blog proxy Worker type-checks, passes its tests and bundles.
 # Called by ci.yml on every push and pull request, and by snippets-canary.yml
-# when the showcase or the starter may have moved on.
+# when the showcase, the starter or turn-up may have moved on.
 name: Checks
 
 on:
   workflow_call:
     inputs:
       showcase-ref:
-        description: The bynk-lang/showcase ref to check snippets against (the starter is always checked at main).
+        description: The bynk-lang/showcase ref to check snippets against (the starter and turn-up are always checked at main).
         type: string
         default: main
 
@@ -88,11 +88,18 @@ jobs:
           repository: bynk-lang/starter
           path: .starter
           persist-credentials: false
+      # The code for Build it with Bynk: one folder per part (docs/series/build-it.md).
+      - name: Check out bynk-lang/turn-up
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: bynk-lang/turn-up
+          path: .turn-up
+          persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v6
         with:
           node-version: "24"
       # The script has no dependencies, so no `npm ci`.
-      - run: node scripts/check-snippets.mjs .showcase --repo starter=.starter
+      - run: node scripts/check-snippets.mjs .showcase --repo starter=.starter --repo turn-up=.turn-up
 
   proxy:
     name: Proxy Worker

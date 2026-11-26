@@ -47,11 +47,9 @@ copy. The repository's CI runs `bynk fmt --check`, `bynk check` and
 A post names the folder it ends with, `repo: turn-up/03-whos-coming`
 (instead of `showcase`), and `scripts/check-snippets.mjs` holds every
 ` ```bynk ` block to that folder's source alone, so a part can't quote a
-later part's code. Each folder has its own `bynk.toml`; the repository root
-needs none. Before the first post that
-uses it is merged, add a checkout of `bynk-lang/turn-up` to
-`.github/workflows/checks.yml` and `snippets-canary.yml`, beside the starter's,
-and pass `--repo turn-up=.turn-up`.
+later part's code. Each folder has its own `bynk.toml`. `checks.yml` checks out `bynk-lang/turn-up`
+at main beside the starter and passes `--repo turn-up=.turn-up`, and the
+snippet canary re-runs it weekly.
 
 **Code comes first.** A part's code is written and passes CI in `turn-up`
 before its post is drafted, because the post quotes it. Its backlog item

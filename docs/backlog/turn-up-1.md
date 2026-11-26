@@ -5,7 +5,7 @@ workingTitle: "An event, and the rules it keeps"
 level: first-steps
 repo: turn-up/01-an-event
 tags: [getting-started, types, validation]
-status: idea                      # ready once 01-an-event/ is merged in bynk-lang/turn-up
+status: ready                     # 01-an-event/ merged in bynk-lang/turn-up#1
 pr:
 published:
 video: none
@@ -40,8 +40,13 @@ live?
 
 ### The steps
 
-1. `bynk new turn-up`, and a tour of what it made (`bynk.toml`, `src/`,
-   `tests/`). Run `bynk test` on the empty project.
+1. `bynk new turn-up --name turnup`, and a tour of what it made (`bynk.toml`,
+   `.gitignore`, `src/turnup.bynk`, a "hello" HTTP service left alone until
+   part 2). Plain `bynk new turn-up` fails: a dash isn't legal in a Bynk name,
+   so show the error and the `--name` fix. Run `bynk test` ("no tests found").
+   If the reader uses git, have them add `/out` to `.gitignore`: `bynk check`
+   writes compiled TypeScript there and the scaffold doesn't ignore it
+   (bynk-lang/bynk#4361; drop this if a release fixes it).
 2. A commons for the domain, and `type Capacity = Int where …` (1 to 500).
 3. `type Title = String where …` (a length range).
 4. The `Gathering` record (an event, in the reader's words; see the naming note in the series plan): title, capacity, start time (an `Instant`).
@@ -66,8 +71,15 @@ live?
 
 ## Code to quote
 
-- `01-an-event/`: the refined types, the `Gathering` record, and the test suite.
-  The code is written first; see the series plan.
+- `01-an-event/` (bynk-lang/turn-up#1, Bynk v0.655.0):
+  - `src/gatherings.bynk`: `commons gatherings` with `Capacity`
+    (`InRange(1, 500)`), `Title` (`MinLength(3) && MaxLength(80)`), the
+    `Gathering` record, `gathering(title, capacity, startsAt)` built with `.of`
+    and `?`, and `smallRoom()`, a literal `Capacity`.
+  - `tests/gatherings.bynk`: six cases, including both bounds and a short title.
+  - Changing `smallRoom()`'s `12` to `0` gives
+    `[bynk.refine.literal_violates] literal 0 does not satisfy `InRange`
+    required by type `Capacity``. Show that error in step 7.
 
 ## Facts to check
 
