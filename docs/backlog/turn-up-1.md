@@ -87,3 +87,13 @@ live?
 Screen recording of the steps, framed by a title card and a recap. A ruler
 graphic for `Capacity`: values slide onto it and the out-of-range ones fall
 off. About 4:00.
+
+First encounters (see the series plan's
+[First encounters](../series/build-it.md#first-encounters)): the video pauses
+for the new syntax, `commons` (before the first line of `src/gatherings.bynk`
+is typed), `---` (when the docs are added, after the types exist) and `where`
+(when `Capacity` is refined). The narration explains each one's purpose before
+it's typed. Records, `.of` and `Result`, `suite` and `case`, and literal
+admission are covered by the narration as they happen, with no separate pause.
+The storyboard tells it as a problem and its fix: a naive `Gathering` with
+`String` and `Int` first, what that still allows, then the refined types.

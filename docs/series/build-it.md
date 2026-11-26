@@ -97,6 +97,64 @@ Use these as headings.
   so the series footer calls it the prologue and numbers the parts from 1.
 - **Video.** A tutorial's video is mostly a screen recording of the steps,
   framed by the usual motion graphics for the title and recap.
+- **First encounters.** The first time a reader meets a piece of syntax or an
+  idea, give it a beat, even when a later step unpacks it. See
+  [First encounters](#first-encounters).
+
+## First encounters
+
+Many readers will never have seen Bynk syntax before, so the first time a
+part uses something new, it stops briefly to name it. The register below
+says where each thing first appears, so that only that part does it, and a
+later part can say "as in part 1" instead.
+
+- **In the post:** one or two sentences at the step where it first appears:
+  what it is, in plain words, and a link to the Book page. It isn't a lesson;
+  if it needs more, it belongs in a link or a later step.
+- **In the video:** new *syntax* gets space on screen. The narration says what
+  it's for before it's typed, conversationally, and the typing holds while it
+  does. An idea the viewer meets as an outcome (a record, a `Result`, a passing
+  suite) is covered by the narration as it happens, with no separate pause. The
+  part's video notes list which entries get a pause.
+
+The prologue (the starter template) shows some of these in passing, without
+explaining them, so they count as new in the part that explains them.
+
+When a part is written, check its code against this register and add
+anything new to it. The list is a draft from the plan above; the code decides.
+
+| Part | First encounter | Say, in a line |
+|---|---|---|
+| 1 | `bynk new` and the project layout | `bynk.toml` marks the project; source lives under `src/`, tests under `tests/`. |
+| 1 | `commons` | Shared, pure declarations (types and functions) that contexts use; it has no services or effects. |
+| 1 | `---` doc comments | Documentation attached to the declaration below it, shown on hover. |
+| 1 | `type … = …` | Gives a type a name. |
+| 1 | `where` and predicates (`InRange`, `MinLength`, `MaxLength`, `&&`) | A refined type: the base type plus a rule every value must keep. |
+| 1 | Records (`{ title: Title, … }`) | A type made of named fields. |
+| 1 | `Instant` | A point in time. |
+| 1 | `fn … -> T { … }` | A function; its last expression is the value it returns. Part 1 uses one to show a literal checked when it compiles (the Book's [refined types tutorial](https://bynk-lang.org/book/tutorials/refined-types/) does the same). |
+| 1 | `.of` and `Result` | Making a refined value from an unchecked one can fail, so it returns `Ok` or `Err`. |
+| 1 | Literal admission | A literal is checked against the rule when the code compiles. |
+| 1 | `suite` and `case` | Tests, grouped. |
+| 2 | `context` | A deployable unit that owns services and agents. `bynk new` already makes one (`src/turn_up.bynk`), so part 1's tour shows it in passing; part 2 explains it. |
+| 2 | `service … from http` and `on POST(…)` | A service and the requests it answers. |
+| 2 | `by Visitor` | Who may call the route; anyone, for now. |
+| 2 | `Effect[…]` and `HttpResult` | A handler's result, with its effects in the type. |
+| 2 | Decoding at the boundary | A body that breaks a type's rule is refused with a `400` before your code runs. |
+| 3 | `agent`, keys and `store` | An object with its own state, one per key. |
+| 3 | `on call` | A message an agent answers. |
+| 3 | One call at a time | Why two sign-ups can't both take the last place. |
+| 4 | `actor` and `Bearer` | Who a caller is, and how they prove it. |
+| 4 | `by Organiser(…)` in tests | Calling as an actor in a test. |
+| 5 | Sum types and `match` | One of several shapes, and code that handles each. |
+| 5 | Opaque types | A type only its own unit can make. |
+| 5 | `invariant` | A rule the agent's state must always keep. |
+| 6 | Bynk events, `Events.emit`, `on event` | Messages between contexts (and the second meaning of "event"). |
+| 6 | Capabilities and providers, `stub`, `expect … called` | Asking for a power, and replacing it in a test. |
+| 6 | `[unstable] allow` | Turning on an experimental feature. |
+| 7 | `from cron` and virtual time | A service the clock calls, and tests that move the clock. |
+| 8 | `Idempotency` | A retried request does its work once. |
+| 9 | `bynk deploy`, `bynk tail`, `bynk revert` | Going live, watching, and going back. |
 
 ## Plan
 
