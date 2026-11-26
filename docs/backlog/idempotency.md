@@ -5,9 +5,9 @@ workingTitle: "The order that arrived twice"
 level: building
 showcase: idempotency
 tags: [http, concurrency, errors]
-status: ready
+status: published
 pr:
-published:
+published: 2026-12-02
 video: none
 ---
 
