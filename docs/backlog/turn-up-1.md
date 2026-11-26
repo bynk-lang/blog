@@ -87,3 +87,10 @@ live?
 Screen recording of the steps, framed by a title card and a recap. A ruler
 graphic for `Capacity`: values slide onto it and the out-of-range ones fall
 off. About 4:00.
+
+First-encounter pauses (see the series plan's
+[First encounters](../series/build-it.md#first-encounters)): hold the typing
+for two or three seconds with a callout at `commons` (line 1), the first
+`---` doc comment, and the first `where` clause. The post gives each a
+sentence at the same step. Part 1 is where most of the register's entries
+first appear, so keep each pause short.
