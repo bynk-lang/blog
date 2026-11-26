@@ -49,6 +49,7 @@ some content.
 | 21 Nov 2026 | Who really sent this? | The problem with… | 3 days |
 | 24 Nov 2026 | The checkout that doesn't know who's listening | Inside the showcase | 3 days |
 | 27 Nov 2026 | A diagram that can't go out of date | A closer look | 3 days |
+| 2 Dec 2026 | The order that arrived twice | The problem with… | 5 days |
 
 The next post is due three, five or seven days after the last one in the
 table above. Add each post to the table when it's published.

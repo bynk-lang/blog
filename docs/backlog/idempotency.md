@@ -5,9 +5,9 @@ workingTitle: "The order that arrived twice"
 level: building
 showcase: idempotency
 tags: [http, concurrency, errors]
-status: ready
-pr:
-published:
+status: published
+pr: https://github.com/bynk-lang/blog/pull/38
+published: 2026-12-02
 video: none
 ---
 
