@@ -6,7 +6,7 @@ level: building
 showcase: idempotency
 tags: [http, concurrency, errors]
 status: published
-pr:
+pr: https://github.com/bynk-lang/blog/pull/38
 published: 2026-12-02
 video: none
 ---
